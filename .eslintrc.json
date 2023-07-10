@@ -3,6 +3,24 @@
         "es2021": true,
         "node": true
     },
+    "settings": {
+        "import/resolver": {
+            "alias": {
+                "map": [
+                    [
+                        "#src",
+                        "./src"
+                    ]
+                ],
+                "extensions": [
+                    ".js",
+                    ".jsx",
+                    ".ts",
+                    ".tsx"
+                ]
+            }
+        }
+    },
     "extends": [
         "eslint:recommended",
         "airbnb"
