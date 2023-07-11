@@ -1,6 +1,6 @@
 import pg from 'pg';
 import dotenv from 'dotenv';
-import { pgConnectionString } from '#src/settings';
+import { pgConnectionString } from '#express/settings';
 
 dotenv.config();
 

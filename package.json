@@ -5,12 +5,12 @@
   "description": "Use leaflet, react, and postgres to display information about deployments and documented species.",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon ./src/bin/www",
+    "dev": "nodemon ./express/bin/www",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "npx eslint"
   },
   "imports": {
-    "#src/*": "./src/*.js"
+    "#express/*": "./express/*.js"
   },
   "dependencies": {
     "dotenv": "^16.3.1",

@@ -8,8 +8,8 @@
             "alias": {
                 "map": [
                     [
-                        "#src",
-                        "./src"
+                        "#express",
+                        "./express"
                     ]
                 ],
                 "extensions": [
