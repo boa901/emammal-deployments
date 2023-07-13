@@ -1,5 +1,7 @@
+import Map from '../modules/map/components/Map';
+
 export default function Page() {
   return (
-    <h1>Hello, Next.js!</h1>
+    <Map />
   );
 }
