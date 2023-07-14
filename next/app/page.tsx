@@ -1,7 +1,7 @@
-import Map from '@/modules/map/components/Map';
+import MapBarrel from '@/modules/map/components/MapBarrel';
 
 export default function Page() {
   return (
-    <Map />
+    <MapBarrel />
   );
 }
