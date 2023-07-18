@@ -2,8 +2,10 @@
 
 import { useEffect, useState } from 'react';
 
-export default function MapBarrel() {
-  const [Client, setClient] = useState<React.FunctionComponent>();
+import MapProps from '@/modules/map/types/MapProps';
+
+export default function MapBarrel({ apiPath, mapping }: MapProps): React.ReactNode {
+  const [Client, setClient] = useState<React.FunctionComponent<MapProps>>();
 
   useEffect(() => {
     (async () => {
@@ -15,6 +17,6 @@ export default function MapBarrel() {
   }, []);
 
   return typeof global.window !== 'undefined' && Client ? (
-    <Client />
+    <Client apiPath={apiPath} mapping={mapping} />
   ) : null;
 }

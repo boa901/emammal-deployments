@@ -6,29 +6,22 @@ import {
 } from 'react';
 import {
   MapContainer,
-  Marker,
-  Popup,
   TileLayer,
 } from 'react-leaflet';
 
 import Project from '@/common/types/project';
+import MapProps from '@/modules/map/types/MapProps';
 
-export default function Map() {
+export default function Map({ apiPath, mapping }: MapProps) {
   const [markers, setMarkers] = useState<React.ReactNode | null>(null);
 
   useEffect(() => {
     const fetchPoints = async () => {
-      const points: Project[] = await fetch('/api/projects', {
+      const points: Project[] = await fetch(apiPath, {
         method: 'GET',
       }).then((res) => res.json());
 
-      const markerComponents: React.ReactNode = points.map((mkr: Project) => (
-        <Marker key={mkr.id.toString()} position={[mkr.latitude, mkr.longitude]}>
-          <Popup>
-            {mkr.project_name}
-          </Popup>
-        </Marker>
-      ));
+      const markerComponents: React.ReactNode = points.map(mapping);
       setMarkers(markerComponents);
     };
 
