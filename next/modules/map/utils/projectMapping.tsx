@@ -8,9 +8,9 @@ import {
 import Project from '@/common/types/project';
 
 const projectMapping: (marker: Project) => React.ReactNode = (marker: Project) => (
-  <Marker key={marker.id.toString()} position={[marker.latitude, marker.longitude]}>
+  <Marker key={marker.nid.toString()} position={[marker.latitude, marker.longitude]}>
     <Popup>
-      {marker.project_name}
+      {marker.name}
     </Popup>
   </Marker>
 );

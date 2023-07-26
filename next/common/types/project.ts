@@ -1,6 +1,6 @@
 export default interface Project {
-  id: bigint,
-  project_name: string,
+  nid: bigint,
+  name: string,
   latitude: number,
   longitude: number,
 }
