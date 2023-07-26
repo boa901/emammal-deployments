@@ -1,5 +1,5 @@
 export default interface Deployment {
-  id: bigint,
+  nid: bigint,
   label: string,
   latitude: number,
   longitude: number,
