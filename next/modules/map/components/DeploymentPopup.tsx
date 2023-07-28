@@ -21,6 +21,18 @@ export default function DeploymentPopup({ marker }: { marker: Deployment }) {
     fetcher();
   };
 
+  const formatSpecies = (data: { species: string, count: number, nid: number }[]): string => {
+    const species = [];
+    data.map((speciesObject) => (
+      species.push(speciesObject.species)
+    ));
+    const result = species.join(', ');
+    if (result.length > 25) {
+      return `${result.slice(0, 22)}...`;
+    }
+    return result;
+  };
+
   return (
     <Marker
       position={[marker.latitude, marker.longitude]}
@@ -29,12 +41,12 @@ export default function DeploymentPopup({ marker }: { marker: Deployment }) {
       }}
     >
       <Popup>
-        {marker.label}
+        <div>
+          {marker.label}
+        </div>
         {speciesData && speciesData.length > 0 ? (
-          <div>
-            {speciesData.map((species) => (
-              <p key={species.species}>{species.species}</p>
-            ))}
+          <div className="popup-species">
+            {formatSpecies(speciesData)}
           </div>
         ) : (
           <div>...</div>
