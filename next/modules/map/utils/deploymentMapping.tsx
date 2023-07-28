@@ -1,18 +1,10 @@
 'use client';
 
-import {
-  Marker,
-  Popup,
-} from 'react-leaflet';
-
 import Deployment from '@/common/types/deployment';
+import DeploymentPopup from '@/modules/map/components/DeploymentPopup';
 
 const deploymentMapping: (marker: Deployment) => React.ReactNode = (marker: Deployment) => (
-  <Marker key={marker.nid.toString()} position={[marker.latitude, marker.longitude]}>
-    <Popup>
-      {marker.label}
-    </Popup>
-  </Marker>
+  <DeploymentPopup marker={marker} key={marker.nid.toString()} />
 );
 
 export default deploymentMapping;
