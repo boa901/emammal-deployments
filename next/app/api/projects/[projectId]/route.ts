@@ -1,10 +1,10 @@
 /* eslint-disable import/prefer-default-export */
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(
-  request: Request, { params: { projectId } }: { params: { projectId: string } },
+  request: NextRequest, { params: { projectId } }: { params: { projectId: string } },
 ) {
-  const points = await fetch(`${process.env.API_DOMAIN}/projects/${projectId}`, {
+  const points = await fetch(`${process.env.API_DOMAIN}/projects/${projectId}?${request.nextUrl.searchParams.toString()}`, {
     method: 'GET',
   }).then((res) => res.json());
 
