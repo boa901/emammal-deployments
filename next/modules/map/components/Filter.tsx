@@ -1,34 +1,40 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
-
-import ProjectSpecies from '@/common/types/projectSpecies';
+import React, { useState } from 'react';
+import AsyncSelect from 'react-select/async';
 
 export default function Filter({ projectId }: { projectId: string }): React.ReactNode {
   const router = useRouter();
 
-  const [options, setOptions] = useState<ProjectSpecies[]>(null);
   const [filterSpecies, setFilterSpecies] = useState<string[]>([]);
 
-  useEffect(() => {
-    const fetchOptions = async () => {
-      const species: ProjectSpecies[] = await fetch(`/api/projects/${projectId}/species`, {
-        method: 'GET',
-      }).then((res) => res.json());
-      setOptions(species);
-    };
-    fetchOptions();
-  }, []);
+  const filterOptions = (
+    inputValue: string, speciesOptions: { value: string, label: string }[],
+  ) => (
+    speciesOptions.filter((speciesOption) => (
+      speciesOption.label.toLowerCase().includes(inputValue.toLowerCase())
+    ))
+  );
 
-  const onSelectChange = (event) => {
-    const selectOptions = event.target.childNodes;
-    const values = [];
-    selectOptions.forEach((selectOption) => {
-      if (selectOption.selected) {
-        values.push(selectOption.value);
-      }
-    });
+  const promiseOptions = (inputValue: string) => (
+    new Promise<{ value: string, label: string }[]>((resolve) => {
+      const fetcher = async () => {
+        const species = await fetch(`/api/projects/${projectId}/species`, {
+          method: 'GET',
+        }).then((res) => res.json());
+
+        const speciesOptions = species.map((speciesObj) => (
+          { value: speciesObj.species, label: speciesObj.species }
+        ));
+
+        resolve(filterOptions(inputValue, speciesOptions));
+      };
+      fetcher();
+    }));
+
+  const onSelectChange = (selectedOptions) => {
+    const values = selectedOptions.map((selectedOption) => selectedOption.value);
     setFilterSpecies(values);
   };
 
@@ -40,33 +46,25 @@ export default function Filter({ projectId }: { projectId: string }): React.Reac
     }
   };
 
-  return options ? (
+  return (
     <div className="flex flex-row items-center">
       <div className="mx-4">
         Species
       </div>
       <div className="mx-4">
-        <select
-          multiple
+        <AsyncSelect
+          defaultOptions
+          cacheOptions
+          loadOptions={promiseOptions}
+          isMulti
           onChange={onSelectChange}
-        >
-          {
-            options.map((optionData: { species: string, count: number }) => (
-              <option
-                value={optionData.species}
-                key={optionData.species}
-              >
-                {optionData.species}
-              </option>
-            ))
-          }
-        </select>
+          menuPortalTarget={document.body}
+          styles={{ menuPortal: (base) => ({ ...base, zIndex: 9999 }) }}
+        />
       </div>
       <div className="mx-4">
         <button type="button" onClick={onSubmit}>Search</button>
       </div>
     </div>
-  ) : (
-    <div>Loading...</div>
   );
 }
