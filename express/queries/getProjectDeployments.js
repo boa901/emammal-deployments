@@ -21,7 +21,8 @@ const getProjectDeployments = async (req, res) => {
       WHERE project_nid = $1
     ) AND latitude IS NOT NULL AND longitude IS NOT NULL
     ORDER BY a.nid`;
-    values.push(req.query.species);
+    const species = JSON.parse(req.query.species);
+    values.push(species);
   }
   const results = await pool.query({
     rowMode: 'json',

@@ -26,7 +26,7 @@ export default function Map({ apiPath, mapping }: MapProps) {
     };
 
     fetchPoints();
-  }, []);
+  }, [apiPath]);
 
   return (
     <MapContainer center={[38.9533213, -77.0508073]} zoom={3} scrollWheelZoom>
