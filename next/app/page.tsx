@@ -1,11 +1,7 @@
-import MapBarrel from '@/modules/map/components/MapBarrel';
-import projectMapping from '@/modules/map/utils/projectMapping';
+import GeoFilterMapBarrel from '@/modules/map/components/GeoFilterMapBarrel';
 
 export default function Page() {
   return (
-    <MapBarrel
-      apiPath="/api/projects"
-      mapping={projectMapping}
-    />
+    <GeoFilterMapBarrel />
   );
 }
