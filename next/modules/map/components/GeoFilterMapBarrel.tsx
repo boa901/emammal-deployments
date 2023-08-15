@@ -2,8 +2,14 @@
 
 import { useEffect, useState } from 'react';
 
-export default function GeoFilterMapBarrel(): React.ReactNode {
-  const [Client, setClient] = useState<React.FunctionComponent>();
+import RectBounds from '@/modules/map/types/RectBounds';
+
+export default function GeoFilterMapBarrel(
+  { setFilter }: { setFilter: React.Dispatch<React.SetStateAction<RectBounds>> },
+): React.ReactNode {
+  const [Client, setClient] = useState<React.FunctionComponent<{
+    setFilter: React.Dispatch<React.SetStateAction<RectBounds>>,
+  }>>();
 
   useEffect(() => {
     (async () => {
@@ -15,6 +21,6 @@ export default function GeoFilterMapBarrel(): React.ReactNode {
   }, []);
 
   return typeof global.window !== 'undefined' && Client ? (
-    <Client />
+    <Client setFilter={setFilter} />
   ) : null;
 }
