@@ -34,6 +34,9 @@ export default function GeoFilterMap(
           onCreated={(e) => {
             setFilter(getLatLngs(e.layer._bounds));
           }}
+          onDeleted={() => {
+            setFilter(null);
+          }}
         />
       </FeatureGroup>
     </MapContainer>
