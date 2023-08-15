@@ -34,7 +34,7 @@ export default function Map({ apiPath, mapping }: MapProps) {
 
   return (
     <div className="container mx-auto my-2 relative">
-      <MapContainer center={[38.9533213, -77.0508073]} zoom={3} scrollWheelZoom>
+      <MapContainer center={[0, 0]} zoom={2.25} scrollWheelZoom>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
