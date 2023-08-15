@@ -9,6 +9,7 @@ import {
   MapContainer,
   TileLayer,
 } from 'react-leaflet';
+import MarkerClusterGroup from 'react-leaflet-cluster';
 
 import Project from '@/common/types/project';
 import MapProps from '@/modules/map/types/MapProps';
@@ -39,7 +40,9 @@ export default function Map({ apiPath, mapping }: MapProps) {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        {markers}
+        <MarkerClusterGroup>
+          {markers}
+        </MarkerClusterGroup>
       </MapContainer>
       {loading && (
         <div className="absolute bg-gray-400 opacity-50 inset-0 flex justify-center items-center">
