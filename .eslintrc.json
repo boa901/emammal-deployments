@@ -56,5 +56,6 @@
         "sourceType": "module"
     },
     "rules": {
+        "no-plusplus": "off"
     }
 }
