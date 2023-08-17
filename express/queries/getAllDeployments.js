@@ -5,7 +5,7 @@ const getAllDeployments = async (req, res) => {
     FROM deployments_drupal a`;
   const values = [];
   let paramCount = 1;
-  if (req.query.species && req.query.species.length > 0) {
+  if (req.query.species && JSON.parse(req.query.species).length > 0) {
     query += `\nJOIN eda_deployments_drupal b ON a.nid = b.nid
       JOIN eda_species_drupal c ON b.pid = c.pid AND c.species = ANY($${paramCount++}::varchar(255)[])`;
     const species = JSON.parse(req.query.species);
