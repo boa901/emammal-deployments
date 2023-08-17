@@ -11,9 +11,9 @@ const getAllDeployments = async (req, res) => {
     const species = JSON.parse(req.query.species);
     values.push(species);
   }
-  query += '\nWHERE label IS NOT NULL AND latitude IS NOT NULL AND longitude IS NOT NULL';
+  query += '\nWHERE a.label IS NOT NULL AND a.latitude IS NOT NULL AND a.longitude IS NOT NULL';
   if (req.query.maxLat && req.query.minLat && req.query.maxLng && req.query.minLng) {
-    query += `\n  AND latitude BETWEEN $${paramCount++} AND $${paramCount++} AND longitude BETWEEN $${paramCount++} AND $${paramCount++}`;
+    query += `\n  AND a.latitude BETWEEN $${paramCount++} AND $${paramCount++} AND a.longitude BETWEEN $${paramCount++} AND $${paramCount++}`;
     values.push(req.query.minLat);
     values.push(req.query.maxLat);
     values.push(req.query.minLng);
