@@ -1,6 +1,7 @@
 'use client';
 
 import AsyncSelect from 'react-select/async';
+import selectStyles from '@/modules/map/utils/selectStyles';
 
 export default function DeploymentProjectFilter(
   { setFilter }: { setFilter: React.Dispatch<React.SetStateAction<number[]>> },
@@ -47,7 +48,7 @@ export default function DeploymentProjectFilter(
           isMulti
           onChange={onSelectChange}
           menuPortalTarget={document.body}
-          styles={{ menuPortal: (base) => ({ ...base, zIndex: 9999 }) }}
+          styles={selectStyles}
         />
       </div>
     </div>
