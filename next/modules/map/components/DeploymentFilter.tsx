@@ -5,8 +5,7 @@ import { useState } from 'react';
 
 import RectBounds from '@/modules/map/types/RectBounds';
 import GeoFilterMapBarrel from '@/modules/map/components/GeoFilterMapBarrel';
-import DeploymentSpeciesFilter from '@/modules/map/components/DeploymentSpeciesFilter';
-import DeploymentProjectFilter from '@/modules/map/components/DeploymentProjectFilter';
+import DeploymentMultiselect from '@/modules/map/components/DeploymentMultiselect';
 
 export default function DeploymentFilter() {
   const router = useRouter();
@@ -28,8 +27,20 @@ export default function DeploymentFilter() {
     <div>
       <GeoFilterMapBarrel setFilter={setRectBounds} />
       <div className="flex flex-row">
-        <DeploymentSpeciesFilter setFilter={setFilterSpecies} />
-        <DeploymentProjectFilter setFilter={setFilterProjects} />
+        <DeploymentMultiselect
+          setFilter={setFilterSpecies}
+          optionUrl="/api/species"
+          optionValue="species"
+          optionLabel="species"
+          fieldLabel="Species"
+        />
+        <DeploymentMultiselect
+          setFilter={setFilterProjects}
+          optionUrl="/api/projects"
+          optionValue="nid"
+          optionLabel="name"
+          fieldLabel="Projects"
+        />
       </div>
       <button type="button" onClick={handleSubmit}>Search</button>
     </div>
