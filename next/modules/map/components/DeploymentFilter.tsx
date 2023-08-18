@@ -24,9 +24,11 @@ export default function DeploymentFilter() {
   };
 
   return (
-    <div>
-      <GeoFilterMapBarrel setFilter={setRectBounds} />
-      <div className="flex flex-row">
+    <div className="container w-3/4 mx-auto flex flex-col justify-center items-center">
+      <div className="w-full">
+        <GeoFilterMapBarrel setFilter={setRectBounds} />
+      </div>
+      <div className="w-full flex flex-row justify-left">
         <DeploymentMultiselect
           setFilter={setFilterSpecies}
           optionUrl="/api/species"
