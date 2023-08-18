@@ -5,9 +5,10 @@ export default {
     './next/pages/**/*.{js,ts,jsx,tsx,mdx}',
     './next/modules/**/components/*.{js,ts,jsx,tsx,mdx}',
     './next/modules/**/utils/*.{js,ts,jsx,tsx,mdx}',
+    './node_modules/flowbite-react/**/*.js',
   ],
   theme: {
     extend: {},
   },
-  plugins: [],
+  plugins: [import('flowbite/plugin')],
 };
