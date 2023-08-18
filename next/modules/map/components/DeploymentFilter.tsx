@@ -1,5 +1,6 @@
 'use client';
 
+import { Button } from 'flowbite-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
@@ -43,8 +44,8 @@ export default function DeploymentFilter() {
           optionLabel="name"
           fieldLabel="Projects"
         />
+        <Button type="button" onClick={handleSubmit}>Search</Button>
       </div>
-      <button type="button" onClick={handleSubmit}>Search</button>
     </div>
   );
 }
