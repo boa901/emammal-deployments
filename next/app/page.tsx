@@ -1,11 +1,7 @@
-import MapBarrel from '@/modules/map/components/MapBarrel';
-import projectMapping from '@/modules/map/utils/projectMapping';
+import DeploymentFilter from '@/modules/map/components/DeploymentFilter';
 
 export default function Page() {
   return (
-    <MapBarrel
-      apiPath="/api/projects"
-      mapping={projectMapping}
-    />
+    <DeploymentFilter />
   );
 }

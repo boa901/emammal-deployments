@@ -2,3 +2,7 @@
   height: 600px;
   z-index: 0;
 }
+
+.sr-only {
+  display: none;
+}

@@ -11,6 +11,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
           crossOrigin=""
         />
+        <link
+          rel="stylesheet"
+          href="//cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css"
+          crossOrigin=""
+        />
       </head>
       <body>{children}</body>
     </html>
