@@ -20,6 +20,7 @@ export default function Page({ searchParams }: { searchParams }) {
       {csvData && csvData.length > 0 ? (
         <CSVLink
           data={csvData}
+          filename={`deployment_metadata_${new Date().toISOString().replaceAll(/[^0-9]/g, '')}`}
         >
           <Button>
             Download Deployment Data
