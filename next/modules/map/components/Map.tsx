@@ -26,7 +26,6 @@ export default function Map({ apiPath, mapping, setCsvData }: MapProps) {
 
       const markerComponents: React.ReactNode = points.map(mapping);
       setMarkers(markerComponents);
-      setLoading(false);
 
       if (setCsvData) {
         const csvRows = await fetch('/api/deployments/csv', {
@@ -40,6 +39,12 @@ export default function Map({ apiPath, mapping, setCsvData }: MapProps) {
     setLoading(true);
     fetchPoints();
   }, [apiPath]);
+
+  useEffect(() => {
+    if (markers) {
+      setLoading(false);
+    }
+  }, [markers]);
 
   return (
     <div className="container mx-auto my-2 relative">
