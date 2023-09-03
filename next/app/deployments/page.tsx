@@ -1,5 +1,6 @@
 'use client';
 
+import { Button } from 'flowbite-react';
 import { useState } from 'react';
 import { CSVLink } from 'react-csv';
 
@@ -16,12 +17,18 @@ export default function Page({ searchParams }: { searchParams }) {
         mapping={deploymentMapping}
         setCsvData={setCsvData}
       />
-      {csvData && csvData.length > 0 && (
+      {csvData && csvData.length > 0 ? (
         <CSVLink
           data={csvData}
         >
-          Download Deployment Data
+          <Button>
+            Download Deployment Data
+          </Button>
         </CSVLink>
+      ) : (
+        <Button isProcessing>
+          Download Deployment Data
+        </Button>
       )}
     </div>
   );
