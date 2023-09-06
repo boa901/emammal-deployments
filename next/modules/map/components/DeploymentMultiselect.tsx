@@ -1,6 +1,8 @@
 'use client';
 
-import AsyncSelect from 'react-select/async';
+import { useEffect, useState } from 'react';
+import Select from 'react-select';
+
 import selectStyles from '@/modules/map/utils/selectStyles';
 
 export default function DeploymentMultiselect(
@@ -18,17 +20,13 @@ export default function DeploymentMultiselect(
     fieldLabel: string
   },
 ): React.ReactNode {
-  const filterOptions = (
-    inputValue: string, options: { value: string, label: string }[],
-  ) => (
-    options.filter((option) => (
-      option.label.toLowerCase().includes(inputValue.toLowerCase())
-    ))
-  );
+  const [selectOptions, setSelectOptions] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  const promiseOptions = (inputValue: string) => (
-    new Promise<{ value: string, label: string }[]>((resolve) => {
-      const fetcher = async () => {
+  useEffect(() => {
+    if (optionUrl && optionUrl.length > 0) {
+      setLoading(true);
+      const fetchOptions = async () => {
         const nodes = await fetch(optionUrl, {
           method: 'GET',
         }).then((res) => res.json());
@@ -37,10 +35,13 @@ export default function DeploymentMultiselect(
           { value: node[optionValue], label: node[optionLabel] }
         ));
 
-        resolve(filterOptions(inputValue, options));
+        setSelectOptions(options);
+        setLoading(false);
       };
-      fetcher();
-    }));
+
+      fetchOptions();
+    }
+  }, [optionUrl]);
 
   const onSelectChange = (selectedOptions) => {
     const values = selectedOptions.map((selectedOption) => selectedOption.value);
@@ -53,11 +54,10 @@ export default function DeploymentMultiselect(
         {fieldLabel}
       </div>
       <div className="mx-4 w-64">
-        <AsyncSelect
-          defaultOptions
-          cacheOptions
-          loadOptions={promiseOptions}
+        <Select
+          options={selectOptions}
           isMulti
+          isLoading={loading}
           onChange={onSelectChange}
           menuPortalTarget={document.body}
           styles={selectStyles}
