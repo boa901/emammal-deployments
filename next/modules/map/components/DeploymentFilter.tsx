@@ -18,7 +18,11 @@ export default function DeploymentFilter() {
   const [projectsUrl, setProjectsUrl] = useState<string>('/api/projects');
 
   useEffect(() => {
-    setSpeciesUrl(`/api/species?${new URLSearchParams({ ...rectBounds }).toString()}`);
+    const speciesParams = {
+      projects: JSON.stringify(filterProjects),
+      ...rectBounds,
+    };
+    setSpeciesUrl(`/api/species?${new URLSearchParams(speciesParams).toString()}`);
     setProjectsUrl(`/api/projects?${new URLSearchParams({ ...rectBounds }).toString()}`);
   }, [rectBounds, filterProjects]);
 
