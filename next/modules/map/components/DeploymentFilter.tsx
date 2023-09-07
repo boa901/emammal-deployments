@@ -22,9 +22,13 @@ export default function DeploymentFilter() {
       projects: JSON.stringify(filterProjects),
       ...rectBounds,
     };
+    const projectsParams = {
+      species: JSON.stringify(filterSpecies),
+      ...rectBounds,
+    };
     setSpeciesUrl(`/api/species?${new URLSearchParams(speciesParams).toString()}`);
-    setProjectsUrl(`/api/projects?${new URLSearchParams({ ...rectBounds }).toString()}`);
-  }, [rectBounds, filterProjects]);
+    setProjectsUrl(`/api/projects?${new URLSearchParams(projectsParams).toString()}`);
+  }, [rectBounds, filterSpecies, filterProjects]);
 
   const handleSubmit = () => {
     const params = {
