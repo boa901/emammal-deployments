@@ -2,7 +2,7 @@
 
 import { Button } from 'flowbite-react';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import RectBounds from '@/modules/map/types/RectBounds';
 import GeoFilterMapBarrel from '@/modules/map/components/GeoFilterMapBarrel';
@@ -14,6 +14,21 @@ export default function DeploymentFilter() {
   const [rectBounds, setRectBounds] = useState<RectBounds>(null);
   const [filterSpecies, setFilterSpecies] = useState<string[]>([]);
   const [filterProjects, setFilterProjects] = useState<number[]>([]);
+  const [speciesUrl, setSpeciesUrl] = useState<string>('/api/species');
+  const [projectsUrl, setProjectsUrl] = useState<string>('/api/projects');
+
+  useEffect(() => {
+    const speciesParams = {
+      projects: JSON.stringify(filterProjects),
+      ...rectBounds,
+    };
+    const projectsParams = {
+      species: JSON.stringify(filterSpecies),
+      ...rectBounds,
+    };
+    setSpeciesUrl(`/api/species?${new URLSearchParams(speciesParams).toString()}`);
+    setProjectsUrl(`/api/projects?${new URLSearchParams(projectsParams).toString()}`);
+  }, [rectBounds, filterSpecies, filterProjects]);
 
   const handleSubmit = () => {
     const params = {
@@ -32,14 +47,14 @@ export default function DeploymentFilter() {
       <div className="w-full flex flex-row justify-left">
         <DeploymentMultiselect
           setFilter={setFilterSpecies}
-          optionUrl="/api/species"
+          optionUrl={speciesUrl}
           optionValue="species"
           optionLabel="species"
           fieldLabel="Species"
         />
         <DeploymentMultiselect
           setFilter={setFilterProjects}
-          optionUrl="/api/projects"
+          optionUrl={projectsUrl}
           optionValue="nid"
           optionLabel="name"
           fieldLabel="Projects"
