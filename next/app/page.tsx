@@ -2,6 +2,6 @@ import DeploymentFilter from '@/modules/map/components/DeploymentFilter';
 
 export default function Page() {
   return (
-    <DeploymentFilter />
+    <DeploymentFilter apiPath={null} />
   );
 }

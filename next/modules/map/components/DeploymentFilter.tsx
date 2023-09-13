@@ -7,8 +7,9 @@ import { useEffect, useState } from 'react';
 import RectBounds from '@/modules/map/types/RectBounds';
 import GeoFilterMapBarrel from '@/modules/map/components/GeoFilterMapBarrel';
 import DeploymentMultiselect from '@/modules/map/components/DeploymentMultiselect';
+import deploymentMapping from '@/modules/map/utils/deploymentMapping';
 
-export default function DeploymentFilter() {
+export default function DeploymentFilter({ apiPath }: { apiPath: string }) {
   const router = useRouter();
 
   const [rectBounds, setRectBounds] = useState<RectBounds>(null);
@@ -42,7 +43,11 @@ export default function DeploymentFilter() {
   return (
     <div className="container w-3/4 mx-auto flex flex-col justify-center items-center">
       <div className="w-full">
-        <GeoFilterMapBarrel setFilter={setRectBounds} />
+        <GeoFilterMapBarrel
+          setFilter={setRectBounds}
+          apiPath={apiPath}
+          mapping={deploymentMapping}
+        />
       </div>
       <div className="w-full flex flex-row justify-left">
         <DeploymentMultiselect
