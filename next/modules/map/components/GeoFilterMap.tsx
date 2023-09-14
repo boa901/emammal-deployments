@@ -59,7 +59,10 @@ export default function GeoFilterMap({
               [parseFloat(initialBounds.maxLat), parseFloat(initialBounds.minLng)],
               [parseFloat(initialBounds.minLat), parseFloat(initialBounds.maxLng)],
             ]}
-            color="blue"
+            color="#3388ff"
+            opacity={0.5}
+            fillColor="#3388ff"
+            fillOpacity={0.2}
           />
         )}
         <FeatureGroup>
