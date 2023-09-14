@@ -4,9 +4,13 @@ import { useEffect, useState } from 'react';
 
 import GeoFilterMapProps from '@/modules/map/types/GeoFilterMapProps';
 
-export default function GeoFilterMapBarrel(
-  { setFilter, apiPath, mapping }: GeoFilterMapProps,
-): React.ReactNode {
+export default function GeoFilterMapBarrel({
+  filterBounds,
+  setFilter,
+  apiPath,
+  mapping,
+  initialBounds,
+}: GeoFilterMapProps): React.ReactNode {
   const [Client, setClient] = useState<React.FunctionComponent<GeoFilterMapProps>>();
 
   useEffect(() => {
@@ -19,6 +23,12 @@ export default function GeoFilterMapBarrel(
   }, []);
 
   return typeof global.window !== 'undefined' && Client ? (
-    <Client setFilter={setFilter} apiPath={apiPath} mapping={mapping} />
+    <Client
+      filterBounds={filterBounds}
+      setFilter={setFilter}
+      apiPath={apiPath}
+      mapping={mapping}
+      initialBounds={initialBounds}
+    />
   ) : null;
 }

@@ -60,9 +60,11 @@ export default function DeploymentFilter({
     <div className="container w-3/4 mx-auto flex flex-col justify-center items-center">
       <div className="w-full">
         <GeoFilterMapBarrel
+          filterBounds={rectBounds}
           setFilter={setRectBounds}
           apiPath={apiPath}
           mapping={deploymentMapping}
+          initialBounds={initialBounds}
         />
       </div>
       <div className="w-full flex flex-row justify-left">

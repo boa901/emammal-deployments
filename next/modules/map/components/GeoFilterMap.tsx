@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import {
   FeatureGroup,
   MapContainer,
+  Rectangle,
   TileLayer,
 } from 'react-leaflet';
 import MarkerClusterGroup from 'react-leaflet-cluster';
@@ -15,9 +16,13 @@ import { EditControl } from 'react-leaflet-draw';
 import getLatLngs from '@/modules/map/utils/getLatLngs';
 import GeoFilterMapProps from '@/modules/map/types/GeoFilterMapProps';
 
-export default function GeoFilterMap(
-  { setFilter, apiPath, mapping }: GeoFilterMapProps,
-) {
+export default function GeoFilterMap({
+  filterBounds,
+  setFilter,
+  apiPath,
+  mapping,
+  initialBounds,
+}: GeoFilterMapProps) {
   const [loading, setLoading] = useState<boolean>(false);
   const [markers, setMarkers] = useState<React.ReactNode | null>(null);
 
@@ -48,6 +53,15 @@ export default function GeoFilterMap(
         <MarkerClusterGroup>
           {markers}
         </MarkerClusterGroup>
+        {initialBounds && filterBounds === initialBounds && (
+          <Rectangle
+            bounds={[
+              [parseFloat(initialBounds.maxLat), parseFloat(initialBounds.minLng)],
+              [parseFloat(initialBounds.minLat), parseFloat(initialBounds.maxLng)],
+            ]}
+            color="blue"
+          />
+        )}
         <FeatureGroup>
           <EditControl
             position="topleft"
