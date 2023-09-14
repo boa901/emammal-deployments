@@ -9,22 +9,38 @@ import GeoFilterMapBarrel from '@/modules/map/components/GeoFilterMapBarrel';
 import DeploymentMultiselect from '@/modules/map/components/DeploymentMultiselect';
 import deploymentMapping from '@/modules/map/utils/deploymentMapping';
 
-export default function DeploymentFilter({ apiPath }: { apiPath: string }) {
+export default function DeploymentFilter({
+  apiPath = null,
+  initialBounds = null,
+  initialSpecies = [],
+  initialProjects = [],
+}: {
+  apiPath?: string,
+  initialBounds?: RectBounds,
+  initialSpecies?: { value: string, label: string }[],
+  initialProjects?: { value: number, label: string }[],
+}) {
   const router = useRouter();
 
-  const [rectBounds, setRectBounds] = useState<RectBounds>(null);
-  const [filterSpecies, setFilterSpecies] = useState<string[]>([]);
-  const [filterProjects, setFilterProjects] = useState<number[]>([]);
+  const [rectBounds, setRectBounds] = useState<RectBounds>(initialBounds);
+  const [filterSpecies, setFilterSpecies] = useState<{
+    value: string,
+    label: string,
+  }[]>(initialSpecies);
+  const [filterProjects, setFilterProjects] = useState<{
+    value: number,
+    label: string,
+  }[]>(initialProjects);
   const [speciesUrl, setSpeciesUrl] = useState<string>('/api/species');
   const [projectsUrl, setProjectsUrl] = useState<string>('/api/projects');
 
   useEffect(() => {
     const speciesParams = {
-      projects: JSON.stringify(filterProjects),
+      projects: JSON.stringify(filterProjects.map((project) => project.value)),
       ...rectBounds,
     };
     const projectsParams = {
-      species: JSON.stringify(filterSpecies),
+      species: JSON.stringify(filterSpecies.map((species) => species.value)),
       ...rectBounds,
     };
     setSpeciesUrl(`/api/species?${new URLSearchParams(speciesParams).toString()}`);
@@ -56,6 +72,7 @@ export default function DeploymentFilter({ apiPath }: { apiPath: string }) {
           optionValue="species"
           optionLabel="species"
           fieldLabel="Species"
+          defaultValues={initialSpecies}
         />
         <DeploymentMultiselect
           setFilter={setFilterProjects}
@@ -63,6 +80,7 @@ export default function DeploymentFilter({ apiPath }: { apiPath: string }) {
           optionValue="nid"
           optionLabel="name"
           fieldLabel="Projects"
+          defaultValues={initialProjects}
         />
         <Button type="button" onClick={handleSubmit}>Search</Button>
       </div>

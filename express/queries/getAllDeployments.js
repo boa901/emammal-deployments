@@ -7,13 +7,13 @@ const getAllDeployments = async (req, res) => {
   if (req.query.species && JSON.parse(req.query.species).length > 0) {
     query += `\nJOIN eda_deployments b ON a.nid = b.nid
       JOIN eda_species c ON b.pid = c.pid AND c.species IN (?)`;
-    const species = JSON.parse(req.query.species);
+    const species = JSON.parse(req.query.species).map((animal) => animal.value);
     values.push(species);
   }
   if (req.query.projects && JSON.parse(req.query.projects).length > 0) {
     query += `\nJOIN sub_projects d ON a.sub_project = d.nid
       JOIN projects e ON d.project_nid = e.nid AND e.nid IN (?)`;
-    const projects = JSON.parse(req.query.projects);
+    const projects = JSON.parse(req.query.projects).map((project) => project.value);
     values.push(projects);
   }
   query += '\nWHERE a.label IS NOT NULL AND a.latitude IS NOT NULL AND a.longitude IS NOT NULL';
