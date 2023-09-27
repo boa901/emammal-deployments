@@ -27,7 +27,10 @@ const getDeploymentsCsv = async (req, res) => {
       sensitivity_setting,
       camera_id
     FROM deployments_metadata
-    WHERE nid IN (?)`;
+    WHERE nid IN (?)
+    AND actual_lat IS NOT NULL
+    AND actual_long IS NOT NULL
+    AND deployment_name IS NOT NULL`;
     const values = [deployments];
     const results = await pool.query(query, values);
     res.status(200).json(results);
