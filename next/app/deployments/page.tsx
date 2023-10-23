@@ -14,11 +14,6 @@ export default async function Page({ searchParams }: { searchParams }) {
     method: 'GET',
   }).then((res) => res.json());
 
-  projectOptions.map((projectObj) => ({
-    value: projectObj.nid,
-    label: projectObj.name,
-  }));
-
   return (
     <DeploymentFilter
       apiPath={`/api/deployments?${new URLSearchParams(searchParams).toString()}`}
@@ -30,7 +25,10 @@ export default async function Page({ searchParams }: { searchParams }) {
       }}
       initialSpecies={JSON.parse(species)}
       initialProjects={JSON.parse(projects)}
-      projectOptions={projectOptions}
+      projectOptions={projectOptions.map((projectObj) => ({
+        value: projectObj.nid,
+        label: projectObj.name,
+      }))}
     />
   );
 }
