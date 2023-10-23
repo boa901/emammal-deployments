@@ -12,12 +12,14 @@ export default function DeploymentMultiselect(
     optionValue,
     optionLabel,
     fieldLabel,
+    defaultValues,
   }: {
     setFilter: React.Dispatch<React.SetStateAction<any[]>>,
     optionUrl: string,
     optionValue: string,
     optionLabel: string,
-    fieldLabel: string
+    fieldLabel: string,
+    defaultValues?: { value: any, label: string }[],
   },
 ): React.ReactNode {
   const [selectOptions, setSelectOptions] = useState(null);
@@ -43,9 +45,8 @@ export default function DeploymentMultiselect(
     }
   }, [optionUrl]);
 
-  const onSelectChange = (selectedOptions) => {
-    const values = selectedOptions.map((selectedOption) => selectedOption.value);
-    setFilter(values);
+  const onSelectChange = (selectedOptions: { value: any, label: string }[]) => {
+    setFilter(selectedOptions.map((option) => option.value));
   };
 
   return (
@@ -56,6 +57,7 @@ export default function DeploymentMultiselect(
       <div className="mx-4 w-64">
         <Select
           options={selectOptions}
+          defaultValue={defaultValues}
           isMulti
           isLoading={loading}
           onChange={onSelectChange}

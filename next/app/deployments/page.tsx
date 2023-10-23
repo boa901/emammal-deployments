@@ -1,13 +1,34 @@
-import MapBarrel from '@/modules/map/components/MapBarrel';
-import deploymentMapping from '@/modules/map/utils/deploymentMapping';
+import DeploymentFilter from '@/modules/map/components/DeploymentFilter';
 
-export default function Page({ searchParams }: { searchParams }) {
+export default async function Page({ searchParams }: { searchParams }) {
+  const {
+    maxLat,
+    minLat,
+    maxLng,
+    minLng,
+    projects,
+    species,
+  } = searchParams;
+
+  const projectOptions = await fetch(`${process.env.API_DOMAIN}/projects`, {
+    method: 'GET',
+  }).then((res) => res.json());
+
   return (
-    <div className="container w-3/4 mx-auto flex flex-col justify-center items-center">
-      <MapBarrel
-        apiPath={`/api/deployments?${new URLSearchParams(searchParams).toString()}`}
-        mapping={deploymentMapping}
-      />
-    </div>
+    <DeploymentFilter
+      apiPath={`/api/deployments?${new URLSearchParams(searchParams).toString()}`}
+      initialBounds={{
+        maxLat,
+        minLat,
+        maxLng,
+        minLng,
+      }}
+      initialSpecies={JSON.parse(species)}
+      initialProjects={JSON.parse(projects)}
+      projectOptions={projectOptions.map((projectObj) => ({
+        value: projectObj.nid,
+        label: projectObj.name,
+      }))}
+    />
   );
 }
