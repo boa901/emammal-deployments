@@ -14,33 +14,29 @@ export default function DeploymentFilter({
   initialBounds = null,
   initialSpecies = [],
   initialProjects = [],
+  projectOptions,
 }: {
   apiPath?: string,
   initialBounds?: RectBounds,
-  initialSpecies?: { value: string, label: string }[],
-  initialProjects?: { value: number, label: string }[],
+  initialSpecies?: string[],
+  initialProjects?: number[],
+  projectOptions: { value: number, label: string }[],
 }) {
   const router = useRouter();
 
   const [rectBounds, setRectBounds] = useState<RectBounds>(initialBounds);
-  const [filterSpecies, setFilterSpecies] = useState<{
-    value: string,
-    label: string,
-  }[]>(initialSpecies);
-  const [filterProjects, setFilterProjects] = useState<{
-    value: number,
-    label: string,
-  }[]>(initialProjects);
+  const [filterSpecies, setFilterSpecies] = useState<string[]>(initialSpecies);
+  const [filterProjects, setFilterProjects] = useState<number[]>(initialProjects);
   const [speciesUrl, setSpeciesUrl] = useState<string>('/api/species');
   const [projectsUrl, setProjectsUrl] = useState<string>('/api/projects');
 
   useEffect(() => {
     const speciesParams = {
-      projects: JSON.stringify(filterProjects.map((project) => project.value)),
+      projects: JSON.stringify(filterProjects),
       ...rectBounds,
     };
     const projectsParams = {
-      species: JSON.stringify(filterSpecies.map((species) => species.value)),
+      species: JSON.stringify(filterSpecies),
       ...rectBounds,
     };
     setSpeciesUrl(`/api/species?${new URLSearchParams(speciesParams).toString()}`);
@@ -74,7 +70,9 @@ export default function DeploymentFilter({
           optionValue="species"
           optionLabel="species"
           fieldLabel="Species"
-          defaultValues={initialSpecies}
+          defaultValues={initialSpecies.map((species) => (
+            { value: species, label: species }
+          ))}
         />
         <DeploymentMultiselect
           setFilter={setFilterProjects}
@@ -82,7 +80,9 @@ export default function DeploymentFilter({
           optionValue="nid"
           optionLabel="name"
           fieldLabel="Projects"
-          defaultValues={initialProjects}
+          defaultValues={projectOptions.filter((projectOption) => (
+            initialProjects.includes(projectOption.value)
+          ))}
         />
         <Button type="button" onClick={handleSubmit}>Search</Button>
       </div>

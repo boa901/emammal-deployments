@@ -46,7 +46,7 @@ export default function DeploymentMultiselect(
   }, [optionUrl]);
 
   const onSelectChange = (selectedOptions: { value: any, label: string }[]) => {
-    setFilter(selectedOptions);
+    setFilter(selectedOptions.map((option) => option.value));
   };
 
   return (

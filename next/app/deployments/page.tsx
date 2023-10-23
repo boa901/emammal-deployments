@@ -1,6 +1,6 @@
 import DeploymentFilter from '@/modules/map/components/DeploymentFilter';
 
-export default function Page({ searchParams }: { searchParams }) {
+export default async function Page({ searchParams }: { searchParams }) {
   const {
     maxLat,
     minLat,
@@ -9,6 +9,15 @@ export default function Page({ searchParams }: { searchParams }) {
     projects,
     species,
   } = searchParams;
+
+  const projectOptions = await fetch(`${process.env.API_DOMAIN}/projects`, {
+    method: 'GET',
+  }).then((res) => res.json());
+
+  projectOptions.map((projectObj) => ({
+    value: projectObj.nid,
+    label: projectObj.name,
+  }));
 
   return (
     <DeploymentFilter
@@ -21,6 +30,7 @@ export default function Page({ searchParams }: { searchParams }) {
       }}
       initialSpecies={JSON.parse(species)}
       initialProjects={JSON.parse(projects)}
+      projectOptions={projectOptions}
     />
   );
 }
