@@ -27,8 +27,14 @@ export default function DeploymentFilter({
   const [rectBounds, setRectBounds] = useState<RectBounds>(initialBounds);
   const [filterSpecies, setFilterSpecies] = useState<string[]>(initialSpecies);
   const [filterProjects, setFilterProjects] = useState<number[]>(initialProjects);
-  const [speciesUrl, setSpeciesUrl] = useState<string>('/api/species');
-  const [projectsUrl, setProjectsUrl] = useState<string>('/api/projects');
+  const [speciesUrl, setSpeciesUrl] = useState<string>(`/api/species?${new URLSearchParams({
+    projects: JSON.stringify(initialProjects),
+    ...initialBounds,
+  }).toString()}`);
+  const [projectsUrl, setProjectsUrl] = useState<string>(`/api/projects?${new URLSearchParams({
+    species: JSON.stringify(initialSpecies),
+    ...initialBounds,
+  }).toString()}`);
 
   useEffect(() => {
     const speciesParams = {
