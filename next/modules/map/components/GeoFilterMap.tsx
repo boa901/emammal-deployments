@@ -53,17 +53,18 @@ export default function GeoFilterMap({
         <MarkerClusterGroup>
           {markers}
         </MarkerClusterGroup>
-        {initialBounds && filterBounds === initialBounds && (
-          <Rectangle
-            bounds={[
-              [parseFloat(initialBounds.maxLat), parseFloat(initialBounds.minLng)],
-              [parseFloat(initialBounds.minLat), parseFloat(initialBounds.maxLng)],
-            ]}
-            color="#3388ff"
-            opacity={0.5}
-            fillColor="#3388ff"
-            fillOpacity={0.2}
-          />
+        {initialBounds && Object.keys(initialBounds).length > 0
+          && filterBounds === initialBounds && (
+            <Rectangle
+              bounds={[
+                [parseFloat(initialBounds.maxLat), parseFloat(initialBounds.minLng)],
+                [parseFloat(initialBounds.minLat), parseFloat(initialBounds.maxLng)],
+              ]}
+              color="#3388ff"
+              opacity={0.5}
+              fillColor="#3388ff"
+              fillOpacity={0.2}
+            />
         )}
         <FeatureGroup>
           <EditControl
