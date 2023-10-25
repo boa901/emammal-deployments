@@ -10,6 +10,7 @@ export default function GeoFilterMapBarrel({
   apiPath,
   mapping,
   initialBounds,
+  setCsvData,
 }: GeoFilterMapProps): React.ReactNode {
   const [Client, setClient] = useState<React.FunctionComponent<GeoFilterMapProps>>();
 
@@ -29,6 +30,7 @@ export default function GeoFilterMapBarrel({
       apiPath={apiPath}
       mapping={mapping}
       initialBounds={initialBounds}
+      setCsvData={setCsvData}
     />
   ) : null;
 }

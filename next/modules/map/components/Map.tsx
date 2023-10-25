@@ -14,7 +14,7 @@ import MarkerClusterGroup from 'react-leaflet-cluster';
 import Project from '@/common/types/project';
 import MapProps from '@/modules/map/types/MapProps';
 
-export default function Map({ apiPath, mapping }: MapProps) {
+export default function Map({ apiPath, mapping, setCsvData }: MapProps) {
   const [loading, setLoading] = useState<boolean>(true);
   const [markers, setMarkers] = useState<React.ReactNode | null>(null);
 
@@ -26,12 +26,25 @@ export default function Map({ apiPath, mapping }: MapProps) {
 
       const markerComponents: React.ReactNode = points.map(mapping);
       setMarkers(markerComponents);
-      setLoading(false);
+
+      if (setCsvData) {
+        const csvRows = await fetch('/api/deployments/csv', {
+          method: 'POST',
+          body: JSON.stringify(points.map((point) => point.nid)),
+        }).then((res) => res.json());
+        setCsvData(csvRows);
+      }
     };
 
     setLoading(true);
     fetchPoints();
   }, [apiPath]);
+
+  useEffect(() => {
+    if (markers) {
+      setLoading(false);
+    }
+  }, [markers]);
 
   return (
     <div className="container mx-auto my-2 relative">

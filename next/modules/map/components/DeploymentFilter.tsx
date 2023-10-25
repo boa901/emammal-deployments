@@ -1,6 +1,7 @@
 'use client';
 
 import { Button } from 'flowbite-react';
+import { CSVLink } from 'react-csv';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
@@ -35,6 +36,7 @@ export default function DeploymentFilter({
     species: JSON.stringify(initialSpecies),
     ...initialBounds,
   }).toString()}`);
+  const [csvData, setCsvData] = useState([]);
 
   useEffect(() => {
     const speciesParams = {
@@ -67,6 +69,7 @@ export default function DeploymentFilter({
           apiPath={apiPath}
           mapping={deploymentMapping}
           initialBounds={initialBounds}
+          setCsvData={setCsvData}
         />
       </div>
       <div className="w-full flex flex-row justify-left">
@@ -92,6 +95,20 @@ export default function DeploymentFilter({
         />
         <Button type="button" onClick={handleSubmit}>Search</Button>
       </div>
+      {csvData && csvData.length > 0 ? (
+        <CSVLink
+          data={csvData}
+          filename={`deployment_metadata_${new Date().toISOString().replaceAll(/[^0-9]/g, '')}`}
+        >
+          <Button>
+            Download Deployment Data
+          </Button>
+        </CSVLink>
+      ) : (
+        <Button isProcessing>
+          Download Deployment Data
+        </Button>
+      )}
     </div>
   );
 }
