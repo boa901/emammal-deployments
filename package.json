@@ -5,11 +5,10 @@
   "description": "Use leaflet, react, and postgres to display information about deployments and documented species.",
   "main": "index.js",
   "scripts": {
-    "next-dev": "next dev ./next -p 3001",
     "next-build": "next build ./next",
     "next-start": "next start ./next -p 3001",
     "next-lint": "next lint ./next",
-    "dev": "nodemon ./express/bin/www",
+    "dev": "conc \"nodemon ./express/bin/www\" \"next dev ./next -p 3001\"",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "npx eslint"
   },
@@ -41,6 +40,7 @@
     "@typescript-eslint/eslint-plugin": "^5.62.0",
     "@typescript-eslint/parser": "^5.62.0",
     "autoprefixer": "^10.4.14",
+    "concurrently": "^8.2.1",
     "eslint": "^7.32.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-airbnb-typescript": "^17.0.0",

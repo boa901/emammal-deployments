@@ -1,6 +1,8 @@
 'use client';
 
-import AsyncSelect from 'react-select/async';
+import { useEffect, useState } from 'react';
+import Select from 'react-select';
+
 import selectStyles from '@/modules/map/utils/selectStyles';
 
 export default function DeploymentMultiselect(
@@ -10,25 +12,23 @@ export default function DeploymentMultiselect(
     optionValue,
     optionLabel,
     fieldLabel,
+    defaultValues,
   }: {
     setFilter: React.Dispatch<React.SetStateAction<any[]>>,
     optionUrl: string,
     optionValue: string,
     optionLabel: string,
-    fieldLabel: string
+    fieldLabel: string,
+    defaultValues?: { value: any, label: string }[],
   },
 ): React.ReactNode {
-  const filterOptions = (
-    inputValue: string, options: { value: string, label: string }[],
-  ) => (
-    options.filter((option) => (
-      option.label.toLowerCase().includes(inputValue.toLowerCase())
-    ))
-  );
+  const [selectOptions, setSelectOptions] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  const promiseOptions = (inputValue: string) => (
-    new Promise<{ value: string, label: string }[]>((resolve) => {
-      const fetcher = async () => {
+  useEffect(() => {
+    if (optionUrl && optionUrl.length > 0) {
+      setLoading(true);
+      const fetchOptions = async () => {
         const nodes = await fetch(optionUrl, {
           method: 'GET',
         }).then((res) => res.json());
@@ -37,14 +37,16 @@ export default function DeploymentMultiselect(
           { value: node[optionValue], label: node[optionLabel] }
         ));
 
-        resolve(filterOptions(inputValue, options));
+        setSelectOptions(options);
+        setLoading(false);
       };
-      fetcher();
-    }));
 
-  const onSelectChange = (selectedOptions) => {
-    const values = selectedOptions.map((selectedOption) => selectedOption.value);
-    setFilter(values);
+      fetchOptions();
+    }
+  }, [optionUrl]);
+
+  const onSelectChange = (selectedOptions: { value: any, label: string }[]) => {
+    setFilter(selectedOptions.map((option) => option.value));
   };
 
   return (
@@ -53,11 +55,11 @@ export default function DeploymentMultiselect(
         {fieldLabel}
       </div>
       <div className="mx-4 w-64">
-        <AsyncSelect
-          defaultOptions
-          cacheOptions
-          loadOptions={promiseOptions}
+        <Select
+          options={selectOptions}
+          defaultValue={defaultValues}
           isMulti
+          isLoading={loading}
           onChange={onSelectChange}
           menuPortalTarget={document.body}
           styles={selectStyles}
