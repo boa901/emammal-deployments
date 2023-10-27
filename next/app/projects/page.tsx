@@ -1,5 +1,8 @@
-import MapBarrel from '@/modules/map/components/MapBarrel';
+import dynamic from 'next/dynamic';
+
 import projectMapping from '@/modules/map/utils/projectMapping';
+
+const MapBarrel = dynamic(() => import('@/modules/map/components/MapBarrel'), { ssr: false });
 
 export default function Page() {
   return (
