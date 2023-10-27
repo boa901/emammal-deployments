@@ -3,12 +3,14 @@
 import { Button } from 'flowbite-react';
 import { CSVLink } from 'react-csv';
 import { useRouter } from 'next/navigation';
+import dynamic from 'next/dynamic';
 import { useEffect, useState } from 'react';
 
 import RectBounds from '@/modules/map/types/RectBounds';
-import GeoFilterMapBarrel from '@/modules/map/components/GeoFilterMapBarrel';
-import DeploymentMultiselect from '@/modules/map/components/DeploymentMultiselect';
 import deploymentMapping from '@/modules/map/utils/deploymentMapping';
+
+const GeoFilterMapBarrel = dynamic(() => import('@/modules/map/components/GeoFilterMapBarrel'), { ssr: false });
+const DeploymentMultiselect = dynamic(() => import('@/modules/map/components/DeploymentMultiselect'), { ssr: false });
 
 export default function DeploymentFilter({
   apiPath = null,
