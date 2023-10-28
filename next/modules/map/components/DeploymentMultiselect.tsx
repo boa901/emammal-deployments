@@ -22,7 +22,7 @@ export default function DeploymentMultiselect(
     defaultValues?: { value: any, label: string }[],
   },
 ): React.ReactNode {
-  const [selectOptions, setSelectOptions] = useState(null);
+  const [selectOptions, setSelectOptions] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
