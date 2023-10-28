@@ -19,15 +19,15 @@ export default function DeploymentFilter({
   initialProjects = [],
   projectOptions,
 }: {
-  apiPath?: string,
-  initialBounds?: RectBounds,
+  apiPath?: string | null,
+  initialBounds?: RectBounds | null,
   initialSpecies?: string[],
   initialProjects?: number[],
   projectOptions: { value: number, label: string }[],
 }) {
   const router = useRouter();
 
-  const [rectBounds, setRectBounds] = useState<RectBounds>(initialBounds);
+  const [rectBounds, setRectBounds] = useState<RectBounds | null>(initialBounds);
   const [filterSpecies, setFilterSpecies] = useState<string[]>(initialSpecies);
   const [filterProjects, setFilterProjects] = useState<number[]>(initialProjects);
   const [speciesUrl, setSpeciesUrl] = useState<string>(`/api/species?${new URLSearchParams({
