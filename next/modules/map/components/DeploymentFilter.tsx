@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react';
 import RectBounds from '@/modules/map/types/RectBounds';
 import deploymentMapping from '@/modules/map/utils/deploymentMapping';
 
-const GeoFilterMapBarrel = dynamic(() => import('@/modules/map/components/GeoFilterMapBarrel'), { ssr: false });
+const GeoFilterMap = dynamic(() => import('@/modules/map/components/GeoFilterMap'), { ssr: false });
 const DeploymentMultiselect = dynamic(() => import('@/modules/map/components/DeploymentMultiselect'), { ssr: false });
 
 export default function DeploymentFilter({
@@ -65,7 +65,7 @@ export default function DeploymentFilter({
   return (
     <div className="container w-3/4 mx-auto flex flex-col justify-center items-center">
       <div className="w-full">
-        <GeoFilterMapBarrel
+        <GeoFilterMap
           filterBounds={rectBounds}
           setFilter={setRectBounds}
           apiPath={apiPath}
