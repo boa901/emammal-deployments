@@ -30,7 +30,8 @@
       "@/common/*": [
         "common/*"
       ]
-    }
+    },
+    "strictNullChecks": true
   },
   "include": [
     "next-env.d.ts",
