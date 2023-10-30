@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "next-build": "next build ./next",
-    "next-start": "next start ./next -p 3001",
+    "start": "next start ./next",
     "next-lint": "next lint ./next",
     "dev": "conc \"nodemon ./express/bin/www\" \"next dev ./next -p 3001\"",
     "test": "echo \"Error: no test specified\" && exit 1",
