@@ -27,7 +27,8 @@
     },
     "extends": [
         "eslint:recommended",
-        "airbnb"
+        "airbnb",
+        "next"
     ],
     "overrides": [
         {
@@ -36,7 +37,8 @@
             "extends": [
                 "eslint:recommended",
                 "airbnb",
-                "airbnb-typescript"
+                "airbnb-typescript",
+                "next"
             ],
             "parser": "@typescript-eslint/parser",
             "parserOptions": {
