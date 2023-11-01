@@ -22,19 +22,23 @@ export default function Page({ params }: { params: { projectId: string } }) {
   }, []);
 
   return (
-    <Table hoverable>
-      <Table.Head>
-        <Table.HeadCell>Species</Table.HeadCell>
-        <Table.HeadCell>Count</Table.HeadCell>
-      </Table.Head>
-      <Table.Body>
-        {data?.map((row) => (
-          <Table.Row key={row.species}>
-            <Table.Cell>{row.species}</Table.Cell>
-            <Table.Cell>{row.count}</Table.Cell>
-          </Table.Row>
-        ))}
-      </Table.Body>
-    </Table>
+    <div className="container w-3/4 mx-auto flex flex-col justify-center items-center">
+      <div className="w-full">
+        <Table hoverable>
+          <Table.Head>
+            <Table.HeadCell>Species</Table.HeadCell>
+            <Table.HeadCell>Count</Table.HeadCell>
+          </Table.Head>
+          <Table.Body>
+            {data?.map((row) => (
+              <Table.Row key={row.species}>
+                <Table.Cell>{row.species}</Table.Cell>
+                <Table.Cell>{row.count}</Table.Cell>
+              </Table.Row>
+            ))}
+          </Table.Body>
+        </Table>
+      </div>
+    </div>
   );
 }
