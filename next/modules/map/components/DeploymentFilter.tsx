@@ -38,7 +38,7 @@ export default function DeploymentFilter({
     species: JSON.stringify(initialSpecies),
     ...initialBounds,
   }).toString()}`);
-  const [csvData, setCsvData] = useState([]);
+  const [csvData, setCsvData] = useState<any[] | null>(null);
 
   useEffect(() => {
     const speciesParams = {
@@ -97,15 +97,19 @@ export default function DeploymentFilter({
         />
         <Button type="button" onClick={handleSubmit}>Search</Button>
       </div>
-      {csvData && csvData.length > 0 ? (
-        <CSVLink
-          data={csvData}
-          filename={`deployment_metadata_${new Date().toISOString().replaceAll(/[^0-9]/g, '')}`}
-        >
-          <Button>
-            Download Deployment Data
-          </Button>
-        </CSVLink>
+      {(csvData || !apiPath) ? (
+        <>
+          {csvData && csvData.length > 0 && (
+            <CSVLink
+              data={csvData}
+              filename={`deployment_metadata_${new Date().toISOString().replaceAll(/[^0-9]/g, '')}`}
+            >
+              <Button>
+                Download Deployment Data
+              </Button>
+            </CSVLink>
+          )}
+        </>
       ) : (
         <Button isProcessing>
           Download Deployment Data

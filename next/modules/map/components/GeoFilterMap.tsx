@@ -30,6 +30,7 @@ export default function GeoFilterMap({
   useEffect(() => {
     const fetchPoints = async () => {
       if (apiPath && apiPath.length > 0) {
+        setCsvData(null);
         setLoading(true);
         const points: any[] = await fetch(apiPath, {
           method: 'GET',
