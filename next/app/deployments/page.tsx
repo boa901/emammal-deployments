@@ -14,7 +14,32 @@ export default async function Page({ searchParams }: { searchParams }) {
     method: 'GET',
   }).then((res) => res.json());
 
-  return (
+  const filtersApplied = (filterParams: {
+    maxLat: number | null,
+    minLat: number | null,
+    maxLng: number | null,
+    minLng: number | null,
+    projects: any[] | null,
+    species: any[] | null,
+  }) => {
+    if (Object.keys(filterParams).length === 0) {
+      return false;
+    }
+    const projectsSet = (projects && projects.length > 0);
+    const speciesSet = (species && species.length > 0);
+    if (projectsSet
+      || speciesSet
+      || (maxLat
+      && minLat
+      && maxLng
+      && minLng
+      )) {
+      return true;
+    }
+    return false;
+  };
+
+  return filtersApplied(searchParams) ? (
     <DeploymentFilter
       apiPath={`/api/deployments?${new URLSearchParams(searchParams).toString()}`}
       initialBounds={{
@@ -30,5 +55,7 @@ export default async function Page({ searchParams }: { searchParams }) {
         label: projectObj.name,
       }))}
     />
+  ) : (
+    <DeploymentFilter projectOptions={projectOptions} />
   );
 }
