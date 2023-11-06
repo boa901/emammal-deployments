@@ -18,12 +18,14 @@ export default function DeploymentFilter({
   initialSpecies = [],
   initialProjects = [],
   projectOptions,
+  speciesOptions,
 }: {
   apiPath?: string | null,
   initialBounds?: RectBounds | null,
   initialSpecies?: string[],
   initialProjects?: number[],
   projectOptions: { value: number, label: string }[],
+  speciesOptions: { value: string, label: string }[],
 }) {
   const router = useRouter();
 
@@ -79,10 +81,10 @@ export default function DeploymentFilter({
           setFilter={setFilterSpecies}
           optionUrl={speciesUrl}
           optionValue="species"
-          optionLabel="species"
+          optionLabel="name"
           fieldLabel="Species"
-          defaultValues={initialSpecies.map((species) => (
-            { value: species, label: species }
+          defaultValues={speciesOptions.filter((speciesOption) => (
+            initialSpecies.includes(speciesOption.value)
           ))}
         />
         <DeploymentMultiselect
