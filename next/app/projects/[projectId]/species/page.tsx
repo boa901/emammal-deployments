@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 export default function Page({ params }: { params: { projectId: string } }) {
   const [data, setData] = useState<{
     species: string,
+    name: string,
     count: number,
   }[]>([]);
 
@@ -27,11 +28,13 @@ export default function Page({ params }: { params: { projectId: string } }) {
         <Table hoverable>
           <Table.Head>
             <Table.HeadCell>Species</Table.HeadCell>
+            <Table.HeadCell>Scientific Name</Table.HeadCell>
             <Table.HeadCell>Count</Table.HeadCell>
           </Table.Head>
           <Table.Body>
             {data?.map((row) => (
               <Table.Row key={row.species}>
+                <Table.Cell>{row.name}</Table.Cell>
                 <Table.Cell>{row.species}</Table.Cell>
                 <Table.Cell>{row.count}</Table.Cell>
               </Table.Row>
