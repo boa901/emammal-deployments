@@ -25,7 +25,7 @@ export default function Filter({ projectId }: { projectId: string }): React.Reac
         }).then((res) => res.json());
 
         const speciesOptions = species.map((speciesObj) => (
-          { value: speciesObj.species, label: speciesObj.species }
+          { value: speciesObj.species, label: speciesObj.name }
         ));
 
         resolve(filterOptions(inputValue, speciesOptions));

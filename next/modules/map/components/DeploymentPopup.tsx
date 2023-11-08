@@ -12,6 +12,7 @@ import Deployment from '@/common/types/deployment';
 export default function DeploymentPopup({ marker }: { marker: Deployment }) {
   const [speciesData, setSpeciesData] = useState<{
     species: string,
+    name: string,
     count: number,
     nid: number,
   }[] | null>(null);
@@ -26,10 +27,15 @@ export default function DeploymentPopup({ marker }: { marker: Deployment }) {
     fetcher();
   };
 
-  const formatSpecies = (data: { species: string, count: number, nid: number }[]): string => {
+  const formatSpecies = (data: {
+    species: string,
+    name: string,
+    count: number,
+    nid: number
+  }[]): string => {
     const species: string[] = [];
     data.map((speciesObject) => (
-      species.push(speciesObject.species)
+      species.push(speciesObject.name)
     ));
     const result = species.join(', ');
     if (result.length > 25) {

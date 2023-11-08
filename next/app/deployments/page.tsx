@@ -14,6 +14,10 @@ export default async function Page({ searchParams }: { searchParams }) {
     method: 'GET',
   }).then((res) => res.json());
 
+  const speciesOptions = await fetch(`${process.env.API_DOMAIN}/species`, {
+    method: 'GET',
+  }).then((res) => res.json());
+
   const filtersApplied = (filterParams: {
     maxLat: number | null,
     minLat: number | null,
@@ -54,8 +58,21 @@ export default async function Page({ searchParams }: { searchParams }) {
         value: projectObj.nid,
         label: projectObj.name,
       }))}
+      speciesOptions={speciesOptions.map((speciesObj) => ({
+        value: speciesObj.species,
+        label: speciesObj.name,
+      }))}
     />
   ) : (
-    <DeploymentFilter projectOptions={projectOptions} />
+    <DeploymentFilter
+      projectOptions={projectOptions.map((projectObj) => ({
+        value: projectObj.nid,
+        label: projectObj.name,
+      }))}
+      speciesOptions={speciesOptions.map((speciesObj) => ({
+        value: speciesObj.species,
+        label: speciesObj.name,
+      }))}
+    />
   );
 }
