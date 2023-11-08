@@ -5,11 +5,20 @@ export default async function Page() {
     method: 'GET',
   }).then((res) => res.json());
 
-  projectOptions.map((projectObj) => ({
-    value: projectObj.nid,
-    label: projectObj.name,
-  }));
+  const speciesOptions = await fetch(`${process.env.API_DOMAIN}/species`, {
+    method: 'GET',
+  }).then((res) => res.json());
+
   return (
-    <DeploymentFilter projectOptions={projectOptions} />
+    <DeploymentFilter
+      projectOptions={projectOptions.map((projectObj) => ({
+        value: projectObj.nid,
+        label: projectObj.name,
+      }))}
+      speciesOptions={speciesOptions.map((speciesObj) => ({
+        value: speciesObj.species,
+        label: speciesObj.name,
+      }))}
+    />
   );
 }
