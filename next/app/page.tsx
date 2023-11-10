@@ -17,7 +17,7 @@ export default async function Page() {
       }))}
       speciesOptions={speciesOptions.map((speciesObj) => ({
         value: speciesObj.species,
-        label: speciesObj.name,
+        label: speciesObj.name || speciesObj.species,
       }))}
     />
   );

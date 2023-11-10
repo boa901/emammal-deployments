@@ -60,7 +60,7 @@ export default async function Page({ searchParams }: { searchParams }) {
       }))}
       speciesOptions={speciesOptions.map((speciesObj) => ({
         value: speciesObj.species,
-        label: speciesObj.name,
+        label: speciesObj.name || speciesObj.species,
       }))}
     />
   ) : (
@@ -71,7 +71,7 @@ export default async function Page({ searchParams }: { searchParams }) {
       }))}
       speciesOptions={speciesOptions.map((speciesObj) => ({
         value: speciesObj.species,
-        label: speciesObj.name,
+        label: speciesObj.name || speciesObj.species,
       }))}
     />
   );
