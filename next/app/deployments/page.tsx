@@ -29,8 +29,8 @@ export default async function Page({ searchParams }: { searchParams }) {
     if (Object.keys(filterParams).length === 0) {
       return false;
     }
-    const projectsSet = (projects && projects.length > 0);
-    const speciesSet = (species && species.length > 0);
+    const projectsSet = (projects && JSON.parse(projects).length > 0);
+    const speciesSet = (species && JSON.parse(species).length > 0);
     if (projectsSet
       || speciesSet
       || (maxLat
