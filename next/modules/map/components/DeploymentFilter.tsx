@@ -63,6 +63,7 @@ export default function DeploymentFilter({
       projects: JSON.stringify(filterProjects),
       ...rectBounds,
     };
+    setDeploymentLimit(500);
     router.push(`/deployments?${new URLSearchParams(params).toString()}`);
   };
 
