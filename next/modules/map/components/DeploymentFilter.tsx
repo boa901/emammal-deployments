@@ -1,6 +1,6 @@
 'use client';
 
-import { Button } from 'flowbite-react';
+import { Button, Modal } from 'flowbite-react';
 import { CSVLink } from 'react-csv';
 import { useRouter } from 'next/navigation';
 import dynamic from 'next/dynamic';
@@ -42,6 +42,7 @@ export default function DeploymentFilter({
   }).toString()}`);
   const [csvData, setCsvData] = useState<any[] | null>(null);
   const [deploymentLimit, setDeploymentLimit] = useState<number>(500);
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
 
   useEffect(() => {
     const speciesParams = {
@@ -76,6 +77,7 @@ export default function DeploymentFilter({
           initialBounds={initialBounds}
           setCsvData={setCsvData}
           limit={deploymentLimit}
+          openModal={() => setModalOpen(true)}
         />
       </div>
       <div className="w-full flex flex-row justify-left">
@@ -119,6 +121,31 @@ export default function DeploymentFilter({
           Download Deployment Data
         </Button>
       )}
+      <Modal
+        dismissible
+        show={modalOpen}
+        onClose={() => setModalOpen(false)}
+        popup
+      >
+        <Modal.Header>Results Limited</Modal.Header>
+        <Modal.Body>
+          <h3>Would you like to load all results?</h3>
+          <div className="flex justify-center gap-4">
+            <Button
+              color="gray"
+              onClick={() => {
+                setModalOpen(false);
+                setDeploymentLimit(-1);
+              }}
+            >
+              Yes
+            </Button>
+            <Button color="failure" onClick={() => setModalOpen(false)}>
+              No
+            </Button>
+          </div>
+        </Modal.Body>
+      </Modal>
     </div>
   );
 }
