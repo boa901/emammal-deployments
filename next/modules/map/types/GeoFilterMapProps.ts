@@ -7,4 +7,5 @@ export default interface GeoFilterMapProps {
   mapping: (mkr: any) => React.ReactNode,
   initialBounds?: RectBounds | null,
   setCsvData: React.Dispatch<React.SetStateAction<any[] | null>>,
+  limit: number,
 }

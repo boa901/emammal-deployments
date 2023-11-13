@@ -41,6 +41,7 @@ export default function DeploymentFilter({
     ...initialBounds,
   }).toString()}`);
   const [csvData, setCsvData] = useState<any[] | null>(null);
+  const [deploymentLimit, setDeploymentLimit] = useState<number>(500);
 
   useEffect(() => {
     const speciesParams = {
@@ -74,6 +75,7 @@ export default function DeploymentFilter({
           mapping={deploymentMapping}
           initialBounds={initialBounds}
           setCsvData={setCsvData}
+          limit={deploymentLimit}
         />
       </div>
       <div className="w-full flex flex-row justify-left">

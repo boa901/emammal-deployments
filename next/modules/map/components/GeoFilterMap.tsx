@@ -23,6 +23,7 @@ export default function GeoFilterMap({
   mapping,
   initialBounds,
   setCsvData,
+  limit,
 }: GeoFilterMapProps) {
   const [loading, setLoading] = useState<boolean>(false);
   const [markers, setMarkers] = useState<React.ReactNode | null>(null);
@@ -34,7 +35,11 @@ export default function GeoFilterMap({
         setLoading(true);
         const points: any[] = await fetch(apiPath, {
           method: 'GET',
-        }).then((res) => res.json());
+        }).then((res) => res.json()).then((json) => {
+          if (limit && limit > 0) {
+            return json.slice(0, limit);
+          }
+        });
 
         const markerComponents: React.ReactNode = points.map(mapping);
         setMarkers(markerComponents);
@@ -51,7 +56,7 @@ export default function GeoFilterMap({
     };
 
     fetchPoints();
-  }, [apiPath]);
+  }, [apiPath, limit]);
 
   return (
     <div>
