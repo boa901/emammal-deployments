@@ -2,7 +2,11 @@
 
 'use client';
 
-import { Spinner } from 'flowbite-react';
+import {
+  Button,
+  Modal,
+  Spinner,
+} from 'flowbite-react';
 import { useEffect, useState } from 'react';
 import {
   FeatureGroup,
@@ -24,10 +28,11 @@ export default function GeoFilterMap({
   initialBounds,
   setCsvData,
   limit,
-  openModal,
+  setLimit,
 }: GeoFilterMapProps) {
   const [loading, setLoading] = useState<boolean>(false);
   const [markers, setMarkers] = useState<React.ReactNode | null>(null);
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchPoints = async () => {
@@ -40,7 +45,7 @@ export default function GeoFilterMap({
           if (limit && limit > 0) {
             const limitedResults = json.slice(0, limit);
             if (limitedResults.length === limit) {
-              openModal();
+              setModalOpen(true);
             }
             return json.slice(0, limit);
           }
@@ -111,6 +116,31 @@ export default function GeoFilterMap({
           <Spinner size="xl" />
         </div>
       )}
+      <Modal
+        dismissible
+        show={modalOpen}
+        onClose={() => setModalOpen(false)}
+        popup
+      >
+        <Modal.Header>Results Limited</Modal.Header>
+        <Modal.Body>
+          <h3>Would you like to load all results?</h3>
+          <div className="flex justify-center gap-4">
+            <Button
+              color="gray"
+              onClick={() => {
+                setModalOpen(false);
+                setLimit(-1);
+              }}
+            >
+              Yes
+            </Button>
+            <Button color="failure" onClick={() => setModalOpen(false)}>
+              No
+            </Button>
+          </div>
+        </Modal.Body>
+      </Modal>
     </div>
   );
 }

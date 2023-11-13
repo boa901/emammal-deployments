@@ -8,5 +8,5 @@ export default interface GeoFilterMapProps {
   initialBounds?: RectBounds | null,
   setCsvData: React.Dispatch<React.SetStateAction<any[] | null>>,
   limit: number,
-  openModal: Function,
+  setLimit: React.Dispatch<React.SetStateAction<number>>,
 }
