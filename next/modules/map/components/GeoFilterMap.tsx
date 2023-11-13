@@ -33,6 +33,7 @@ export default function GeoFilterMap({
   const [loading, setLoading] = useState<boolean>(false);
   const [markers, setMarkers] = useState<React.ReactNode | null>(null);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [totalResults, setTotalResults] = useState<number>();
 
   useEffect(() => {
     const fetchPoints = async () => {
@@ -43,6 +44,7 @@ export default function GeoFilterMap({
           method: 'GET',
         }).then((res) => res.json()).then((json) => {
           if (limit && limit > 0) {
+            setTotalResults(json.length);
             const limitedResults = json.slice(0, limit);
             if (limitedResults.length === limit) {
               setModalOpen(true);
@@ -124,7 +126,12 @@ export default function GeoFilterMap({
       >
         <Modal.Header>Results Limited</Modal.Header>
         <Modal.Body>
-          <h3>Would you like to load all results?</h3>
+          <h3>
+            {
+              `Would you like to load all results? There are ${totalResults} total deployments that
+              fit the provided criteria.`
+            }
+          </h3>
           <div className="flex justify-center gap-4">
             <Button
               color="gray"
