@@ -4,11 +4,10 @@
 
 import { Spinner } from 'flowbite-react';
 import { useEffect, useRef, useState } from 'react';
-import { Layer, Map } from 'leaflet';
+import L, { Layer, Map } from 'leaflet';
 import {
   FeatureGroup,
   MapContainer,
-  Rectangle,
   TileLayer,
 } from 'react-leaflet';
 import MarkerClusterGroup from 'react-leaflet-cluster';
@@ -18,7 +17,6 @@ import getLatLngs from '@/modules/map/utils/getLatLngs';
 import GeoFilterMapProps from '@/modules/map/types/GeoFilterMapProps';
 
 export default function GeoFilterMap({
-  filterBounds,
   setFilter,
   apiPath,
   mapping,
@@ -57,6 +55,28 @@ export default function GeoFilterMap({
     fetchPoints();
   }, [apiPath]);
 
+  useEffect(() => {
+    if (initialBounds && Object.keys(initialBounds).length > 0 && map.current) {
+      const {
+        maxLat,
+        minLat,
+        maxLng,
+        minLng,
+      } = initialBounds;
+      rectLayer.current = L.rectangle(L.latLngBounds([
+        parseFloat(minLat), parseFloat(minLng),
+      ], [
+        parseFloat(maxLat), parseFloat(maxLng),
+      ]), {
+        color: '#3388ff',
+        opacity: 0.5,
+        fillColor: '#3388ff',
+        fillOpacity: 0.2,
+      });
+      rectLayer.current.addTo(map.current);
+    }
+  }, [map.current]);
+
   return (
     <div>
       <MapContainer
@@ -72,19 +92,6 @@ export default function GeoFilterMap({
         <MarkerClusterGroup>
           {markers}
         </MarkerClusterGroup>
-        {initialBounds && Object.keys(initialBounds).length > 0
-          && filterBounds === initialBounds && (
-            <Rectangle
-              bounds={[
-                [parseFloat(initialBounds.maxLat), parseFloat(initialBounds.minLng)],
-                [parseFloat(initialBounds.minLat), parseFloat(initialBounds.maxLng)],
-              ]}
-              color="#3388ff"
-              opacity={0.5}
-              fillColor="#3388ff"
-              fillOpacity={0.2}
-            />
-        )}
         <FeatureGroup>
           <EditControl
             position="topleft"
