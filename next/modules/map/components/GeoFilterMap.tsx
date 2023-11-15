@@ -3,7 +3,8 @@
 'use client';
 
 import { Spinner } from 'flowbite-react';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { Layer, Map } from 'leaflet';
 import {
   FeatureGroup,
   MapContainer,
@@ -26,6 +27,9 @@ export default function GeoFilterMap({
 }: GeoFilterMapProps) {
   const [loading, setLoading] = useState<boolean>(false);
   const [markers, setMarkers] = useState<React.ReactNode | null>(null);
+
+  const map = useRef<Map>(null);
+  const rectLayer = useRef<Layer | null>(null);
 
   useEffect(() => {
     const fetchPoints = async () => {
@@ -55,7 +59,12 @@ export default function GeoFilterMap({
 
   return (
     <div>
-      <MapContainer center={[0, 0]} zoom={2.25} scrollWheelZoom>
+      <MapContainer
+        center={[0, 0]}
+        zoom={2.25}
+        scrollWheelZoom
+        ref={map}
+      >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -87,6 +96,10 @@ export default function GeoFilterMap({
               circlemarker: false,
             }}
             onCreated={(e) => {
+              if (rectLayer.current) {
+                map.current?.removeLayer(rectLayer.current);
+              }
+              rectLayer.current = e.layer;
               setFilter(getLatLngs(e.layer._bounds));
             }}
             onDeleted={() => {
