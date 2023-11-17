@@ -10,9 +10,9 @@ import getLatLngs from '@/modules/map/utils/getLatLngs';
 export default function EditFilterLayer({ setFilter, layer, setLayer }) {
   const map = useMap();
 
-  if (layer) {
-    if (!map.hasLayer(layer)) {
-      layer.addTo(map);
+  if (layer.current) {
+    if (!map.hasLayer(layer.current)) {
+      layer.current.addTo(map);
     }
   }
 
@@ -27,14 +27,14 @@ export default function EditFilterLayer({ setFilter, layer, setLayer }) {
         circlemarker: false,
       }}
       onCreated={(e) => {
-        if (layer) {
-          map.removeLayer(layer);
+        if (layer.current) {
+          map.removeLayer(layer.current);
         }
         setLayer(e.layer);
         setFilter(getLatLngs(e.layer._bounds));
       }}
       onEdited={() => {
-        setFilter(getLatLngs(layer?._bounds));
+        setFilter(getLatLngs(layer.current?._bounds));
       }}
       onDeleted={() => {
         setFilter(null);

@@ -1,7 +1,7 @@
 'use client';
 
 import { Spinner } from 'flowbite-react';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import L from 'leaflet';
 import {
   FeatureGroup,
@@ -23,7 +23,8 @@ export default function GeoFilterMap({
 }: GeoFilterMapProps) {
   const [loading, setLoading] = useState<boolean>(false);
   const [markers, setMarkers] = useState<React.ReactNode | null>(null);
-  const [rectLayer, setRectLayer] = useState<any>(null);
+
+  const rectLayer = useRef<any>(null);
 
   useEffect(() => {
     const fetchPoints = async () => {
@@ -59,7 +60,7 @@ export default function GeoFilterMap({
         maxLng,
         minLng,
       } = initialBounds;
-      setRectLayer(L.rectangle(L.latLngBounds([
+      rectLayer.current = L.rectangle(L.latLngBounds([
         parseFloat(minLat), parseFloat(minLng),
       ], [
         parseFloat(maxLat), parseFloat(maxLng),
@@ -68,7 +69,7 @@ export default function GeoFilterMap({
         opacity: 0.5,
         fillColor: '#3388ff',
         fillOpacity: 0.2,
-      }));
+      });
     }
   };
 
@@ -88,7 +89,13 @@ export default function GeoFilterMap({
           {markers}
         </MarkerClusterGroup>
         <FeatureGroup>
-          <EditFilterLayer setFilter={setFilter} layer={rectLayer} setLayer={setRectLayer} />
+          <EditFilterLayer
+            setFilter={setFilter}
+            layer={rectLayer}
+            setLayer={(layer) => {
+              rectLayer.current = layer;
+            }}
+          />
         </FeatureGroup>
       </MapContainer>
       {loading && (
