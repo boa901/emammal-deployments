@@ -4,7 +4,7 @@
 
 import { Spinner } from 'flowbite-react';
 import { useEffect, useRef, useState } from 'react';
-import L, { Layer, Map } from 'leaflet';
+import L, { Map } from 'leaflet';
 import {
   FeatureGroup,
   MapContainer,
@@ -27,7 +27,7 @@ export default function GeoFilterMap({
   const [markers, setMarkers] = useState<React.ReactNode | null>(null);
 
   const map = useRef<Map>(null);
-  const rectLayer = useRef<Layer | null>(null);
+  const rectLayer = useRef<any>(null);
 
   useEffect(() => {
     const fetchPoints = async () => {
@@ -108,6 +108,9 @@ export default function GeoFilterMap({
               }
               rectLayer.current = e.layer;
               setFilter(getLatLngs(e.layer._bounds));
+            }}
+            onEdited={() => {
+              setFilter(getLatLngs(rectLayer.current?._bounds));
             }}
             onDeleted={() => {
               setFilter(null);
