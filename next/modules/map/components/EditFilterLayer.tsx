@@ -38,6 +38,7 @@ export default function EditFilterLayer({ setFilter, layer, setLayer }) {
       }}
       onDeleted={() => {
         setFilter(null);
+        setLayer(null);
       }}
     />
   );
