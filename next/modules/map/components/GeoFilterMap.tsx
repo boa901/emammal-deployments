@@ -1,20 +1,17 @@
-/* eslint-disable no-underscore-dangle */
-
 'use client';
 
 import { Spinner } from 'flowbite-react';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import L from 'leaflet';
 import {
   FeatureGroup,
   MapContainer,
   TileLayer,
-  useMap,
 } from 'react-leaflet';
 import MarkerClusterGroup from 'react-leaflet-cluster';
-import { EditControl } from 'react-leaflet-draw';
 
-import getLatLngs from '@/modules/map/utils/getLatLngs';
+import EditFilterLayer from '@/modules/map/components/EditFilterLayer';
+
 import GeoFilterMapProps from '@/modules/map/types/GeoFilterMapProps';
 
 export default function GeoFilterMap({
@@ -26,8 +23,7 @@ export default function GeoFilterMap({
 }: GeoFilterMapProps) {
   const [loading, setLoading] = useState<boolean>(false);
   const [markers, setMarkers] = useState<React.ReactNode | null>(null);
-
-  const rectLayer = useRef<any>(null);
+  const [rectLayer, setRectLayer] = useState<any>(null);
 
   useEffect(() => {
     const fetchPoints = async () => {
@@ -63,7 +59,7 @@ export default function GeoFilterMap({
         maxLng,
         minLng,
       } = initialBounds;
-      rectLayer.current = L.rectangle(L.latLngBounds([
+      setRectLayer(L.rectangle(L.latLngBounds([
         parseFloat(minLat), parseFloat(minLng),
       ], [
         parseFloat(maxLat), parseFloat(maxLng),
@@ -72,44 +68,8 @@ export default function GeoFilterMap({
         opacity: 0.5,
         fillColor: '#3388ff',
         fillOpacity: 0.2,
-      });
+      }));
     }
-  };
-
-  const EditFilterLayer = () => {
-    const map = useMap();
-
-    if (rectLayer.current) {
-      if (!map.hasLayer(rectLayer.current)) {
-        rectLayer.current.addTo(map);
-      }
-    }
-
-    return (
-      <EditControl
-        position="topleft"
-        draw={{
-          circle: false,
-          polygon: false,
-          polyline: false,
-          marker: false,
-          circlemarker: false,
-        }}
-        onCreated={(e) => {
-          if (rectLayer.current) {
-            map?.removeLayer(rectLayer.current);
-          }
-          rectLayer.current = e.layer;
-          setFilter(getLatLngs(e.layer._bounds));
-        }}
-        onEdited={() => {
-          setFilter(getLatLngs(rectLayer.current?._bounds));
-        }}
-        onDeleted={() => {
-          setFilter(null);
-        }}
-      />
-    );
   };
 
   return (
@@ -128,7 +88,7 @@ export default function GeoFilterMap({
           {markers}
         </MarkerClusterGroup>
         <FeatureGroup>
-          <EditFilterLayer />
+          <EditFilterLayer setFilter={setFilter} layer={rectLayer} setLayer={setRectLayer} />
         </FeatureGroup>
       </MapContainer>
       {loading && (
