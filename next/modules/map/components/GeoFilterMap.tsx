@@ -4,11 +4,12 @@
 
 import { Spinner } from 'flowbite-react';
 import { useEffect, useRef, useState } from 'react';
-import L, { Map } from 'leaflet';
+import L from 'leaflet';
 import {
   FeatureGroup,
   MapContainer,
   TileLayer,
+  useMap,
 } from 'react-leaflet';
 import MarkerClusterGroup from 'react-leaflet-cluster';
 import { EditControl } from 'react-leaflet-draw';
@@ -26,7 +27,6 @@ export default function GeoFilterMap({
   const [loading, setLoading] = useState<boolean>(false);
   const [markers, setMarkers] = useState<React.ReactNode | null>(null);
 
-  const map = useRef<Map>(null);
   const rectLayer = useRef<any>(null);
 
   useEffect(() => {
@@ -55,8 +55,8 @@ export default function GeoFilterMap({
     fetchPoints();
   }, [apiPath]);
 
-  useEffect(() => {
-    if (initialBounds && Object.keys(initialBounds).length > 0 && map.current) {
+  const handleMapReady = () => {
+    if (initialBounds && Object.keys(initialBounds).length > 0) {
       const {
         maxLat,
         minLat,
@@ -73,9 +73,44 @@ export default function GeoFilterMap({
         fillColor: '#3388ff',
         fillOpacity: 0.2,
       });
-      rectLayer.current.addTo(map.current);
     }
-  }, [map.current]);
+  };
+
+  const EditFilterLayer = () => {
+    const map = useMap();
+
+    if (rectLayer.current) {
+      if (!map.hasLayer(rectLayer.current)) {
+        rectLayer.current.addTo(map);
+      }
+    }
+
+    return (
+      <EditControl
+        position="topleft"
+        draw={{
+          circle: false,
+          polygon: false,
+          polyline: false,
+          marker: false,
+          circlemarker: false,
+        }}
+        onCreated={(e) => {
+          if (rectLayer.current) {
+            map?.removeLayer(rectLayer.current);
+          }
+          rectLayer.current = e.layer;
+          setFilter(getLatLngs(e.layer._bounds));
+        }}
+        onEdited={() => {
+          setFilter(getLatLngs(rectLayer.current?._bounds));
+        }}
+        onDeleted={() => {
+          setFilter(null);
+        }}
+      />
+    );
+  };
 
   return (
     <div>
@@ -83,7 +118,7 @@ export default function GeoFilterMap({
         center={[0, 0]}
         zoom={2.25}
         scrollWheelZoom
-        ref={map}
+        whenReady={handleMapReady}
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -93,29 +128,7 @@ export default function GeoFilterMap({
           {markers}
         </MarkerClusterGroup>
         <FeatureGroup>
-          <EditControl
-            position="topleft"
-            draw={{
-              circle: false,
-              polygon: false,
-              polyline: false,
-              marker: false,
-              circlemarker: false,
-            }}
-            onCreated={(e) => {
-              if (rectLayer.current) {
-                map.current?.removeLayer(rectLayer.current);
-              }
-              rectLayer.current = e.layer;
-              setFilter(getLatLngs(e.layer._bounds));
-            }}
-            onEdited={() => {
-              setFilter(getLatLngs(rectLayer.current?._bounds));
-            }}
-            onDeleted={() => {
-              setFilter(null);
-            }}
-          />
+          <EditFilterLayer />
         </FeatureGroup>
       </MapContainer>
       {loading && (
