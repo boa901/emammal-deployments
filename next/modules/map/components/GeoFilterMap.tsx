@@ -1,23 +1,20 @@
-/* eslint-disable no-underscore-dangle */
-
 'use client';
 
 import { Spinner } from 'flowbite-react';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import L from 'leaflet';
 import {
   FeatureGroup,
   MapContainer,
-  Rectangle,
   TileLayer,
 } from 'react-leaflet';
 import MarkerClusterGroup from 'react-leaflet-cluster';
-import { EditControl } from 'react-leaflet-draw';
 
-import getLatLngs from '@/modules/map/utils/getLatLngs';
+import EditFilterLayer from '@/modules/map/components/EditFilterLayer';
+
 import GeoFilterMapProps from '@/modules/map/types/GeoFilterMapProps';
 
 export default function GeoFilterMap({
-  filterBounds,
   setFilter,
   apiPath,
   mapping,
@@ -26,6 +23,8 @@ export default function GeoFilterMap({
 }: GeoFilterMapProps) {
   const [loading, setLoading] = useState<boolean>(false);
   const [markers, setMarkers] = useState<React.ReactNode | null>(null);
+
+  const rectLayer = useRef<any>(null);
 
   useEffect(() => {
     const fetchPoints = async () => {
@@ -53,9 +52,35 @@ export default function GeoFilterMap({
     fetchPoints();
   }, [apiPath]);
 
+  const handleMapReady = () => {
+    if (initialBounds && Object.keys(initialBounds).length > 0) {
+      const {
+        maxLat,
+        minLat,
+        maxLng,
+        minLng,
+      } = initialBounds;
+      rectLayer.current = L.rectangle(L.latLngBounds([
+        parseFloat(minLat), parseFloat(minLng),
+      ], [
+        parseFloat(maxLat), parseFloat(maxLng),
+      ]), {
+        color: '#3388ff',
+        opacity: 0.5,
+        fillColor: '#3388ff',
+        fillOpacity: 0.2,
+      });
+    }
+  };
+
   return (
     <div>
-      <MapContainer center={[0, 0]} zoom={2.25} scrollWheelZoom>
+      <MapContainer
+        center={[0, 0]}
+        zoom={2.25}
+        scrollWheelZoom
+        whenReady={handleMapReady}
+      >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -63,34 +88,12 @@ export default function GeoFilterMap({
         <MarkerClusterGroup>
           {markers}
         </MarkerClusterGroup>
-        {initialBounds && Object.keys(initialBounds).length > 0
-          && filterBounds === initialBounds && (
-            <Rectangle
-              bounds={[
-                [parseFloat(initialBounds.maxLat), parseFloat(initialBounds.minLng)],
-                [parseFloat(initialBounds.minLat), parseFloat(initialBounds.maxLng)],
-              ]}
-              color="#3388ff"
-              opacity={0.5}
-              fillColor="#3388ff"
-              fillOpacity={0.2}
-            />
-        )}
         <FeatureGroup>
-          <EditControl
-            position="topleft"
-            draw={{
-              circle: false,
-              polygon: false,
-              polyline: false,
-              marker: false,
-              circlemarker: false,
-            }}
-            onCreated={(e) => {
-              setFilter(getLatLngs(e.layer._bounds));
-            }}
-            onDeleted={() => {
-              setFilter(null);
+          <EditFilterLayer
+            setFilter={setFilter}
+            layer={rectLayer}
+            setLayer={(layer) => {
+              rectLayer.current = layer;
             }}
           />
         </FeatureGroup>
