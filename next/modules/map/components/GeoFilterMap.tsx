@@ -12,17 +12,19 @@ import MarkerClusterGroup from 'react-leaflet-cluster';
 
 import EditFilterLayer from '@/modules/map/components/EditFilterLayer';
 
+import deploymentMapping from '@/modules/map/utils/deploymentMapping';
+
 import GeoFilterMapProps from '@/modules/map/types/GeoFilterMapProps';
+import Deployment from '@/common/types/deployment';
 
 export default function GeoFilterMap({
   setFilter,
   apiPath,
-  mapping,
   initialBounds,
   setCsvData,
 }: GeoFilterMapProps) {
   const [loading, setLoading] = useState<boolean>(false);
-  const [markers, setMarkers] = useState<React.ReactNode[] | null>(null);
+  const [markers, setMarkers] = useState<Deployment[] | null>(null);
 
   const rectLayer = useRef<any>(null);
 
@@ -31,11 +33,11 @@ export default function GeoFilterMap({
       if (apiPath && apiPath.length > 0) {
         setCsvData(null);
         setLoading(true);
-        const points: any[] = await fetch(apiPath, {
+        const points: Deployment[] = await fetch(apiPath, {
           method: 'GET',
         }).then((res) => res.json());
 
-        const markerComponents: React.ReactNode[] = points.map(mapping);
+        const markerComponents: React.ReactNode[] = points.map(deploymentMapping);
         setMarkers(markerComponents);
         setLoading(false);
 
