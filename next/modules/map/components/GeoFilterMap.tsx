@@ -8,11 +8,9 @@ import {
   MapContainer,
   TileLayer,
 } from 'react-leaflet';
-import MarkerClusterGroup from 'react-leaflet-cluster';
 
+import MarkerCluster from '@/modules/map/components/MarkerCluster';
 import EditFilterLayer from '@/modules/map/components/EditFilterLayer';
-
-import deploymentMapping from '@/modules/map/utils/deploymentMapping';
 
 import GeoFilterMapProps from '@/modules/map/types/GeoFilterMapProps';
 import Deployment from '@/common/types/deployment';
@@ -26,6 +24,7 @@ export default function GeoFilterMap({
   const [loading, setLoading] = useState<boolean>(false);
   const [markers, setMarkers] = useState<Deployment[] | null>(null);
 
+  const markersLayer = useRef<any>(null);
   const rectLayer = useRef<any>(null);
 
   useEffect(() => {
@@ -33,18 +32,17 @@ export default function GeoFilterMap({
       if (apiPath && apiPath.length > 0) {
         setCsvData(null);
         setLoading(true);
-        const points: Deployment[] = await fetch(apiPath, {
+        const deployments: Deployment[] = await fetch(apiPath, {
           method: 'GET',
         }).then((res) => res.json());
 
-        const markerComponents: React.ReactNode[] = points.map(deploymentMapping);
-        setMarkers(markerComponents);
+        setMarkers(deployments);
         setLoading(false);
 
         if (setCsvData) {
           const csvRows = await fetch('/api/deployments/csv', {
             method: 'POST',
-            body: JSON.stringify(points.map((point) => point.nid)),
+            body: JSON.stringify(deployments.map((point) => point.nid)),
           }).then((res) => res.json());
           setCsvData(csvRows);
         }
@@ -87,9 +85,11 @@ export default function GeoFilterMap({
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        <MarkerClusterGroup>
-          {markers}
-        </MarkerClusterGroup>
+        <MarkerCluster
+          markers={markers}
+          layer={markersLayer}
+          setLayer={(layer) => { markersLayer.current = layer; }}
+        />
         <FeatureGroup>
           <EditFilterLayer
             setFilter={setFilter}
