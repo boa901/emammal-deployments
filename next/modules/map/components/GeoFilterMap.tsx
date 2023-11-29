@@ -81,7 +81,7 @@ export default function GeoFilterMap({
   };
 
   return (
-    <div>
+    <div className="relative">
       <MapContainer
         center={[0, 0]}
         zoom={2.25}
