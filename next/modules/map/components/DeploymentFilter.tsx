@@ -6,10 +6,11 @@ import { useRouter } from 'next/navigation';
 import dynamic from 'next/dynamic';
 import { useEffect, useState } from 'react';
 
+import DeploymentMultiselect from '@/modules/map/components/DeploymentMultiselect';
+
 import RectBounds from '@/modules/map/types/RectBounds';
 
 const GeoFilterMap = dynamic(() => import('@/modules/map/components/GeoFilterMap'), { ssr: false });
-const DeploymentMultiselect = dynamic(() => import('@/modules/map/components/DeploymentMultiselect'), { ssr: false });
 
 export default function DeploymentFilter({
   apiPath = null,

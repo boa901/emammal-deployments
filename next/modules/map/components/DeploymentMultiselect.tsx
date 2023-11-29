@@ -1,9 +1,20 @@
 'use client';
 
+import dynamic from 'next/dynamic';
 import { useEffect, useState } from 'react';
-import Select from 'react-select';
+import PlaceholderSelect from 'react-select';
 
 import selectStyles from '@/modules/map/utils/selectStyles';
+
+const Select = dynamic(() => import('react-select'), {
+  ssr: false,
+  loading: () => (
+    <PlaceholderSelect
+      isMulti
+      isLoading
+    />
+  ),
+});
 
 export default function DeploymentMultiselect(
   {
