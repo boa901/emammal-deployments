@@ -20,6 +20,7 @@ export default function GeoFilterMap({
   apiPath,
   initialBounds,
   setCsvData,
+  setReady,
 }: GeoFilterMapProps) {
   const [loading, setLoading] = useState<boolean>(false);
   const [markers, setMarkers] = useState<Deployment[] | null>(null);
@@ -78,6 +79,7 @@ export default function GeoFilterMap({
         fillOpacity: 0.2,
       });
     }
+    setReady(true);
   };
 
   return (

@@ -31,6 +31,7 @@ export default function DeploymentFilter({
   const [rectBounds, setRectBounds] = useState<RectBounds | null>(initialBounds);
   const [filterSpecies, setFilterSpecies] = useState<string[]>(initialSpecies);
   const [filterProjects, setFilterProjects] = useState<number[]>(initialProjects);
+  const [mapReady, setMapReady] = useState<boolean>(false);
   const [speciesUrl, setSpeciesUrl] = useState<string>(`/api/species?${new URLSearchParams({
     projects: JSON.stringify(initialProjects),
     ...initialBounds,
@@ -71,48 +72,53 @@ export default function DeploymentFilter({
           apiPath={apiPath}
           initialBounds={initialBounds}
           setCsvData={setCsvData}
+          setReady={setMapReady}
         />
       </div>
-      <div className="w-full flex flex-row justify-left">
-        <DeploymentMultiselect
-          setFilter={setFilterSpecies}
-          optionUrl={speciesUrl}
-          optionValue="species"
-          optionLabel="name"
-          fieldLabel="Species"
-          defaultValues={speciesOptions.filter((speciesOption) => (
-            initialSpecies.includes(speciesOption.value)
-          ))}
-        />
-        <DeploymentMultiselect
-          setFilter={setFilterProjects}
-          optionUrl={projectsUrl}
-          optionValue="nid"
-          optionLabel="name"
-          fieldLabel="Projects"
-          defaultValues={projectOptions.filter((projectOption) => (
-            initialProjects.includes(projectOption.value)
-          ))}
-        />
-        <Button type="button" onClick={handleSubmit}>Search</Button>
-      </div>
-      {(csvData || !apiPath) ? (
+      {mapReady && (
         <>
-          {csvData && csvData.length > 0 && (
-            <CSVLink
-              data={csvData}
-              filename={`deployment_metadata_${new Date().toISOString().replaceAll(/[^0-9]/g, '')}`}
-            >
-              <Button>
-                Download Deployment Data
-              </Button>
-            </CSVLink>
+          <div className="w-full flex flex-row justify-left">
+            <DeploymentMultiselect
+              setFilter={setFilterSpecies}
+              optionUrl={speciesUrl}
+              optionValue="species"
+              optionLabel="name"
+              fieldLabel="Species"
+              defaultValues={speciesOptions.filter((speciesOption) => (
+                initialSpecies.includes(speciesOption.value)
+              ))}
+            />
+            <DeploymentMultiselect
+              setFilter={setFilterProjects}
+              optionUrl={projectsUrl}
+              optionValue="nid"
+              optionLabel="name"
+              fieldLabel="Projects"
+              defaultValues={projectOptions.filter((projectOption) => (
+                initialProjects.includes(projectOption.value)
+              ))}
+            />
+            <Button type="button" onClick={handleSubmit}>Search</Button>
+          </div>
+          {(csvData || !apiPath) ? (
+            <>
+              {csvData && csvData.length > 0 && (
+                <CSVLink
+                  data={csvData}
+                  filename={`deployment_metadata_${new Date().toISOString().replaceAll(/[^0-9]/g, '')}`}
+                >
+                  <Button>
+                    Download Deployment Data
+                  </Button>
+                </CSVLink>
+              )}
+            </>
+          ) : (
+            <Button isProcessing>
+              Download Deployment Data
+            </Button>
           )}
         </>
-      ) : (
-        <Button isProcessing>
-          Download Deployment Data
-        </Button>
       )}
     </div>
   );
