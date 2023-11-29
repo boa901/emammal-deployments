@@ -37,7 +37,6 @@ export default function GeoFilterMap({
         }).then((res) => res.json());
 
         setMarkers(deployments);
-        setLoading(false);
 
         if (setCsvData) {
           const csvRows = await fetch('/api/deployments/csv', {
@@ -53,6 +52,12 @@ export default function GeoFilterMap({
 
     fetchPoints();
   }, [apiPath]);
+
+  useEffect(() => {
+    if (markers) {
+      setLoading(false);
+    }
+  }, [markers]);
 
   const handleMapReady = () => {
     if (initialBounds && Object.keys(initialBounds).length > 0) {
