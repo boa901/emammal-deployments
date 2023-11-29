@@ -7,7 +7,6 @@ import dynamic from 'next/dynamic';
 import { useEffect, useState } from 'react';
 
 import RectBounds from '@/modules/map/types/RectBounds';
-import deploymentMapping from '@/modules/map/utils/deploymentMapping';
 
 const GeoFilterMap = dynamic(() => import('@/modules/map/components/GeoFilterMap'), { ssr: false });
 const DeploymentMultiselect = dynamic(() => import('@/modules/map/components/DeploymentMultiselect'), { ssr: false });
@@ -70,7 +69,6 @@ export default function DeploymentFilter({
         <GeoFilterMap
           setFilter={setRectBounds}
           apiPath={apiPath}
-          mapping={deploymentMapping}
           initialBounds={initialBounds}
           setCsvData={setCsvData}
         />
