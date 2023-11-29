@@ -33,6 +33,9 @@ export default function MarkerCluster({
             popupAnchor: [0, -41],
           }),
         });
+        const newPopup = L.popup();
+        newPopup.setContent(marker.label);
+        newMarker.bindPopup(newPopup);
         newMarker.addTo(markerGroup);
       });
 
