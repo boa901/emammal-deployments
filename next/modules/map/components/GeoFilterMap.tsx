@@ -46,6 +46,8 @@ export default function GeoFilterMap({
           }).then((res) => res.json());
           setCsvData(csvRows);
         }
+      } else {
+        setMarkers([]);
       }
     };
 

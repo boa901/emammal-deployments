@@ -20,7 +20,7 @@ export default function MarkerCluster({
   const map = useMap();
 
   useEffect(() => {
-    if (markers && markers.length > 0) {
+    if (markers) {
       const markerGroup = L.markerClusterGroup();
 
       markers?.forEach((marker) => {
