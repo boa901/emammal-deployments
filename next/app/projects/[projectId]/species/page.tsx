@@ -26,16 +26,16 @@ export default function Page({ params }: { params: { projectId: string } }) {
     <>
       <Table hoverable>
         <Table.Head>
-          <Table.HeadCell>Species</Table.HeadCell>
-          <Table.HeadCell>Scientific Name</Table.HeadCell>
-          <Table.HeadCell>Count</Table.HeadCell>
+          <Table.HeadCell className="w-1/3">Species</Table.HeadCell>
+          <Table.HeadCell className="w-1/3">Scientific Name</Table.HeadCell>
+          <Table.HeadCell className="w-1/3">Count</Table.HeadCell>
         </Table.Head>
         <Table.Body>
           {data?.map((row) => (
             <Table.Row key={row.species}>
-              <Table.Cell>{row.name}</Table.Cell>
-              <Table.Cell>{row.species}</Table.Cell>
-              <Table.Cell>{row.count}</Table.Cell>
+              <Table.Cell className="w-1/3">{row.name}</Table.Cell>
+              <Table.Cell className="w-1/3">{row.species}</Table.Cell>
+              <Table.Cell className="w-1/3">{row.count}</Table.Cell>
             </Table.Row>
           ))}
         </Table.Body>
