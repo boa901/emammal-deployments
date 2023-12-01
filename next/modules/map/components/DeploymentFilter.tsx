@@ -66,7 +66,7 @@ export default function DeploymentFilter({
   };
 
   return (
-    <div className="container w-3/4 mx-auto flex flex-col justify-center items-center">
+    <>
       <div className="w-full">
         <GeoFilterMap
           setFilter={setRectBounds}
@@ -121,6 +121,6 @@ export default function DeploymentFilter({
           )}
         </>
       )}
-    </div>
+    </>
   );
 }
