@@ -99,26 +99,26 @@ export default function DeploymentFilter({
                 initialProjects.includes(projectOption.value)
               ))}
             />
-            <Button type="button" onClick={handleSubmit}>Search</Button>
+            <Button type="button" onClick={handleSubmit} className="mx-2">Search</Button>
+            {(csvData || !apiPath) ? (
+              <>
+                {csvData && csvData.length > 0 && (
+                  <CSVLink
+                    data={csvData}
+                    filename={`deployment_metadata_${new Date().toISOString().replaceAll(/[^0-9]/g, '')}`}
+                  >
+                    <Button className="mx-2">
+                      Download Deployment Data
+                    </Button>
+                  </CSVLink>
+                )}
+              </>
+            ) : (
+              <Button isProcessing className="mx-2">
+                Download Deployment Data
+              </Button>
+            )}
           </div>
-          {(csvData || !apiPath) ? (
-            <>
-              {csvData && csvData.length > 0 && (
-                <CSVLink
-                  data={csvData}
-                  filename={`deployment_metadata_${new Date().toISOString().replaceAll(/[^0-9]/g, '')}`}
-                >
-                  <Button>
-                    Download Deployment Data
-                  </Button>
-                </CSVLink>
-              )}
-            </>
-          ) : (
-            <Button isProcessing>
-              Download Deployment Data
-            </Button>
-          )}
         </>
       )}
     </>
