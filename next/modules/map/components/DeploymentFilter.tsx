@@ -77,7 +77,7 @@ export default function DeploymentFilter({
         />
       </div>
       {mapReady && (
-        <div className="w-full flex flex-row">
+        <div className="w-full flex flex-row my-2">
           <div className="flex flex-row flex-grow">
             <DeploymentMultiselect
               setFilter={setFilterSpecies}
