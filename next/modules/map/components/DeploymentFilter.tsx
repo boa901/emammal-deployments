@@ -77,8 +77,8 @@ export default function DeploymentFilter({
         />
       </div>
       {mapReady && (
-        <>
-          <div className="w-full flex flex-row justify-left">
+        <div className="w-full flex flex-row">
+          <div className="flex flex-row flex-grow">
             <DeploymentMultiselect
               setFilter={setFilterSpecies}
               optionUrl={speciesUrl}
@@ -99,6 +99,8 @@ export default function DeploymentFilter({
                 initialProjects.includes(projectOption.value)
               ))}
             />
+          </div>
+          <div className="flex flex-row flex-shrink-0 justify-items-center">
             <Button type="button" onClick={handleSubmit} className="mx-2">Search</Button>
             {(csvData || !apiPath) ? (
               <>
@@ -119,7 +121,7 @@ export default function DeploymentFilter({
               </Button>
             )}
           </div>
-        </>
+        </div>
       )}
     </>
   );
