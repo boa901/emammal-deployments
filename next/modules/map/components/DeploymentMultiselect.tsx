@@ -61,11 +61,11 @@ export default function DeploymentMultiselect(
   };
 
   return (
-    <div className="flex flex-row items-center">
-      <div className="mx-4">
+    <div className="flex flex-row items-center w-1/2 mx-4">
+      <div className="flex-grow-0 mr-2">
         {fieldLabel}
       </div>
-      <div className="mx-4 w-64">
+      <div className="flex-grow">
         <Select
           options={selectOptions}
           defaultValue={defaultValues}

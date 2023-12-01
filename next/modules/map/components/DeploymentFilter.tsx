@@ -66,7 +66,7 @@ export default function DeploymentFilter({
   };
 
   return (
-    <div className="container w-3/4 mx-auto flex flex-col justify-center items-center">
+    <>
       <div className="w-full">
         <GeoFilterMap
           setFilter={setRectBounds}
@@ -77,8 +77,8 @@ export default function DeploymentFilter({
         />
       </div>
       {mapReady && (
-        <>
-          <div className="w-full flex flex-row justify-left">
+        <div className="w-full flex flex-row my-2">
+          <div className="flex flex-row flex-grow">
             <DeploymentMultiselect
               setFilter={setFilterSpecies}
               optionUrl={speciesUrl}
@@ -99,28 +99,30 @@ export default function DeploymentFilter({
                 initialProjects.includes(projectOption.value)
               ))}
             />
-            <Button type="button" onClick={handleSubmit}>Search</Button>
           </div>
-          {(csvData || !apiPath) ? (
-            <>
-              {csvData && csvData.length > 0 && (
-                <CSVLink
-                  data={csvData}
-                  filename={`deployment_metadata_${new Date().toISOString().replaceAll(/[^0-9]/g, '')}`}
-                >
-                  <Button>
-                    Download Deployment Data
-                  </Button>
-                </CSVLink>
-              )}
-            </>
-          ) : (
-            <Button isProcessing>
-              Download Deployment Data
-            </Button>
-          )}
-        </>
+          <div className="flex flex-row flex-shrink-0 justify-items-center">
+            <Button type="button" onClick={handleSubmit} className="mx-2">Search</Button>
+            {(csvData || !apiPath) ? (
+              <>
+                {csvData && csvData.length > 0 && (
+                  <CSVLink
+                    data={csvData}
+                    filename={`deployment_metadata_${new Date().toISOString().replaceAll(/[^0-9]/g, '')}`}
+                  >
+                    <Button className="mx-2">
+                      Download Deployment Data
+                    </Button>
+                  </CSVLink>
+                )}
+              </>
+            ) : (
+              <Button isProcessing className="mx-2">
+                Download Deployment Data
+              </Button>
+            )}
+          </div>
+        </div>
       )}
-    </div>
+    </>
   );
 }
