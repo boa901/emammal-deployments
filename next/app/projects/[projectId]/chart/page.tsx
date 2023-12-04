@@ -1,8 +1,11 @@
 'use client';
 
-import { Spinner, Tooltip } from 'flowbite-react';
+import { Spinner } from 'flowbite-react';
 import { PieChart } from 'react-minimal-pie-chart';
 import { useEffect, useState } from 'react';
+import dynamic from 'next/dynamic';
+
+const ChartTooltip = dynamic(() => import('@/common/components/ChartTooltip'), { ssr: false });
 
 export default function Page({ params }: { params: { projectId: string } }) {
   const [data, setData] = useState<{
@@ -46,18 +49,17 @@ export default function Page({ params }: { params: { projectId: string } }) {
 
   return data ? (
     <div className="w-full aspect-square">
-      <Tooltip content={tooltipContent} arrow={false}>
-        <PieChart
-          data={data}
-          startAngle={-90}
-          onMouseOver={(_, index) => {
-            setTooltipContent(`${data[index].title}: ${data[index].value}`);
-          }}
-          onMouseOut={() => {
-            setTooltipContent('');
-          }}
-        />
-      </Tooltip>
+      <PieChart
+        data={data}
+        startAngle={-90}
+        onMouseOver={(_, index) => {
+          setTooltipContent(`${data[index].title}: ${data[index].value}`);
+        }}
+        onMouseOut={() => {
+          setTooltipContent('');
+        }}
+      />
+      <ChartTooltip content={tooltipContent} />
     </div>
   ) : (
     <div className="w-full aspect-square flex justify-center items-center">
