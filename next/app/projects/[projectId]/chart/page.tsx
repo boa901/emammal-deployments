@@ -5,6 +5,8 @@ import { PieChart } from 'react-minimal-pie-chart';
 import { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 
+import SpeciesKey from '@/modules/chart/components/SpeciesKey';
+
 const ChartTooltip = dynamic(() => import('@/modules/chart/components/ChartTooltip'), { ssr: false });
 
 export default function Page({ params }: { params: { projectId: string } }) {
@@ -71,14 +73,7 @@ export default function Page({ params }: { params: { projectId: string } }) {
             <ChartTooltip content={tooltipContent} color={typeof currentSegment === 'number' ? colors[currentSegment] : ''} />
           </div>
         </div>
-        <div className="flex flex-col justify-center">
-          {data.map((segment) => (
-            <div className="w-full flex flex-row items-center mx-4 my-1" key={segment.color}>
-              <div className="w-8 h-4 border-2 border-white mr-2" style={{ backgroundColor: segment.color }} />
-              <div className="">{segment.species}</div>
-            </div>
-          ))}
-        </div>
+        <SpeciesKey data={data} />
       </div>
     </div>
   ) : (
