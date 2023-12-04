@@ -14,6 +14,7 @@ export default function Page({ params }: { params: { projectId: string } }) {
     color: string,
   }[] | null>(null);
   const [tooltipContent, setTooltipContent] = useState<string>('');
+  const [currentSegment, setCurrentSegment] = useState<number | undefined>(undefined);
 
   const colors = [
     '#FFCD56',
@@ -54,12 +55,14 @@ export default function Page({ params }: { params: { projectId: string } }) {
         startAngle={-90}
         onMouseOver={(_, index) => {
           setTooltipContent(`${data[index].species}: ${data[index].value}`);
+          setCurrentSegment(index);
         }}
         onMouseOut={() => {
           setTooltipContent('');
+          setCurrentSegment(undefined);
         }}
       />
-      <ChartTooltip content={tooltipContent} />
+      <ChartTooltip content={tooltipContent} color={typeof currentSegment === 'number' ? colors[currentSegment] : ''} />
     </div>
   ) : (
     <div className="w-full aspect-square flex justify-center items-center">

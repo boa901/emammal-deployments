@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 
-export default function ChartTooltip({ content }: { content: string }) {
+export default function ChartTooltip({ content, color }: { content: string, color: string }) {
   const [mousePosition, setMousePosition] = useState<{ x: number, y: number }>();
 
   useEffect(() => {
@@ -20,9 +20,10 @@ export default function ChartTooltip({ content }: { content: string }) {
         left: mousePosition.x + 15,
         top: mousePosition.y,
       }}
-      className="flex flex-row content-center bg-gray-900 text-white rounded px-2"
+      className="flex flex-row bg-gray-900 text-white rounded px-2"
     >
-      {content}
+      <div className="w-4 h-4 border-2 border-white self-center mr-2" style={{ backgroundColor: color }} />
+      <div className="self-center">{content}</div>
     </div>
   ) : null;
 }
