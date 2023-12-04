@@ -1,6 +1,6 @@
 'use client';
 
-import { Spinner } from 'flowbite-react';
+import { Spinner, Tooltip } from 'flowbite-react';
 import { PieChart } from 'react-minimal-pie-chart';
 import { useEffect, useState } from 'react';
 
@@ -10,6 +10,7 @@ export default function Page({ params }: { params: { projectId: string } }) {
     value: number,
     color: string,
   }[] | null>(null);
+  const [tooltipContent, setTooltipContent] = useState<string>('');
 
   const colors = [
     '#FFCD56',
@@ -45,10 +46,18 @@ export default function Page({ params }: { params: { projectId: string } }) {
 
   return data ? (
     <div className="w-full aspect-square">
-      <PieChart
-        data={data}
-        startAngle={-90}
-      />
+      <Tooltip content={tooltipContent} arrow={false}>
+        <PieChart
+          data={data}
+          startAngle={-90}
+          onMouseOver={(_, index) => {
+            setTooltipContent(`${data[index].title}: ${data[index].value}`);
+          }}
+          onMouseOut={() => {
+            setTooltipContent('');
+          }}
+        />
+      </Tooltip>
     </div>
   ) : (
     <div className="w-full aspect-square flex justify-center items-center">
