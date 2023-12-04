@@ -9,7 +9,7 @@ const ChartTooltip = dynamic(() => import('@/common/components/ChartTooltip'), {
 
 export default function Page({ params }: { params: { projectId: string } }) {
   const [data, setData] = useState<{
-    title: string,
+    species: string,
     value: number,
     color: string,
   }[] | null>(null);
@@ -38,7 +38,7 @@ export default function Page({ params }: { params: { projectId: string } }) {
 
       const topSpecies = species.sort((a, b) => b.count - a.count).slice(0, 10);
       setData(topSpecies.map((sighting, i) => ({
-        title: sighting.name,
+        species: sighting.name,
         value: sighting.count,
         color: colors[i],
       })));
@@ -53,7 +53,7 @@ export default function Page({ params }: { params: { projectId: string } }) {
         data={data}
         startAngle={-90}
         onMouseOver={(_, index) => {
-          setTooltipContent(`${data[index].title}: ${data[index].value}`);
+          setTooltipContent(`${data[index].species}: ${data[index].value}`);
         }}
         onMouseOut={() => {
           setTooltipContent('');
