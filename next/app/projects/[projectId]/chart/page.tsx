@@ -49,20 +49,25 @@ export default function Page({ params }: { params: { projectId: string } }) {
   }, []);
 
   return data ? (
-    <div className="w-full aspect-square">
-      <PieChart
-        data={data}
-        startAngle={-90}
-        onMouseOver={(_, index) => {
-          setTooltipContent(`${data[index].species}: ${data[index].value}`);
-          setCurrentSegment(index);
-        }}
-        onMouseOut={() => {
-          setTooltipContent('');
-          setCurrentSegment(undefined);
-        }}
-      />
-      <ChartTooltip content={tooltipContent} color={typeof currentSegment === 'number' ? colors[currentSegment] : ''} />
+    <div className="w-full flex flex-col">
+      <div className="w-full flex flex-row justify-center">
+        <h1 className="self-center my-4 text-3xl font-bold">Top 10 Species Detections</h1>
+      </div>
+      <div className="w-full aspect-square">
+        <PieChart
+          data={data}
+          startAngle={-90}
+          onMouseOver={(_, index) => {
+            setTooltipContent(`${data[index].species}: ${data[index].value}`);
+            setCurrentSegment(index);
+          }}
+          onMouseOut={() => {
+            setTooltipContent('');
+            setCurrentSegment(undefined);
+          }}
+        />
+        <ChartTooltip content={tooltipContent} color={typeof currentSegment === 'number' ? colors[currentSegment] : ''} />
+      </div>
     </div>
   ) : (
     <div className="w-full aspect-square flex justify-center items-center">
