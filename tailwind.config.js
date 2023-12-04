@@ -5,6 +5,7 @@ export default {
     './next/pages/**/*.{js,ts,jsx,tsx,mdx}',
     './next/modules/**/components/*.{js,ts,jsx,tsx,mdx}',
     './next/modules/**/utils/*.{js,ts,jsx,tsx,mdx}',
+    './next/common/**/components/*.{js,ts,jsx,tsx,mdx}',
     './node_modules/flowbite-react/**/*.js',
   ],
   theme: {

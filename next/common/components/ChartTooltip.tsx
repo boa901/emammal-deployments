@@ -20,7 +20,7 @@ export default function ChartTooltip({ content, color }: { content: string, colo
         left: mousePosition.x + 15,
         top: mousePosition.y,
       }}
-      className="flex flex-row bg-gray-900 text-white rounded px-2"
+      className="flex flex-row bg-black/75 text-white rounded px-2"
     >
       <div className="w-4 h-4 border-2 border-white self-center mr-2" style={{ backgroundColor: color }} />
       <div className="self-center">{content}</div>
