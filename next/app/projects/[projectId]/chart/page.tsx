@@ -51,22 +51,34 @@ export default function Page({ params }: { params: { projectId: string } }) {
   return data ? (
     <div className="w-full flex flex-col">
       <div className="w-full flex flex-row justify-center">
-        <h1 className="self-center my-4 text-3xl font-bold">Top 10 Species Detections</h1>
+        <h1 className="my-4 text-3xl font-bold">Top 10 Species Detections</h1>
       </div>
-      <div className="w-full aspect-square">
-        <PieChart
-          data={data}
-          startAngle={-90}
-          onMouseOver={(_, index) => {
-            setTooltipContent(`${data[index].species}: ${data[index].value}`);
-            setCurrentSegment(index);
-          }}
-          onMouseOut={() => {
-            setTooltipContent('');
-            setCurrentSegment(undefined);
-          }}
-        />
-        <ChartTooltip content={tooltipContent} color={typeof currentSegment === 'number' ? colors[currentSegment] : ''} />
+      <div className="w-full flex flex-row">
+        <div className="w-2/3">
+          <div className="w-full aspect-square">
+            <PieChart
+              data={data}
+              startAngle={-90}
+              onMouseOver={(_, index) => {
+                setTooltipContent(`${data[index].species}: ${data[index].value}`);
+                setCurrentSegment(index);
+              }}
+              onMouseOut={() => {
+                setTooltipContent('');
+                setCurrentSegment(undefined);
+              }}
+            />
+            <ChartTooltip content={tooltipContent} color={typeof currentSegment === 'number' ? colors[currentSegment] : ''} />
+          </div>
+        </div>
+        <div className="flex flex-col justify-center">
+          {data.map((segment) => (
+            <div className="w-full flex flex-row items-center mx-4 my-1" key={segment.color}>
+              <div className="w-8 h-4 border-2 border-white mr-2" style={{ backgroundColor: segment.color }} />
+              <div className="">{segment.species}</div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   ) : (
