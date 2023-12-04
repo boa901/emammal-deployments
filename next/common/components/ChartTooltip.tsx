@@ -6,7 +6,7 @@ export default function ChartTooltip({ content }: { content: string }) {
   const [mousePosition, setMousePosition] = useState<{ x: number, y: number }>();
 
   useEffect(() => {
-    window.addEventListener('mousemove', (e) => setMousePosition({ x: e.clientX, y: e.clientY }));
+    window.addEventListener('mousemove', (e) => setMousePosition({ x: e.pageX, y: e.pageY }));
 
     return () => window.removeEventListener('mousemove', (e) => {
       setMousePosition({ x: e.clientX, y: e.clientY });
