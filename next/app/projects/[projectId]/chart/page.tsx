@@ -5,7 +5,7 @@ import { PieChart } from 'react-minimal-pie-chart';
 import { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 
-const ChartTooltip = dynamic(() => import('@/common/components/ChartTooltip'), { ssr: false });
+const ChartTooltip = dynamic(() => import('@/modules/chart/components/ChartTooltip'), { ssr: false });
 
 export default function Page({ params }: { params: { projectId: string } }) {
   const [data, setData] = useState<{
