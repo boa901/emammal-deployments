@@ -6,3 +6,7 @@
 .sr-only {
   display: none;
 }
+
+.leaflet-control-deployment {
+  font-size: 22px;
+}

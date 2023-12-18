@@ -2,8 +2,12 @@
 
 'use client';
 
+import L from 'leaflet';
+import { useEffect } from 'react';
 import { useMap } from 'react-leaflet';
 import { EditControl } from 'react-leaflet-draw';
+
+import 'leaflet-easybutton/src/easy-button';
 
 import getLatLngs from '@/modules/map/utils/getLatLngs';
 
@@ -15,6 +19,15 @@ export default function EditFilterLayer({ setFilter, layer, setLayer }) {
       layer.current.addTo(map);
     }
   }
+
+  useEffect(() => {
+    L.easyButton(
+      `<a class="leaflet-control-deployment" href="#" title="Show Deployment Info">
+        <span aria-hidden="true"><</span>
+      </a>`,
+      () => console.log('button clicked'),
+    ).addTo(map);
+  }, []);
 
   return (
     <EditControl
