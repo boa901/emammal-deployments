@@ -1,8 +1,29 @@
 'use client';
 
 import { Button, Table } from 'flowbite-react';
+import { useEffect, useState } from 'react';
 
-export default function DeploymentDrawer({ isOpen, setOpen }) {
+export default function DeploymentDrawer({ isOpen, setOpen, deployment }) {
+  const [data, setData] = useState<{
+    species: string,
+    name: string,
+    count: number,
+  }[]>();
+
+  useEffect(() => {
+    if (deployment) {
+      const fetchDeployment = async () => {
+        const deploymentData = await fetch(`/api/deployments/${deployment}`, {
+          method: 'GET',
+        }).then((res) => res.json());
+
+        setData(deploymentData);
+      };
+
+      fetchDeployment();
+    }
+  }, [deployment]);
+
   return (
     <div className={`h-full transition-all duration-500 ${isOpen ? 'w-1/5' : 'w-0 pointer-events-none'}`}>
       <div className="flex flex-col">
@@ -24,6 +45,14 @@ export default function DeploymentDrawer({ isOpen, setOpen }) {
               <Table.HeadCell>Species</Table.HeadCell>
               <Table.HeadCell>Count</Table.HeadCell>
             </Table.Head>
+            <Table.Body>
+              {data?.map((row) => (
+                <Table.Row key={row.species}>
+                  <Table.Cell>{row.name}</Table.Cell>
+                  <Table.Cell>{row.count}</Table.Cell>
+                </Table.Row>
+              ))}
+            </Table.Body>
           </Table>
         </div>
       </div>

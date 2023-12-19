@@ -44,6 +44,7 @@ export default function DeploymentFilter({
   }).toString()}`);
   const [csvData, setCsvData] = useState<any[] | null>(null);
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
+  const [selectedDeployment, setSelectedDeployment] = useState<string | null>(null);
 
   useEffect(() => {
     const speciesParams = {
@@ -70,7 +71,11 @@ export default function DeploymentFilter({
   return (
     <>
       <div className="w-full flex flex-row">
-        <DeploymentDrawer isOpen={drawerOpen} setOpen={setDrawerOpen} />
+        <DeploymentDrawer
+          isOpen={drawerOpen}
+          setOpen={setDrawerOpen}
+          deployment={selectedDeployment}
+        />
         <div className="flex-grow">
           <GeoFilterMap
             setFilter={setRectBounds}
@@ -79,6 +84,7 @@ export default function DeploymentFilter({
             setCsvData={setCsvData}
             setReady={setMapReady}
             setDrawerOpen={setDrawerOpen}
+            setSelectedDeployment={setSelectedDeployment}
           />
         </div>
       </div>

@@ -22,6 +22,7 @@ export default function GeoFilterMap({
   setCsvData,
   setReady,
   setDrawerOpen,
+  setSelectedDeployment,
 }: GeoFilterMapProps) {
   const [loading, setLoading] = useState<boolean>(false);
   const [markers, setMarkers] = useState<Deployment[] | null>(null);
@@ -99,6 +100,7 @@ export default function GeoFilterMap({
           markers={markers}
           layer={markersLayer}
           setLayer={(layer) => { markersLayer.current = layer; }}
+          setSelectedDeployment={setSelectedDeployment}
         />
         <FeatureGroup>
           <EditFilterLayer
