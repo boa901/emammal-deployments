@@ -11,7 +11,12 @@ import 'leaflet-easybutton/src/easy-button';
 
 import getLatLngs from '@/modules/map/utils/getLatLngs';
 
-export default function EditFilterLayer({ setFilter, layer, setLayer }) {
+export default function EditFilterLayer({
+  setFilter,
+  layer,
+  setLayer,
+  setDrawerOpen,
+}) {
   const buttonAdded = useRef<boolean>(false);
   const map = useMap();
 
@@ -27,7 +32,7 @@ export default function EditFilterLayer({ setFilter, layer, setLayer }) {
         `<a class="leaflet-control-deployment" href="#" title="Show Deployment Info">
           <span aria-hidden="true"><</span>
         </a>`,
-        () => console.log('button clicked'),
+        () => setDrawerOpen(true),
       ).addTo(map);
       buttonAdded.current = true;
     }

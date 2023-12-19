@@ -21,6 +21,7 @@ export default function GeoFilterMap({
   initialBounds,
   setCsvData,
   setReady,
+  setDrawerOpen,
 }: GeoFilterMapProps) {
   const [loading, setLoading] = useState<boolean>(false);
   const [markers, setMarkers] = useState<Deployment[] | null>(null);
@@ -106,6 +107,7 @@ export default function GeoFilterMap({
             setLayer={(layer) => {
               rectLayer.current = layer;
             }}
+            setDrawerOpen={setDrawerOpen}
           />
         </FeatureGroup>
       </MapContainer>
