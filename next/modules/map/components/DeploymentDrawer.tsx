@@ -39,22 +39,20 @@ export default function DeploymentDrawer({ isOpen, setOpen, deployment }) {
             Close
           </Button>
         </div>
-        <div className="flex flex-row">
-          <Table hoverable>
-            <Table.Head>
-              <Table.HeadCell>Species</Table.HeadCell>
-              <Table.HeadCell>Count</Table.HeadCell>
-            </Table.Head>
-            <Table.Body>
-              {data?.map((row) => (
-                <Table.Row key={row.species}>
-                  <Table.Cell>{row.name}</Table.Cell>
-                  <Table.Cell>{row.count}</Table.Cell>
-                </Table.Row>
-              ))}
-            </Table.Body>
-          </Table>
-        </div>
+        <Table hoverable>
+          <Table.Head>
+            <Table.HeadCell className="w-1/2">Species</Table.HeadCell>
+            <Table.HeadCell className="w-1/2">Count</Table.HeadCell>
+          </Table.Head>
+          <Table.Body>
+            {data?.map((row) => (
+              <Table.Row key={row.species}>
+                <Table.Cell className="w-1/2">{row.name}</Table.Cell>
+                <Table.Cell className="w-1/2">{row.count}</Table.Cell>
+              </Table.Row>
+            ))}
+          </Table.Body>
+        </Table>
       </div>
     </div>
   );
