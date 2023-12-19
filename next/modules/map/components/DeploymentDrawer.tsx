@@ -25,7 +25,7 @@ export default function DeploymentDrawer({ isOpen, setOpen, deployment }) {
   }, [deployment]);
 
   return (
-    <div className={`h-full transition-all duration-500 ${isOpen ? 'w-1/5' : 'w-0 pointer-events-none'}`}>
+    <div className={`h-full transition-all duration-500 overflow-hidden ${isOpen ? 'w-1/5' : 'w-0 pointer-events-none'}`}>
       <div className="flex flex-col">
         <div className="flex flex-row">
           <div className="flex-grow flex justify-center items-center">
