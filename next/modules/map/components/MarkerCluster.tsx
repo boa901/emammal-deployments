@@ -37,6 +37,9 @@ export default function MarkerCluster({
         });
         const newPopup = L.popup();
         newPopup.setContent(marker.label);
+        newPopup.on('remove', () => {
+          setSelectedDeployment(null);
+        });
         newMarker.bindPopup(newPopup);
         newMarker.addTo(markerGroup).on('click', () => setSelectedDeployment(marker.nid));
       });

@@ -21,6 +21,8 @@ export default function DeploymentDrawer({ isOpen, setOpen, deployment }) {
       };
 
       fetchDeployment();
+    } else {
+      setData([]);
     }
   }, [deployment]);
 
