@@ -28,12 +28,32 @@ export default function EditFilterLayer({
 
   useEffect(() => {
     if (!buttonAdded.current) {
-      L.easyButton(
-        `<a class="leaflet-control-deployment" href="#" title="Show Deployment Info">
-          <span aria-hidden="true"><</span>
-        </a>`,
-        () => setDrawerOpen(true),
-      ).addTo(map);
+      L.easyButton({
+        states: [
+          {
+            stateName: 'drawerClosed',
+            icon: `<a class="leaflet-control-deployment" href="#" title="Show Deployment Info">
+              <span aria-hidden="true">></span>
+              </a>`,
+            onClick: (btn) => {
+              setDrawerOpen(true);
+              btn.state('drawerOpen');
+            },
+            title: 'Show Deployment Info',
+          },
+          {
+            stateName: 'drawerOpen',
+            icon: `<a class="leaflet-control-deployment" href="#" title="Show Deployment Info">
+              <span aria-hidden="true"><</span>
+              </a>`,
+            onClick: (btn) => {
+              setDrawerOpen(false);
+              btn.state('drawerClosed');
+            },
+            title: 'Hide Deployment Info',
+          },
+        ],
+      }).addTo(map);
       buttonAdded.current = true;
     }
   }, []);
