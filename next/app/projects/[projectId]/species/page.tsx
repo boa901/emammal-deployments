@@ -16,7 +16,13 @@ export default function Page({ params }: { params: { projectId: string } }) {
         method: 'GET',
       }).then((res) => res.json());
 
-      setData(species);
+      setData(species.map((sighting) => ({
+        species: sighting.species,
+        name: sighting.name,
+        count: parseInt(sighting.count, 10),
+      })).sort((a, b) => (
+        b.count - a.count
+      )));
     };
 
     fetchSpecies();
