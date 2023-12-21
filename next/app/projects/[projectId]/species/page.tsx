@@ -28,13 +28,31 @@ export default function Page({ params }: { params: { projectId: string } }) {
     fetchSpecies();
   }, []);
 
+  const sortTable = (key) => {
+    if (data && data.length > 1) {
+      const newData = data.sort((a, b) => {
+        const fieldA = a[key];
+        const fieldB = b[key];
+
+        if (fieldB < fieldA) {
+          return 1;
+        }
+        if (fieldB > fieldA) {
+          return -1;
+        }
+        return 0;
+      });
+      setData([...newData]);
+    }
+  };
+
   return (
     <>
       <Table hoverable>
         <Table.Head>
-          <Table.HeadCell className="w-1/3">Species</Table.HeadCell>
-          <Table.HeadCell className="w-1/3">Scientific Name</Table.HeadCell>
-          <Table.HeadCell className="w-1/3">Count</Table.HeadCell>
+          <Table.HeadCell className="w-1/3" onClick={() => sortTable('name')}>Species</Table.HeadCell>
+          <Table.HeadCell className="w-1/3" onClick={() => sortTable('species')}>Scientific Name</Table.HeadCell>
+          <Table.HeadCell className="w-1/3" onClick={() => sortTable('count')}>Count</Table.HeadCell>
         </Table.Head>
         <Table.Body>
           {data?.map((row) => (
