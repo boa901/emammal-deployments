@@ -69,9 +69,60 @@ export default function Page({ params }: { params: { projectId: string } }) {
     <>
       <Table hoverable>
         <Table.Head>
-          <Table.HeadCell className="w-1/3" onClick={() => handleSortEvent('name')}>Species</Table.HeadCell>
-          <Table.HeadCell className="w-1/3" onClick={() => handleSortEvent('species')}>Scientific Name</Table.HeadCell>
-          <Table.HeadCell className="w-1/3" onClick={() => handleSortEvent('count')}>Count</Table.HeadCell>
+          <Table.HeadCell className="w-1/3" onClick={() => handleSortEvent('name')}>
+            <div className="flex flex-row">
+              <div>Species</div>
+              {sortedColumn.column === 'name' && (
+                <>
+                  {sortedColumn.asc ? (
+                    <svg className="w-3 h-3 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 8">
+                      <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 7 7.674 1.3a.91.91 0 0 0-1.348 0L1 7" />
+                    </svg>
+                  ) : (
+                    <svg className="w-3 h-3 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 8">
+                      <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 5.326 5.7a.909.909 0 0 0 1.348 0L13 1" />
+                    </svg>
+                  )}
+                </>
+              )}
+            </div>
+          </Table.HeadCell>
+          <Table.HeadCell className="w-1/3" onClick={() => handleSortEvent('species')}>
+            <div className="flex flex-row">
+              <div>Scientific Name</div>
+              {sortedColumn.column === 'species' && (
+                <>
+                  {sortedColumn.asc ? (
+                    <svg className="w-3 h-3 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 8">
+                      <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 7 7.674 1.3a.91.91 0 0 0-1.348 0L1 7" />
+                    </svg>
+                  ) : (
+                    <svg className="w-3 h-3 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 8">
+                      <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 5.326 5.7a.909.909 0 0 0 1.348 0L13 1" />
+                    </svg>
+                  )}
+                </>
+              )}
+            </div>
+          </Table.HeadCell>
+          <Table.HeadCell className="w-1/3" onClick={() => handleSortEvent('count')}>
+            <div className="flex flex-row">
+              <div>Count</div>
+              {sortedColumn.column === 'count' && (
+                <>
+                  {sortedColumn.asc ? (
+                    <svg className="w-3 h-3 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 8">
+                      <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 7 7.674 1.3a.91.91 0 0 0-1.348 0L1 7" />
+                    </svg>
+                  ) : (
+                    <svg className="w-3 h-3 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 8">
+                      <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 5.326 5.7a.909.909 0 0 0 1.348 0L13 1" />
+                    </svg>
+                  )}
+                </>
+              )}
+            </div>
+          </Table.HeadCell>
         </Table.Head>
         <Table.Body>
           {data?.map((row) => (
