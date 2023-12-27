@@ -72,7 +72,7 @@ export default function Page({ params }: { params: { projectId: string } }) {
       <Table hoverable>
         <Table.Head>
           <Table.HeadCell className="w-1/3" onClick={() => handleSortEvent('name')}>
-            <div className="flex flex-row">
+            <div className="flex flex-row items-center">
               <div>Species</div>
               {sortedColumn.column === 'name' && (
                 <SortIcon ascending={sortedColumn.asc} />
@@ -80,7 +80,7 @@ export default function Page({ params }: { params: { projectId: string } }) {
             </div>
           </Table.HeadCell>
           <Table.HeadCell className="w-1/3" onClick={() => handleSortEvent('species')}>
-            <div className="flex flex-row">
+            <div className="flex flex-row items-center">
               <div>Scientific Name</div>
               {sortedColumn.column === 'species' && (
                 <SortIcon ascending={sortedColumn.asc} />
@@ -88,7 +88,7 @@ export default function Page({ params }: { params: { projectId: string } }) {
             </div>
           </Table.HeadCell>
           <Table.HeadCell className="w-1/3" onClick={() => handleSortEvent('count')}>
-            <div className="flex flex-row">
+            <div className="flex flex-row items-center">
               <div>Count</div>
               {sortedColumn.column === 'count' && (
                 <SortIcon ascending={sortedColumn.asc} />
