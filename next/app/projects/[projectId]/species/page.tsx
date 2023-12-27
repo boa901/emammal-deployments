@@ -28,17 +28,26 @@ export default function Page({ params }: { params: { projectId: string } }) {
     fetchSpecies();
   }, []);
 
-  const sortTable = (key) => {
+  const sortTable = (key, asc) => {
     if (data && data.length > 1) {
       const newData = data.sort((a, b) => {
         const fieldA = a[key];
         const fieldB = b[key];
 
-        if (fieldB < fieldA) {
-          return 1;
-        }
-        if (fieldB > fieldA) {
-          return -1;
+        if (asc) {
+          if (fieldB < fieldA) {
+            return 1;
+          }
+          if (fieldB > fieldA) {
+            return -1;
+          }
+        } else {
+          if (fieldB > fieldA) {
+            return 1;
+          }
+          if (fieldB < fieldA) {
+            return -1;
+          }
         }
         return 0;
       });
@@ -50,9 +59,9 @@ export default function Page({ params }: { params: { projectId: string } }) {
     <>
       <Table hoverable>
         <Table.Head>
-          <Table.HeadCell className="w-1/3" onClick={() => sortTable('name')}>Species</Table.HeadCell>
-          <Table.HeadCell className="w-1/3" onClick={() => sortTable('species')}>Scientific Name</Table.HeadCell>
-          <Table.HeadCell className="w-1/3" onClick={() => sortTable('count')}>Count</Table.HeadCell>
+          <Table.HeadCell className="w-1/3" onClick={() => sortTable('name', true)}>Species</Table.HeadCell>
+          <Table.HeadCell className="w-1/3" onClick={() => sortTable('species', true)}>Scientific Name</Table.HeadCell>
+          <Table.HeadCell className="w-1/3" onClick={() => sortTable('count', true)}>Count</Table.HeadCell>
         </Table.Head>
         <Table.Body>
           {data?.map((row) => (
