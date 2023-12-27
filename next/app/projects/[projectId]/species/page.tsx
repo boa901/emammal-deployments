@@ -71,7 +71,7 @@ export default function Page({ params }: { params: { projectId: string } }) {
     <>
       <Table hoverable>
         <Table.Head>
-          <Table.HeadCell className="w-1/3" onClick={() => handleSortEvent('name')}>
+          <Table.HeadCell className="w-1/3 cursor-pointer" onClick={() => handleSortEvent('name')}>
             <div className="flex flex-row items-center">
               <div>Species</div>
               {sortedColumn.column === 'name' && (
@@ -79,7 +79,7 @@ export default function Page({ params }: { params: { projectId: string } }) {
               )}
             </div>
           </Table.HeadCell>
-          <Table.HeadCell className="w-1/3" onClick={() => handleSortEvent('species')}>
+          <Table.HeadCell className="w-1/3 cursor-pointer" onClick={() => handleSortEvent('species')}>
             <div className="flex flex-row items-center">
               <div>Scientific Name</div>
               {sortedColumn.column === 'species' && (
@@ -87,7 +87,7 @@ export default function Page({ params }: { params: { projectId: string } }) {
               )}
             </div>
           </Table.HeadCell>
-          <Table.HeadCell className="w-1/3" onClick={() => handleSortEvent('count')}>
+          <Table.HeadCell className="w-1/3 cursor-pointer" onClick={() => handleSortEvent('count')}>
             <div className="flex flex-row items-center">
               <div>Count</div>
               {sortedColumn.column === 'count' && (
