@@ -9,6 +9,7 @@ export default function Page({ params }: { params: { projectId: string } }) {
     name: string,
     count: number,
   }[] | null>(null);
+  const [sortedColumn, setSortedColumn] = useState({ column: 'count', asc: false });
 
   useEffect(() => {
     const fetchSpecies = async () => {
@@ -52,6 +53,15 @@ export default function Page({ params }: { params: { projectId: string } }) {
         return 0;
       });
       setData([...newData]);
+      setSortedColumn({ column: key, asc });
+    }
+  };
+
+  const handleSortEvent = (column) => {
+    if (column === sortedColumn.column) {
+      sortTable(column, !sortedColumn.asc);
+    } else {
+      sortTable(column, true);
     }
   };
 
@@ -59,9 +69,9 @@ export default function Page({ params }: { params: { projectId: string } }) {
     <>
       <Table hoverable>
         <Table.Head>
-          <Table.HeadCell className="w-1/3" onClick={() => sortTable('name', true)}>Species</Table.HeadCell>
-          <Table.HeadCell className="w-1/3" onClick={() => sortTable('species', true)}>Scientific Name</Table.HeadCell>
-          <Table.HeadCell className="w-1/3" onClick={() => sortTable('count', true)}>Count</Table.HeadCell>
+          <Table.HeadCell className="w-1/3" onClick={() => handleSortEvent('name')}>Species</Table.HeadCell>
+          <Table.HeadCell className="w-1/3" onClick={() => handleSortEvent('species')}>Scientific Name</Table.HeadCell>
+          <Table.HeadCell className="w-1/3" onClick={() => handleSortEvent('count')}>Count</Table.HeadCell>
         </Table.Head>
         <Table.Body>
           {data?.map((row) => (
