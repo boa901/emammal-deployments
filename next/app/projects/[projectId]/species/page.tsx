@@ -3,6 +3,8 @@
 import { Spinner, Table } from 'flowbite-react';
 import { useEffect, useState } from 'react';
 
+import SortIcon from '@/modules/chart/components/SortIcon';
+
 export default function Page({ params }: { params: { projectId: string } }) {
   const [data, setData] = useState<{
     species: string,
@@ -73,17 +75,7 @@ export default function Page({ params }: { params: { projectId: string } }) {
             <div className="flex flex-row">
               <div>Species</div>
               {sortedColumn.column === 'name' && (
-                <>
-                  {sortedColumn.asc ? (
-                    <svg className="w-3 h-3 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 8">
-                      <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 7 7.674 1.3a.91.91 0 0 0-1.348 0L1 7" />
-                    </svg>
-                  ) : (
-                    <svg className="w-3 h-3 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 8">
-                      <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 5.326 5.7a.909.909 0 0 0 1.348 0L13 1" />
-                    </svg>
-                  )}
-                </>
+                <SortIcon ascending={sortedColumn.asc} />
               )}
             </div>
           </Table.HeadCell>
@@ -91,17 +83,7 @@ export default function Page({ params }: { params: { projectId: string } }) {
             <div className="flex flex-row">
               <div>Scientific Name</div>
               {sortedColumn.column === 'species' && (
-                <>
-                  {sortedColumn.asc ? (
-                    <svg className="w-3 h-3 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 8">
-                      <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 7 7.674 1.3a.91.91 0 0 0-1.348 0L1 7" />
-                    </svg>
-                  ) : (
-                    <svg className="w-3 h-3 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 8">
-                      <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 5.326 5.7a.909.909 0 0 0 1.348 0L13 1" />
-                    </svg>
-                  )}
-                </>
+                <SortIcon ascending={sortedColumn.asc} />
               )}
             </div>
           </Table.HeadCell>
@@ -109,17 +91,7 @@ export default function Page({ params }: { params: { projectId: string } }) {
             <div className="flex flex-row">
               <div>Count</div>
               {sortedColumn.column === 'count' && (
-                <>
-                  {sortedColumn.asc ? (
-                    <svg className="w-3 h-3 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 8">
-                      <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 7 7.674 1.3a.91.91 0 0 0-1.348 0L1 7" />
-                    </svg>
-                  ) : (
-                    <svg className="w-3 h-3 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 8">
-                      <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 5.326 5.7a.909.909 0 0 0 1.348 0L13 1" />
-                    </svg>
-                  )}
-                </>
+                <SortIcon ascending={sortedColumn.asc} />
               )}
             </div>
           </Table.HeadCell>
