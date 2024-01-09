@@ -58,13 +58,21 @@ export default function DeploymentDrawer({ isOpen, setOpen, deployment }) {
                   ))
                 ) : (
                   <Table.Row>
-                    <Table.Cell colSpan={2}>No species data for the current selection</Table.Cell>
+                    <Table.Cell colSpan={2}>
+                      <div className="grid justify-items-center">
+                        <div>No species data for the current selection</div>
+                      </div>
+                    </Table.Cell>
                   </Table.Row>
                 )}
               </>
             ) : (
               <Table.Row>
-                <Table.Cell colSpan={2}>No deployment selected</Table.Cell>
+                <Table.Cell colSpan={2}>
+                  <div className="grid justify-items-center">
+                    <div>No deployments selected</div>
+                  </div>
+                </Table.Cell>
               </Table.Row>
             )}
           </Table.Body>
