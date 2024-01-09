@@ -8,7 +8,7 @@ export default function DeploymentDrawer({ isOpen, setOpen, deployment }) {
     species: string,
     name: string,
     count: number,
-  }[]>();
+  }[] | null>();
 
   useEffect(() => {
     if (deployment) {
@@ -22,7 +22,7 @@ export default function DeploymentDrawer({ isOpen, setOpen, deployment }) {
 
       fetchDeployment();
     } else {
-      setData([]);
+      setData(null);
     }
   }, [deployment]);
 
@@ -47,12 +47,26 @@ export default function DeploymentDrawer({ isOpen, setOpen, deployment }) {
             <Table.HeadCell className="w-1/2">Count</Table.HeadCell>
           </Table.Head>
           <Table.Body>
-            {data?.map((row) => (
-              <Table.Row key={row.species}>
-                <Table.Cell className="w-1/2">{row.name}</Table.Cell>
-                <Table.Cell className="w-1/2">{row.count}</Table.Cell>
+            {data ? (
+              <>
+                {data.length > 0 ? (
+                  data.map((row) => (
+                    <Table.Row key={row.species}>
+                      <Table.Cell className="w-1/2">{row.name}</Table.Cell>
+                      <Table.Cell className="w-1/2">{row.count}</Table.Cell>
+                    </Table.Row>
+                  ))
+                ) : (
+                  <Table.Row>
+                    <Table.Cell colSpan={2}>No species data for the current selection</Table.Cell>
+                  </Table.Row>
+                )}
+              </>
+            ) : (
+              <Table.Row>
+                <Table.Cell colSpan={2}>No deployment selected</Table.Cell>
               </Table.Row>
-            ))}
+            )}
           </Table.Body>
         </Table>
       </div>
