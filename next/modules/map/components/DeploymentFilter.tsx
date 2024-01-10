@@ -43,7 +43,7 @@ export default function DeploymentFilter({
     ...initialBounds,
   }).toString()}`);
   const [csvData, setCsvData] = useState<any[] | null>(null);
-  const [drawerOpen, setDrawerOpen] = useState<boolean>(true);
+  const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
   const [selectedDeployment, setSelectedDeployment] = useState<string | null>(null);
 
   useEffect(() => {
@@ -67,6 +67,12 @@ export default function DeploymentFilter({
     };
     router.push(`/deployments?${new URLSearchParams(params).toString()}`);
   };
+
+  useEffect(() => {
+    if (mapReady) {
+      setDrawerOpen(true);
+    }
+  }, [mapReady]);
 
   return (
     <>
