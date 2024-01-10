@@ -31,17 +31,6 @@ export default function EditFilterLayer({
       L.easyButton({
         states: [
           {
-            stateName: 'drawerClosed',
-            icon: `<a class="leaflet-control-deployment" href="#" title="Show Deployment Info">
-              <span aria-hidden="true">></span>
-              </a>`,
-            onClick: (btn) => {
-              setDrawerOpen(true);
-              btn.state('drawerOpen');
-            },
-            title: 'Show Deployment Info',
-          },
-          {
             stateName: 'drawerOpen',
             icon: `<a class="leaflet-control-deployment" href="#" title="Show Deployment Info">
               <span aria-hidden="true"><</span>
@@ -51,6 +40,17 @@ export default function EditFilterLayer({
               btn.state('drawerClosed');
             },
             title: 'Hide Deployment Info',
+          },
+          {
+            stateName: 'drawerClosed',
+            icon: `<a class="leaflet-control-deployment" href="#" title="Show Deployment Info">
+              <span aria-hidden="true">></span>
+              </a>`,
+            onClick: (btn) => {
+              setDrawerOpen(true);
+              btn.state('drawerOpen');
+            },
+            title: 'Show Deployment Info',
           },
         ],
       }).addTo(map);
