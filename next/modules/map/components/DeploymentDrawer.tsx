@@ -1,9 +1,9 @@
 'use client';
 
-import { Button, Table } from 'flowbite-react';
+import { Table } from 'flowbite-react';
 import { useEffect, useState } from 'react';
 
-export default function DeploymentDrawer({ isOpen, setOpen, deployment }) {
+export default function DeploymentDrawer({ isOpen, deployment }) {
   const [data, setData] = useState<{
     species: string,
     name: string,
@@ -33,18 +33,6 @@ export default function DeploymentDrawer({ isOpen, setOpen, deployment }) {
           <div className="flex-grow flex justify-center items-center">
             <h3>Deployment</h3>
           </div>
-          <Button
-            color="light"
-            outline={false}
-            onClick={(e) => {
-              setOpen(false);
-              e.currentTarget.blur();
-            }}
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
-            </svg>
-          </Button>
         </div>
         <Table hoverable>
           <Table.Head>

@@ -79,7 +79,6 @@ export default function DeploymentFilter({
       <div className="w-full flex flex-row">
         <DeploymentDrawer
           isOpen={drawerOpen}
-          setOpen={setDrawerOpen}
           deployment={selectedDeployment}
         />
         <div className="flex-grow">
