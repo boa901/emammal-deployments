@@ -32,7 +32,7 @@ export default function EditFilterLayer({
         states: [
           {
             stateName: 'drawerOpen',
-            icon: `<a class="leaflet-control-deployment" href="#" title="Show Deployment Info">
+            icon: `<a class="leaflet-control-deployment" href="#" title="Hide Deployment Info">
               <span aria-hidden="true"><</span>
               </a>`,
             onClick: (btn) => {
