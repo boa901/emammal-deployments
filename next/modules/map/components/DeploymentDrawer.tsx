@@ -13,7 +13,7 @@ export default function DeploymentDrawer({ isOpen, deployment }) {
   useEffect(() => {
     if (deployment) {
       const fetchDeployment = async () => {
-        const deploymentData = await fetch(`/api/deployments/${deployment}`, {
+        const deploymentData = await fetch(`/api/deployments/${deployment.nid}`, {
           method: 'GET',
         }).then((res) => res.json());
 
@@ -31,7 +31,11 @@ export default function DeploymentDrawer({ isOpen, deployment }) {
       <div className="flex flex-col">
         <div className="flex flex-row">
           <div className="flex-grow flex justify-center items-center">
-            <h3>Deployment</h3>
+            {deployment ? (
+              <h3>{deployment.label}</h3>
+            ) : (
+              <h3>Select Deployment...</h3>
+            )}
           </div>
         </div>
         <Table hoverable>

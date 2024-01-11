@@ -32,9 +32,6 @@ export default function EditFilterLayer({
         states: [
           {
             stateName: 'drawerOpen',
-            // icon: `<a class="leaflet-control-deployment" href="#" title="Hide Deployment Info">
-            //   <
-            //   </a>`,
             icon: `
               <a class="leaflet-control-deployment" href="#" title="Hide Deployment Info">
                 <div class="h-full grid place-items-center">

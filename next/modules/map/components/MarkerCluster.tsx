@@ -41,7 +41,10 @@ export default function MarkerCluster({
           setSelectedDeployment(null);
         });
         newMarker.bindPopup(newPopup);
-        newMarker.addTo(markerGroup).on('click', () => setSelectedDeployment(marker.nid));
+        newMarker.addTo(markerGroup).on('click', () => setSelectedDeployment({
+          nid: marker.nid,
+          label: marker.label,
+        }));
       });
 
       if (layer.current) {

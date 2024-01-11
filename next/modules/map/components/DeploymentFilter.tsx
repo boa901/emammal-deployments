@@ -44,7 +44,10 @@ export default function DeploymentFilter({
   }).toString()}`);
   const [csvData, setCsvData] = useState<any[] | null>(null);
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
-  const [selectedDeployment, setSelectedDeployment] = useState<string | null>(null);
+  const [selectedDeployment, setSelectedDeployment] = useState<{
+    nid: string,
+    label: string,
+  } | null>(null);
 
   useEffect(() => {
     const speciesParams = {
