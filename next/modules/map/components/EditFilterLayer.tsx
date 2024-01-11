@@ -32,8 +32,16 @@ export default function EditFilterLayer({
         states: [
           {
             stateName: 'drawerOpen',
-            icon: `<a class="leaflet-control-deployment" href="#" title="Hide Deployment Info">
-              <span aria-hidden="true"><</span>
+            // icon: `<a class="leaflet-control-deployment" href="#" title="Hide Deployment Info">
+            //   <
+            //   </a>`,
+            icon: `
+              <a class="leaflet-control-deployment" href="#" title="Hide Deployment Info">
+                <div class="h-full grid place-items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+                  </svg>
+                </div>
               </a>`,
             onClick: (btn) => {
               setDrawerOpen(false);
@@ -43,8 +51,13 @@ export default function EditFilterLayer({
           },
           {
             stateName: 'drawerClosed',
-            icon: `<a class="leaflet-control-deployment" href="#" title="Show Deployment Info">
-              <span aria-hidden="true">></span>
+            icon: `
+              <a class="leaflet-control-deployment" href="#" title="Hide Deployment Info">
+                <div class="h-full grid place-items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+                  </svg>
+                </div>
               </a>`,
             onClick: (btn) => {
               setDrawerOpen(true);
