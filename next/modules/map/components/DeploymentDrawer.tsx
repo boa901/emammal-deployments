@@ -67,7 +67,7 @@ export default function DeploymentDrawer({ isOpen, deployment }) {
               <Table.Row>
                 <Table.Cell colSpan={2}>
                   <div className="grid justify-items-center">
-                    <div>No deployments selected</div>
+                    <div>No deployment selected</div>
                   </div>
                 </Table.Cell>
               </Table.Row>
