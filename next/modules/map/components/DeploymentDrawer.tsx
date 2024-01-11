@@ -32,9 +32,9 @@ export default function DeploymentDrawer({ isOpen, deployment }) {
         <div className="flex flex-row">
           <div className="flex-grow flex justify-center items-center">
             {deployment ? (
-              <h3>{deployment.label}</h3>
+              <h3 className="my-2 font-semibold">{deployment.label}</h3>
             ) : (
-              <h3>Select Deployment...</h3>
+              <h3 className="my-2 font-semibold">Select Deployment...</h3>
             )}
           </div>
         </div>
