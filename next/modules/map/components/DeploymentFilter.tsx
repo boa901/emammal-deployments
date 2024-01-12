@@ -7,6 +7,7 @@ import dynamic from 'next/dynamic';
 import { useEffect, useState } from 'react';
 
 import DeploymentMultiselect from '@/modules/map/components/DeploymentMultiselect';
+import DeploymentDrawer from '@/modules/map/components/DeploymentDrawer';
 
 import RectBounds from '@/modules/map/types/RectBounds';
 
@@ -42,6 +43,11 @@ export default function DeploymentFilter({
     ...initialBounds,
   }).toString()}`);
   const [csvData, setCsvData] = useState<any[] | null>(null);
+  const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
+  const [selectedDeployment, setSelectedDeployment] = useState<{
+    nid: string,
+    label: string,
+  } | null>(null);
 
   useEffect(() => {
     const speciesParams = {
@@ -65,16 +71,30 @@ export default function DeploymentFilter({
     router.push(`/deployments?${new URLSearchParams(params).toString()}`);
   };
 
+  useEffect(() => {
+    if (mapReady) {
+      setDrawerOpen(true);
+    }
+  }, [mapReady]);
+
   return (
     <>
-      <div className="w-full">
-        <GeoFilterMap
-          setFilter={setRectBounds}
-          apiPath={apiPath}
-          initialBounds={initialBounds}
-          setCsvData={setCsvData}
-          setReady={setMapReady}
+      <div className="h-[75vh] w-full flex flex-row">
+        <DeploymentDrawer
+          isOpen={drawerOpen}
+          deployment={selectedDeployment}
         />
+        <div className="flex-grow">
+          <GeoFilterMap
+            setFilter={setRectBounds}
+            apiPath={apiPath}
+            initialBounds={initialBounds}
+            setCsvData={setCsvData}
+            setReady={setMapReady}
+            setDrawerOpen={setDrawerOpen}
+            setSelectedDeployment={setSelectedDeployment}
+          />
+        </div>
       </div>
       {mapReady && (
         <div className="w-full flex flex-row my-2">

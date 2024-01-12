@@ -12,10 +12,12 @@ export default function MarkerCluster({
   markers,
   layer,
   setLayer,
+  setSelectedDeployment,
 }: {
   markers: Deployment[] | null,
   layer: any,
   setLayer: Function,
+  setSelectedDeployment: Function,
 }) {
   const map = useMap();
 
@@ -35,8 +37,14 @@ export default function MarkerCluster({
         });
         const newPopup = L.popup();
         newPopup.setContent(marker.label);
+        newPopup.on('remove', () => {
+          setSelectedDeployment(null);
+        });
         newMarker.bindPopup(newPopup);
-        newMarker.addTo(markerGroup);
+        newMarker.addTo(markerGroup).on('click', () => setSelectedDeployment({
+          nid: marker.nid,
+          label: marker.label,
+        }));
       });
 
       if (layer.current) {

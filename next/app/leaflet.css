@@ -1,8 +1,16 @@
 .leaflet-container {
-  height: 550px;
+  height: 75vh;
   z-index: 0;
 }
 
 .sr-only {
   display: none;
+}
+
+.leaflet-control-deployment {
+  font-size: 22px;
+}
+
+.easy-button-container {
+  line-height: 14px;
 }
