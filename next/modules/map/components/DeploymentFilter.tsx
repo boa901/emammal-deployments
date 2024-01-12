@@ -79,7 +79,7 @@ export default function DeploymentFilter({
 
   return (
     <>
-      <div className="w-full flex flex-row">
+      <div className="h-[75vh] w-full flex flex-row">
         <DeploymentDrawer
           isOpen={drawerOpen}
           deployment={selectedDeployment}

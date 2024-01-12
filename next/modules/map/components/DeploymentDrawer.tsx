@@ -27,7 +27,7 @@ export default function DeploymentDrawer({ isOpen, deployment }) {
   }, [deployment]);
 
   return (
-    <div className={`h-full transition-all duration-500 overflow-hidden ${isOpen ? 'w-1/5 mr-2' : 'w-0 pointer-events-none'}`}>
+    <div className={`h-full transition-all duration-500 overflow-x-hidden ${isOpen ? 'w-1/5 mr-2' : 'w-0 pointer-events-none'}`}>
       <div className="flex flex-col">
         <div className="flex flex-row">
           <div className="flex-grow flex justify-center items-center">
@@ -43,7 +43,7 @@ export default function DeploymentDrawer({ isOpen, deployment }) {
             <Table.HeadCell className="w-1/2">Species</Table.HeadCell>
             <Table.HeadCell className="w-1/2">Count</Table.HeadCell>
           </Table.Head>
-          <Table.Body>
+          <Table.Body className="overflow-y-scroll">
             {data ? (
               <>
                 {data.length > 0 ? (
