@@ -79,23 +79,6 @@ export default function DeploymentFilter({
 
   return (
     <>
-      <div className="h-[75vh] w-full flex flex-row">
-        <DeploymentDrawer
-          isOpen={drawerOpen}
-          deployment={selectedDeployment}
-        />
-        <div className="flex-grow">
-          <GeoFilterMap
-            setFilter={setRectBounds}
-            apiPath={apiPath}
-            initialBounds={initialBounds}
-            setCsvData={setCsvData}
-            setReady={setMapReady}
-            setDrawerOpen={setDrawerOpen}
-            setSelectedDeployment={setSelectedDeployment}
-          />
-        </div>
-      </div>
       {mapReady && (
         <div className="w-full flex flex-row my-2">
           <div className="flex flex-row flex-grow">
@@ -143,6 +126,23 @@ export default function DeploymentFilter({
           </div>
         </div>
       )}
+      <div className="h-[75vh] w-full flex flex-row">
+        <DeploymentDrawer
+          isOpen={drawerOpen}
+          deployment={selectedDeployment}
+        />
+        <div className="flex-grow">
+          <GeoFilterMap
+            setFilter={setRectBounds}
+            apiPath={apiPath}
+            initialBounds={initialBounds}
+            setCsvData={setCsvData}
+            setReady={setMapReady}
+            setDrawerOpen={setDrawerOpen}
+            setSelectedDeployment={setSelectedDeployment}
+          />
+        </div>
+      </div>
     </>
   );
 }
