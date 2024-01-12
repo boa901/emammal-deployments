@@ -78,7 +78,7 @@ export default function DeploymentFilter({
   }, [mapReady]);
 
   return (
-    <>
+    <div className="h-screen flex flex-col">
       {mapReady && (
         <div className="w-full flex flex-row my-2">
           <div className="flex flex-row flex-grow">
@@ -126,12 +126,12 @@ export default function DeploymentFilter({
           </div>
         </div>
       )}
-      <div className="h-[75vh] w-full flex flex-row">
+      <div className="flex-grow flex flex-row">
         <DeploymentDrawer
           isOpen={drawerOpen}
           deployment={selectedDeployment}
         />
-        <div className="flex-grow">
+        <div className="h-full flex-grow">
           <GeoFilterMap
             setFilter={setRectBounds}
             apiPath={apiPath}
@@ -143,6 +143,6 @@ export default function DeploymentFilter({
           />
         </div>
       </div>
-    </>
+    </div>
   );
 }
