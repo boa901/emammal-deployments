@@ -45,6 +45,9 @@ export default function DeploymentDrawer({ isOpen, deployment }) {
                   </h3>
                 </div>
               </div>
+              <div className="flex flex-row justify-center items-center">
+                <a href={`${process.env.NEXT_PUBLIC_SITE_HOST}/node/${projectData.nid}`}>Project Page</a>
+              </div>
               <Table hoverable>
                 <Table.Head>
                   <Table.HeadCell className="w-1/2">Species</Table.HeadCell>
