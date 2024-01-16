@@ -20,7 +20,7 @@ const getDeployment = async (req, res) => {
   const project = pool.query(projectQuery, [req.params.id]);
 
   Promise.all([species, project]).then((values) => {
-    const results = { species: values[0], project: values[1] };
+    const results = { species: values[0], project: values[1][0] };
     res.status(200).json(results);
   });
 };

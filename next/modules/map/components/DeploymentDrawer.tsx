@@ -22,7 +22,7 @@ export default function DeploymentDrawer({ isOpen, deployment }) {
         }).then((res) => res.json());
 
         setSpeciesData(deploymentData.species);
-        setProjectData(deploymentData.project[0]);
+        setProjectData(deploymentData.project);
       };
 
       fetchDeployment();
