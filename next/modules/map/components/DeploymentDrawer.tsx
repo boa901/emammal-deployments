@@ -46,7 +46,12 @@ export default function DeploymentDrawer({ isOpen, deployment }) {
                 </div>
               </div>
               <div className="flex flex-row justify-center items-center">
-                <a href={`${process.env.NEXT_PUBLIC_SITE_HOST}/node/${projectData.nid}`}>Project Page</a>
+                <a
+                  href={`${process.env.NEXT_PUBLIC_SITE_HOST}/node/${projectData.nid}`}
+                  className="text-cyan-700 hover:underline"
+                >
+                  Project Page
+                </a>
               </div>
               <Table hoverable>
                 <Table.Head>
