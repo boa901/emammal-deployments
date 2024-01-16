@@ -17,7 +17,7 @@ export default function DeploymentDrawer({ isOpen, deployment }) {
           method: 'GET',
         }).then((res) => res.json());
 
-        setData(deploymentData);
+        setData(deploymentData.species);
       };
 
       fetchDeployment();
