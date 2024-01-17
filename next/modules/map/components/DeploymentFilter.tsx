@@ -138,6 +138,7 @@ export default function DeploymentFilter({
             initialBounds={initialBounds}
             setCsvData={setCsvData}
             setReady={setMapReady}
+            drawerOpen={drawerOpen}
             setDrawerOpen={setDrawerOpen}
             setSelectedDeployment={setSelectedDeployment}
           />

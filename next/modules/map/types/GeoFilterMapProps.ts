@@ -6,6 +6,7 @@ export default interface GeoFilterMapProps {
   initialBounds?: RectBounds | null,
   setCsvData: React.Dispatch<React.SetStateAction<any[] | null>>,
   setReady: React.Dispatch<React.SetStateAction<boolean>>,
+  drawerOpen: boolean,
   setDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>,
   setSelectedDeployment: React.Dispatch<React.SetStateAction<{
     nid: string,

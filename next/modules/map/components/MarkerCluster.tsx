@@ -11,11 +11,13 @@ import Deployment from '@/common/types/deployment';
 export default function MarkerCluster({
   markers,
   layer,
+  drawerOpen,
   setLayer,
   setSelectedDeployment,
 }: {
   markers: Deployment[] | null,
   layer: any,
+  drawerOpen: boolean,
   setLayer: Function,
   setSelectedDeployment: Function,
 }) {
@@ -56,8 +58,11 @@ export default function MarkerCluster({
       setLayer(markerGroup);
       if (markerLatLngs.length > 0) {
         const bounds = new L.LatLngBounds(markerLatLngs);
-        const boundWidth = bounds.getEast() - bounds.getWest();
-        map.fitBounds(bounds.extend([bounds.getNorth(), bounds.getEast() + boundWidth * 0.3]));
+        if (drawerOpen) {
+          const boundWidth = bounds.getEast() - bounds.getWest();
+          bounds.extend([bounds.getNorth(), bounds.getEast() + boundWidth * 0.3]);
+        }
+        map.fitBounds(bounds);
       }
     }
   }, [markers]);
