@@ -90,6 +90,10 @@ export default function GeoFilterMap({
       <MapContainer
         center={[0, 0]}
         zoom={2.25}
+        maxBounds={[
+          [-90, 180],
+          [90, -180],
+        ]}
         scrollWheelZoom
         whenReady={handleMapReady}
       >
