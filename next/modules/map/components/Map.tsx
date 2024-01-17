@@ -39,7 +39,7 @@ export default function Map({ apiPath, mapping }: MapProps) {
   }, [markers]);
 
   return (
-    <div className="relative">
+    <div className="h-screen relative">
       <MapContainer
         zoom={2.25}
         bounds={[
