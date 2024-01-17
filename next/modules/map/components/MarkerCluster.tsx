@@ -55,7 +55,9 @@ export default function MarkerCluster({
       markerGroup.addTo(map);
       setLayer(markerGroup);
       if (markerLatLngs.length > 0) {
-        map.fitBounds(markerLatLngs);
+        const bounds = new L.LatLngBounds(markerLatLngs);
+        const boundWidth = bounds.getEast() - bounds.getWest();
+        map.fitBounds(bounds.extend([bounds.getNorth(), bounds.getEast() + boundWidth * 0.3]));
       }
     }
   }, [markers]);
