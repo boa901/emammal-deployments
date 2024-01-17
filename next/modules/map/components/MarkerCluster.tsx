@@ -1,6 +1,6 @@
 'use client';
 
-import L from 'leaflet';
+import L, { LatLngBoundsExpression } from 'leaflet';
 import { useMap } from 'react-leaflet';
 import { useEffect } from 'react';
 
@@ -24,6 +24,7 @@ export default function MarkerCluster({
   useEffect(() => {
     if (markers) {
       const markerGroup = L.markerClusterGroup();
+      const markerLatLngs: LatLngBoundsExpression = [];
 
       markers?.forEach((marker) => {
         const newMarker = L.marker(L.latLng(marker.latitude, marker.longitude), {
@@ -45,6 +46,7 @@ export default function MarkerCluster({
           nid: marker.nid,
           label: marker.label,
         }));
+        markerLatLngs.push([marker.latitude, marker.longitude]);
       });
 
       if (layer.current) {
@@ -52,6 +54,9 @@ export default function MarkerCluster({
       }
       markerGroup.addTo(map);
       setLayer(markerGroup);
+      if (markerLatLngs.length > 0) {
+        map.fitBounds(markerLatLngs);
+      }
     }
   }, [markers]);
 
