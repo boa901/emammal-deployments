@@ -38,20 +38,22 @@ export default function DeploymentDrawer({ isOpen, deployment }) {
         <>
           {projectData ? (
             <div className="flex flex-col">
-              <div className="flex flex-row">
-                <div className="flex-grow flex flex-wrap justify-center items-center">
-                  <h3 className="my-2 font-semibold text-center">
-                    {`${projectData.name}: ${deployment.label}`}
-                  </h3>
+              <div className="pb-4 px-4">
+                <div className="flex flex-row">
+                  <div>
+                    <h3 className="my-2 font-semibold">
+                      {`${projectData.name}: ${deployment.label}`}
+                    </h3>
+                  </div>
                 </div>
-              </div>
-              <div className="flex flex-row justify-center items-center">
-                <a
-                  href={`${process.env.NEXT_PUBLIC_SITE_HOST}/node/${projectData.nid}`}
-                  className="text-cyan-700 hover:underline"
-                >
-                  Project Page
-                </a>
+                <div>
+                  <a
+                    href={`${process.env.NEXT_PUBLIC_SITE_HOST}/node/${projectData.nid}`}
+                    className="text-cyan-700 hover:underline"
+                  >
+                    Project Page
+                  </a>
+                </div>
               </div>
               <Table hoverable>
                 <Table.Head>
