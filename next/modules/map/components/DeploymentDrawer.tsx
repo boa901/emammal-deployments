@@ -55,7 +55,7 @@ export default function DeploymentDrawer({ isOpen, deployment }) {
                   </a>
                 </div>
               </div>
-              <Table hoverable>
+              <Table hoverable striped>
                 <Table.Head>
                   <Table.HeadCell className="w-1/2">Species</Table.HeadCell>
                   <Table.HeadCell className="w-1/2">Count</Table.HeadCell>
