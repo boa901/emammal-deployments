@@ -82,26 +82,30 @@ export default function DeploymentFilter({
       {mapReady && (
         <div className="w-full flex flex-row my-2">
           <div className="flex flex-row flex-grow">
-            <DeploymentMultiselect
-              setFilter={setFilterSpecies}
-              optionUrl={speciesUrl}
-              optionValue="species"
-              optionLabel="name"
-              fieldLabel="Species"
-              defaultValues={speciesOptions.filter((speciesOption) => (
-                initialSpecies.includes(speciesOption.value)
-              ))}
-            />
-            <DeploymentMultiselect
-              setFilter={setFilterProjects}
-              optionUrl={projectsUrl}
-              optionValue="nid"
-              optionLabel="name"
-              fieldLabel="Projects"
-              defaultValues={projectOptions.filter((projectOption) => (
-                initialProjects.includes(projectOption.value)
-              ))}
-            />
+            <div className="w-1/2">
+              <DeploymentMultiselect
+                setFilter={setFilterSpecies}
+                optionUrl={speciesUrl}
+                optionValue="species"
+                optionLabel="name"
+                fieldLabel="Species"
+                defaultValues={speciesOptions.filter((speciesOption) => (
+                  initialSpecies.includes(speciesOption.value)
+                ))}
+              />
+            </div>
+            <div className="w-1/2">
+              <DeploymentMultiselect
+                setFilter={setFilterProjects}
+                optionUrl={projectsUrl}
+                optionValue="nid"
+                optionLabel="name"
+                fieldLabel="Projects"
+                defaultValues={projectOptions.filter((projectOption) => (
+                  initialProjects.includes(projectOption.value)
+                ))}
+              />
+            </div>
           </div>
           <div className="flex flex-row flex-shrink-0 justify-items-center">
             <Button type="button" onClick={handleSubmit} className="mx-2">Search</Button>
