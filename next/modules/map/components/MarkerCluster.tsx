@@ -1,6 +1,6 @@
 'use client';
 
-import L from 'leaflet';
+import L, { LatLngBoundsExpression } from 'leaflet';
 import { useMap } from 'react-leaflet';
 import { useEffect } from 'react';
 
@@ -11,11 +11,13 @@ import Deployment from '@/common/types/deployment';
 export default function MarkerCluster({
   markers,
   layer,
+  drawerOpen,
   setLayer,
   setSelectedDeployment,
 }: {
   markers: Deployment[] | null,
   layer: any,
+  drawerOpen: boolean,
   setLayer: Function,
   setSelectedDeployment: Function,
 }) {
@@ -24,6 +26,7 @@ export default function MarkerCluster({
   useEffect(() => {
     if (markers) {
       const markerGroup = L.markerClusterGroup();
+      const markerLatLngs: LatLngBoundsExpression = [];
 
       markers?.forEach((marker) => {
         const newMarker = L.marker(L.latLng(marker.latitude, marker.longitude), {
@@ -45,6 +48,7 @@ export default function MarkerCluster({
           nid: marker.nid,
           label: marker.label,
         }));
+        markerLatLngs.push([marker.latitude, marker.longitude]);
       });
 
       if (layer.current) {
@@ -52,6 +56,14 @@ export default function MarkerCluster({
       }
       markerGroup.addTo(map);
       setLayer(markerGroup);
+      if (markerLatLngs.length > 0) {
+        const bounds = new L.LatLngBounds(markerLatLngs);
+        if (drawerOpen) {
+          const boundWidth = bounds.getEast() - bounds.getWest();
+          bounds.extend([bounds.getNorth(), bounds.getEast() + boundWidth * 0.3]);
+        }
+        map.fitBounds(bounds);
+      }
     }
   }, [markers]);
 

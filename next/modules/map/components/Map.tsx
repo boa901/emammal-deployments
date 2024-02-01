@@ -40,7 +40,18 @@ export default function Map({ apiPath, mapping }: MapProps) {
 
   return (
     <div className="h-screen relative">
-      <MapContainer center={[0, 0]} zoom={2.25} scrollWheelZoom>
+      <MapContainer
+        zoom={2.25}
+        bounds={[
+          [61.3, -121.3],
+          [-41.64008, 146.31592],
+        ]}
+        maxBounds={[
+          [-90, 180],
+          [90, -180],
+        ]}
+        scrollWheelZoom
+      >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

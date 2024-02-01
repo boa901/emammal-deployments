@@ -21,6 +21,7 @@ export default function GeoFilterMap({
   initialBounds,
   setCsvData,
   setReady,
+  drawerOpen,
   setDrawerOpen,
   setSelectedDeployment,
 }: GeoFilterMapProps) {
@@ -89,6 +90,10 @@ export default function GeoFilterMap({
       <MapContainer
         center={[0, 0]}
         zoom={2.25}
+        maxBounds={[
+          [-90, 180],
+          [90, -180],
+        ]}
         scrollWheelZoom
         whenReady={handleMapReady}
       >
@@ -99,6 +104,7 @@ export default function GeoFilterMap({
         <MarkerCluster
           markers={markers}
           layer={markersLayer}
+          drawerOpen={drawerOpen}
           setLayer={(layer) => { markersLayer.current = layer; }}
           setSelectedDeployment={setSelectedDeployment}
         />

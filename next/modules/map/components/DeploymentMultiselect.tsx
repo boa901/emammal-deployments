@@ -61,7 +61,7 @@ export default function DeploymentMultiselect(
   };
 
   return (
-    <div className="flex flex-row items-center w-1/2 mx-4">
+    <div className="flex flex-row items-center mx-4">
       <div className="flex-grow-0 mr-2">
         {fieldLabel}
       </div>

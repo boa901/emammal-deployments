@@ -1,8 +1,9 @@
 import pool from '#express/pool';
 
 const getAllSpecies = async (req, res) => {
-  let query = `SELECT DISTINCT a.species
+  let query = `SELECT DISTINCT a.species, cn.name
     FROM eda_species a
+      LEFT JOIN common_name cn on a.species = cn.species
       JOIN eda_deployments b ON a.pid = b.pid
       JOIN deployments c ON b.nid = c.nid
       JOIN sub_projects d ON c.sub_project = d.nid

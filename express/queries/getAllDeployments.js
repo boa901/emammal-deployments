@@ -1,7 +1,7 @@
 import pool from '#express/pool';
 
 const getAllDeployments = async (req, res) => {
-  let query = `SELECT a.nid, a.sub_project, a.label, a.latitude, a.longitude, a.camera_name
+  let query = `SELECT DISTINCT a.nid, a.sub_project, a.label, a.latitude, a.longitude, a.camera_name
     FROM deployments a`;
   const values = [];
   if (req.query.species && JSON.parse(req.query.species).length > 0) {
