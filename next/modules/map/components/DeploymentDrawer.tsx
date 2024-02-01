@@ -49,6 +49,7 @@ export default function DeploymentDrawer({ isOpen, deployment }) {
                 <div>
                   <a
                     href={`${process.env.NEXT_PUBLIC_SITE_HOST}/node/${projectData.nid}`}
+                    target="_PARENT"
                     className="text-cyan-700 hover:underline"
                   >
                     Project Page
