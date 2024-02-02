@@ -80,9 +80,9 @@ export default function DeploymentFilter({
   return (
     <div className="h-screen flex flex-col">
       {mapReady && (
-        <div className="w-full flex flex-row my-2">
-          <div className="flex flex-row flex-grow">
-            <div className="w-1/2">
+        <div className="w-full flex flex-col my-2 lg:flex-row">
+          <div className="grow flex flex-col sm:flex-row">
+            <div className="p-2 sm:w-1/2">
               <DeploymentMultiselect
                 setFilter={setFilterSpecies}
                 optionUrl={speciesUrl}
@@ -94,7 +94,7 @@ export default function DeploymentFilter({
                 ))}
               />
             </div>
-            <div className="w-1/2">
+            <div className="p-2 sm:w-1/2">
               <DeploymentMultiselect
                 setFilter={setFilterProjects}
                 optionUrl={projectsUrl}
@@ -107,7 +107,7 @@ export default function DeploymentFilter({
               />
             </div>
           </div>
-          <div className="flex flex-row flex-shrink-0 justify-items-center">
+          <div className="flex flex-row flex-shrink-0 justify-end p-2">
             <Button type="button" onClick={handleSubmit} className="mx-2">Search</Button>
             {(csvData || !apiPath) ? (
               <>
