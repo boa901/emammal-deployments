@@ -81,8 +81,8 @@ export default function DeploymentFilter({
     <div className="h-screen flex flex-col">
       {mapReady && (
         <div className="w-full flex flex-col my-2">
-          <div className="flex flex-col">
-            <div className="p-2">
+          <div className="flex flex-col sm:flex-row">
+            <div className="p-2 sm:w-1/2">
               <DeploymentMultiselect
                 setFilter={setFilterSpecies}
                 optionUrl={speciesUrl}
@@ -94,7 +94,7 @@ export default function DeploymentFilter({
                 ))}
               />
             </div>
-            <div className="p-2">
+            <div className="p-2 sm:w-1/2">
               <DeploymentMultiselect
                 setFilter={setFilterProjects}
                 optionUrl={projectsUrl}
