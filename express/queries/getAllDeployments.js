@@ -12,9 +12,12 @@ const getAllDeployments = async (req, res) => {
   }
   if (req.query.projects && JSON.parse(req.query.projects).length > 0) {
     query += `\nJOIN sub_projects d ON a.sub_project = d.nid
-      JOIN projects e ON d.project_nid = e.nid AND e.nid IN (?)`;
+      JOIN projects e ON d.project_nid = e.nid AND e.visible = TRUE AND e.nid IN (?)`;
     const projects = JSON.parse(req.query.projects);
     values.push(projects);
+  } else {
+    query += `\nJOIN sub_projects d ON a.sub_project = d.nid
+      JOIN projects e ON d.project_nid = e.nid AND e.visible = TRUE`;
   }
   query += '\nWHERE a.label IS NOT NULL AND a.latitude IS NOT NULL AND a.longitude IS NOT NULL';
   if (req.query.maxLat && req.query.minLat && req.query.maxLng && req.query.minLng) {

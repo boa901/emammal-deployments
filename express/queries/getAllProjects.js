@@ -7,7 +7,7 @@ const getAllProjects = async (req, res) => {
       JOIN deployments c ON b.nid = c.sub_project
       JOIN eda_deployments d ON c.nid = d.nid
       JOIN eda_species e ON d.pid = e.pid
-    WHERE 1 = 1`;
+    WHERE a.visible = TRUE`;
   const values = [];
   if (req.query.species && JSON.parse(req.query.species).length > 0) {
     query += '\nAND e.species IN (?)';
