@@ -10,18 +10,19 @@ import DeploymentMultiselect from '@/modules/map/components/DeploymentMultiselec
 import DeploymentDrawer from '@/modules/map/components/DeploymentDrawer';
 
 import RectBounds from '@/modules/map/types/RectBounds';
+import Deployment from '@/common/types/deployment';
 
 const GeoFilterMap = dynamic(() => import('@/modules/map/components/GeoFilterMap'), { ssr: false });
 
 export default function DeploymentFilter({
-  apiPath = null,
+  searchParams = null,
   initialBounds = null,
   initialSpecies = [],
   initialProjects = [],
   projectOptions,
   speciesOptions,
 }: {
-  apiPath?: string | null,
+  searchParams?: URLSearchParams | null,
   initialBounds?: RectBounds | null,
   initialSpecies?: string[],
   initialProjects?: number[],
@@ -33,7 +34,10 @@ export default function DeploymentFilter({
   const [rectBounds, setRectBounds] = useState<RectBounds | null>(initialBounds);
   const [filterSpecies, setFilterSpecies] = useState<string[]>(initialSpecies);
   const [filterProjects, setFilterProjects] = useState<number[]>(initialProjects);
+  const [markersEndpoint, setMarkersEndpoint] = useState<string | null>(null);
+  const [markers, setMarkers] = useState<Deployment[] | null>(null);
   const [mapReady, setMapReady] = useState<boolean>(false);
+  const [mapLoading, setMapLoading] = useState<boolean>(false);
   const [speciesUrl, setSpeciesUrl] = useState<string>(`/api/species?${new URLSearchParams({
     projects: JSON.stringify(initialProjects),
     ...initialBounds,
@@ -50,6 +54,12 @@ export default function DeploymentFilter({
   } | null>(null);
 
   useEffect(() => {
+    if (searchParams) {
+      setMarkersEndpoint(`/api/deployments?${new URLSearchParams(searchParams).toString()}`);
+    }
+  }, [searchParams]);
+
+  useEffect(() => {
     const speciesParams = {
       projects: JSON.stringify(filterProjects),
       ...rectBounds,
@@ -61,6 +71,33 @@ export default function DeploymentFilter({
     setSpeciesUrl(`/api/species?${new URLSearchParams(speciesParams).toString()}`);
     setProjectsUrl(`/api/projects?${new URLSearchParams(projectsParams).toString()}`);
   }, [rectBounds, filterSpecies, filterProjects]);
+
+  useEffect(() => {
+    const fetchPoints = async () => {
+      if (markersEndpoint && markersEndpoint.length > 0) {
+        setCsvData(null);
+        setMapLoading(true);
+        const deployments: Deployment[] = await fetch(markersEndpoint, {
+          method: 'GET',
+        }).then((res) => res.json());
+
+        setMarkers(deployments);
+        const deploymentNids = deployments.map((deployment) => deployment.nid);
+
+        if (setCsvData) {
+          const csvRows = await fetch('/api/deployments/csv', {
+            method: 'POST',
+            body: JSON.stringify(deploymentNids),
+          }).then((res) => res.json());
+          setCsvData(csvRows);
+        }
+      } else {
+        setMarkers([]);
+      }
+    };
+
+    fetchPoints();
+  }, [markersEndpoint]);
 
   const handleSubmit = () => {
     const params = {
@@ -76,6 +113,12 @@ export default function DeploymentFilter({
       setDrawerOpen(true);
     }
   }, [mapReady]);
+
+  useEffect(() => {
+    if (markers) {
+      setMapLoading(false);
+    }
+  }, [markers]);
 
   return (
     <div className="h-screen flex flex-col">
@@ -109,7 +152,7 @@ export default function DeploymentFilter({
           </div>
           <div className="flex flex-row flex-shrink-0 justify-end p-2">
             <Button type="button" onClick={handleSubmit} className="mx-2">Search</Button>
-            {(csvData || !apiPath) ? (
+            {(csvData || !markersEndpoint) ? (
               <>
                 {csvData && csvData.length > 0 && (
                   <CSVLink
@@ -137,13 +180,13 @@ export default function DeploymentFilter({
         />
         <div className="h-full flex-grow">
           <GeoFilterMap
-            setFilter={setRectBounds}
-            apiPath={apiPath}
+            markers={markers}
+            loading={mapLoading}
             initialBounds={initialBounds}
-            setCsvData={setCsvData}
-            setReady={setMapReady}
+            onReady={() => setMapReady(true)}
             drawerOpen={drawerOpen}
             setDrawerOpen={setDrawerOpen}
+            setFilter={setRectBounds}
             setSelectedDeployment={setSelectedDeployment}
           />
         </div>
