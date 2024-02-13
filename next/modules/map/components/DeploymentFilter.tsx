@@ -1,6 +1,6 @@
 'use client';
 
-import { Button } from 'flowbite-react';
+import { Button, Modal } from 'flowbite-react';
 import { CSVLink } from 'react-csv';
 import { useRouter } from 'next/navigation';
 import dynamic from 'next/dynamic';
@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 
 import DeploymentMultiselect from '@/modules/map/components/DeploymentMultiselect';
 import DeploymentDrawer from '@/modules/map/components/DeploymentDrawer';
+import SequenceDownload from '@/modules/sequence/components/SequenceDownload';
 
 import RectBounds from '@/modules/map/types/RectBounds';
 import Deployment from '@/common/types/deployment';
@@ -46,8 +47,11 @@ export default function DeploymentFilter({
     species: JSON.stringify(initialSpecies),
     ...initialBounds,
   }).toString()}`);
+  const [deploymentNids, setDeploymentNids] = useState<bigint[] | null>(null);
   const [csvData, setCsvData] = useState<any[] | null>(null);
+  const [sequenceData, setSequenceData] = useState<any[] | null>(null);
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [selectedDeployment, setSelectedDeployment] = useState<{
     nid: string,
     label: string,
@@ -82,12 +86,13 @@ export default function DeploymentFilter({
         }).then((res) => res.json());
 
         setMarkers(deployments);
-        const deploymentNids = deployments.map((deployment) => deployment.nid);
+        const nids = deployments.map((deployment) => deployment.nid);
+        setDeploymentNids(nids);
 
         if (setCsvData) {
           const csvRows = await fetch('/api/deployments/csv', {
             method: 'POST',
-            body: JSON.stringify(deploymentNids),
+            body: JSON.stringify(nids),
           }).then((res) => res.json());
           setCsvData(csvRows);
         }
@@ -119,6 +124,15 @@ export default function DeploymentFilter({
       setMapLoading(false);
     }
   }, [markers]);
+
+  const downloadSequenceData = async () => {
+    const sequences = await fetch('/api/deployments/sequences', {
+      method: 'POST',
+      body: JSON.stringify(deploymentNids),
+    }).then((res) => res.json());
+
+    setSequenceData(sequences);
+  };
 
   return (
     <div className="h-screen flex flex-col">
@@ -170,6 +184,18 @@ export default function DeploymentFilter({
                 Download Deployment Data
               </Button>
             )}
+            {(markersEndpoint) && (
+              <Button
+                onClick={() => {
+                  setModalOpen(true);
+                  setSequenceData(null);
+                  downloadSequenceData();
+                }}
+                className="mx-2"
+              >
+                Download Sequence Data
+              </Button>
+            )}
           </div>
         </div>
       )}
@@ -191,6 +217,32 @@ export default function DeploymentFilter({
           />
         </div>
       </div>
+      <Modal
+        show={modalOpen}
+        size="lg"
+        onClose={() => {
+          setModalOpen(false);
+          setSequenceData(null);
+        }}
+      >
+        <Modal.Header>Download Sequence Data</Modal.Header>
+        <Modal.Body>
+          <SequenceDownload sequenceData={sequenceData} />
+        </Modal.Body>
+        <Modal.Footer className="flex flex-row">
+          {sequenceData && sequenceData.length > 0 ? (
+            <CSVLink
+              data={sequenceData}
+              filename={`sequence_data_${new Date().toISOString().replaceAll(/[^0-9]/g, '')}`}
+            >
+              <Button onClick={() => setModalOpen(false)} className="mr-2">Download</Button>
+            </CSVLink>
+          ) : (
+            <Button className="mr-2" disabled>Download</Button>
+          )}
+          <Button onClick={() => setModalOpen(false)} color="gray">Close</Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 }
