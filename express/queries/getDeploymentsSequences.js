@@ -3,7 +3,8 @@ import pool from '#express/pool';
 const getDeploymentsSequences = async (req, res) => {
   const deployments = req.body;
   if (deployments.length > 0) {
-    const query = `SELECT
+    const values = [];
+    let query = `SELECT
       s.project_id,
       s.deployment_id,
       s.sequence_id,
@@ -31,9 +32,13 @@ const getDeploymentsSequences = async (req, res) => {
       s.cv_confidence,
       s.license
     FROM sidora_sequences s
-    LEFT JOIN eda_deployments d on s.deployment_id = concat(d.ctLabel, '_', d.cameraCiteinfo)
-    WHERE d.nid IN (?)`;
-    const values = [deployments];
+    LEFT JOIN eda_deployments d on s.deployment_id = concat(d.ctLabel, '_', d.cameraCiteinfo)`;
+    if (req.query.species && JSON.parse(req.query.species).length > 0) {
+      query += '\nJOIN common_name c on s.common_name = c.name AND c.species in (?)';
+      values.push(JSON.parse(req.query.species));
+    }
+    query += '\nWHERE d.nid IN (?)';
+    values.push(deployments);
     const results = await pool.query(query, values);
     res.status(200).json(results);
   } else {
