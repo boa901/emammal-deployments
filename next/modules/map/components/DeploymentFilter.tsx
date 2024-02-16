@@ -126,10 +126,15 @@ export default function DeploymentFilter({
   }, [markers]);
 
   const downloadSequenceData = async () => {
-    const sequences = await fetch('/api/deployments/sequences', {
-      method: 'POST',
-      body: JSON.stringify(deploymentNids),
-    }).then((res) => res.json());
+    const params = {
+      species: JSON.stringify(filterSpecies),
+      projects: JSON.stringify(filterProjects),
+      ...rectBounds,
+    };
+    const sequences = await fetch(
+      `/api/deployments/sequences?${new URLSearchParams(params).toString()}`,
+      { method: 'POST', body: JSON.stringify(deploymentNids) },
+    ).then((res) => res.json());
 
     setSequenceData(sequences);
   };
