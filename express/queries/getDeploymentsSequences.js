@@ -37,6 +37,10 @@ const getDeploymentsSequences = async (req, res) => {
       query += '\nJOIN common_name c on s.common_name = c.name AND c.species in (?)';
       values.push(JSON.parse(req.query.species));
     }
+    if (req.query.projects && JSON.parse(req.query.projects).length > 0) {
+      query += '\nJOIN projects p on s.project_id = p.em_id and p.nid in (?)';
+      values.push(JSON.parse(req.query.projects));
+    }
     query += '\nWHERE d.nid IN (?)';
     values.push(deployments);
     const results = await pool.query(query, values);
