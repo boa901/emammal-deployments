@@ -11,7 +11,14 @@ export async function POST(request: NextRequest) {
       },
       body: JSON.stringify(deployments),
     },
-  ).then((res) => res.json());
+  );
 
-  return NextResponse.json(sequences);
+  if (sequences.status !== 200) {
+    return new Response(sequences.statusText, {
+      status: sequences.status,
+    });
+  }
+
+  const sequenceJson = await sequences.json();
+  return NextResponse.json(sequenceJson);
 }
