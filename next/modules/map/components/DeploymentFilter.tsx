@@ -135,9 +135,16 @@ export default function DeploymentFilter({
     const sequences = await fetch(
       `/api/deployments/sequences?${new URLSearchParams(params).toString()}`,
       { method: 'POST', body: JSON.stringify(deploymentNids) },
-    ).then((res) => res.json());
+    );
 
-    setSequenceData(sequences);
+    if (sequences.status === 200) {
+      const sequenceJson = await sequences.json();
+      setSequenceData(sequenceJson);
+    } else if (sequences.status !== 413) {
+      setModalError('There was a problem loading the sequence data. Please try again later.');
+    } else {
+      setModalError('Too many deployments selected. Please change the filters to choose fewer deployments.');
+    }
   };
 
   return (
@@ -195,6 +202,7 @@ export default function DeploymentFilter({
                 onClick={() => {
                   setModalOpen(true);
                   setSequenceData(null);
+                  setModalError(null);
                   downloadSequenceData();
                 }}
                 className="mx-2"
@@ -229,6 +237,7 @@ export default function DeploymentFilter({
         onClose={() => {
           setModalOpen(false);
           setSequenceData(null);
+          setModalError(null);
         }}
       >
         <Modal.Header>Download Sequence Data</Modal.Header>
