@@ -2,7 +2,7 @@
 
 import { Spinner } from 'flowbite-react';
 
-export default function SequenceDownload({ sequenceData }): React.ReactNode {
+export default function SequenceDownload({ sequenceData, modalError }): React.ReactNode {
   return sequenceData ? (
     <>
       {sequenceData.length > 0 ? (
@@ -13,7 +13,7 @@ export default function SequenceDownload({ sequenceData }): React.ReactNode {
     </>
   ) : (
     <div className="flex w-full h-full content-center justify-center">
-      <Spinner />
+      {modalError ? <>{modalError}</> : <Spinner />}
     </div>
   );
 }

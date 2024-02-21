@@ -52,6 +52,7 @@ export default function DeploymentFilter({
   const [sequenceData, setSequenceData] = useState<any[] | null>(null);
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [modalError, setModalError] = useState<string | null>(null);
   const [selectedDeployment, setSelectedDeployment] = useState<{
     nid: string,
     label: string,
@@ -232,7 +233,7 @@ export default function DeploymentFilter({
       >
         <Modal.Header>Download Sequence Data</Modal.Header>
         <Modal.Body>
-          <SequenceDownload sequenceData={sequenceData} />
+          <SequenceDownload sequenceData={sequenceData} modalError={modalError} />
         </Modal.Body>
         <Modal.Footer className="flex flex-row">
           {sequenceData && sequenceData.length > 0 ? (
