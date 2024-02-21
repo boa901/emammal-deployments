@@ -10,6 +10,7 @@ const getDeploymentsCsv = async (req, res) => {
       retrieval_date,
       actual_lat,
       actual_long,
+      fuzzed,
       project_id,
       project_name,
       sub_project_id,
