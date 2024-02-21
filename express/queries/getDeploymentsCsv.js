@@ -8,8 +8,14 @@ const getDeploymentsCsv = async (req, res) => {
       deployment_name,
       actual_date_out,
       retrieval_date,
-      actual_lat,
-      actual_long,
+      CASE
+        WHEN fuzzed = FALSE THEN actual_lat
+        ELSE NULL
+      END as actual_lat,
+      CASE
+        WHEN fuzzed = FALSE THEN actual_long
+        ELSE NULL
+      END as actual_long,
       fuzzed,
       project_id,
       project_name,
