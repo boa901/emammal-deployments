@@ -45,7 +45,7 @@ export default async function Page({ searchParams }: { searchParams }) {
 
   return filtersApplied(searchParams) ? (
     <DeploymentFilter
-      apiPath={`/api/deployments?${new URLSearchParams(searchParams).toString()}`}
+      searchParams={searchParams}
       initialBounds={{
         maxLat,
         minLat,
