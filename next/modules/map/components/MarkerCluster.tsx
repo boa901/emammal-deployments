@@ -60,7 +60,8 @@ export default function MarkerCluster({
         const bounds = new L.LatLngBounds(markerLatLngs);
         if (drawerOpen) {
           const boundWidth = bounds.getEast() - bounds.getWest();
-          bounds.extend([bounds.getNorth(), bounds.getEast() + boundWidth * 0.3]);
+          bounds.extend([bounds.getNorth(), bounds.getEast() + boundWidth]);
+          bounds.extend([bounds.getSouth(), bounds.getWest() - boundWidth * 0.25]);
         }
         map.fitBounds(bounds);
       }

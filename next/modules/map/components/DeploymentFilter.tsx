@@ -1,6 +1,6 @@
 'use client';
 
-import { Button } from 'flowbite-react';
+import { Button, Modal } from 'flowbite-react';
 import { CSVLink } from 'react-csv';
 import { useRouter } from 'next/navigation';
 import dynamic from 'next/dynamic';
@@ -8,20 +8,22 @@ import { useEffect, useState } from 'react';
 
 import DeploymentMultiselect from '@/modules/map/components/DeploymentMultiselect';
 import DeploymentDrawer from '@/modules/map/components/DeploymentDrawer';
+import SequenceDownload from '@/modules/sequence/components/SequenceDownload';
 
 import RectBounds from '@/modules/map/types/RectBounds';
+import Deployment from '@/common/types/deployment';
 
 const GeoFilterMap = dynamic(() => import('@/modules/map/components/GeoFilterMap'), { ssr: false });
 
 export default function DeploymentFilter({
-  apiPath = null,
+  searchParams = null,
   initialBounds = null,
   initialSpecies = [],
   initialProjects = [],
   projectOptions,
   speciesOptions,
 }: {
-  apiPath?: string | null,
+  searchParams?: URLSearchParams | null,
   initialBounds?: RectBounds | null,
   initialSpecies?: string[],
   initialProjects?: number[],
@@ -33,7 +35,10 @@ export default function DeploymentFilter({
   const [rectBounds, setRectBounds] = useState<RectBounds | null>(initialBounds);
   const [filterSpecies, setFilterSpecies] = useState<string[]>(initialSpecies);
   const [filterProjects, setFilterProjects] = useState<number[]>(initialProjects);
+  const [markersEndpoint, setMarkersEndpoint] = useState<string | null>(null);
+  const [markers, setMarkers] = useState<Deployment[] | null>(null);
   const [mapReady, setMapReady] = useState<boolean>(false);
+  const [mapLoading, setMapLoading] = useState<boolean>(false);
   const [speciesUrl, setSpeciesUrl] = useState<string>(`/api/species?${new URLSearchParams({
     projects: JSON.stringify(initialProjects),
     ...initialBounds,
@@ -42,12 +47,22 @@ export default function DeploymentFilter({
     species: JSON.stringify(initialSpecies),
     ...initialBounds,
   }).toString()}`);
+  const [deploymentNids, setDeploymentNids] = useState<bigint[] | null>(null);
   const [csvData, setCsvData] = useState<any[] | null>(null);
+  const [sequenceData, setSequenceData] = useState<any[] | null>(null);
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [modalError, setModalError] = useState<string | null>(null);
   const [selectedDeployment, setSelectedDeployment] = useState<{
     nid: string,
     label: string,
   } | null>(null);
+
+  useEffect(() => {
+    if (searchParams) {
+      setMarkersEndpoint(`/api/deployments?${new URLSearchParams(searchParams).toString()}`);
+    }
+  }, [searchParams]);
 
   useEffect(() => {
     const speciesParams = {
@@ -61,6 +76,34 @@ export default function DeploymentFilter({
     setSpeciesUrl(`/api/species?${new URLSearchParams(speciesParams).toString()}`);
     setProjectsUrl(`/api/projects?${new URLSearchParams(projectsParams).toString()}`);
   }, [rectBounds, filterSpecies, filterProjects]);
+
+  useEffect(() => {
+    const fetchPoints = async () => {
+      if (markersEndpoint && markersEndpoint.length > 0) {
+        setCsvData(null);
+        setMapLoading(true);
+        const deployments: Deployment[] = await fetch(markersEndpoint, {
+          method: 'GET',
+        }).then((res) => res.json());
+
+        setMarkers(deployments);
+        const nids = deployments.map((deployment) => deployment.nid);
+        setDeploymentNids(nids);
+
+        if (setCsvData) {
+          const csvRows = await fetch('/api/deployments/csv', {
+            method: 'POST',
+            body: JSON.stringify(nids),
+          }).then((res) => res.json());
+          setCsvData(csvRows);
+        }
+      } else {
+        setMarkers([]);
+      }
+    };
+
+    fetchPoints();
+  }, [markersEndpoint]);
 
   const handleSubmit = () => {
     const params = {
@@ -77,12 +120,39 @@ export default function DeploymentFilter({
     }
   }, [mapReady]);
 
+  useEffect(() => {
+    if (markers) {
+      setMapLoading(false);
+    }
+  }, [markers]);
+
+  const downloadSequenceData = async () => {
+    const params = {
+      species: JSON.stringify(filterSpecies),
+      projects: JSON.stringify(filterProjects),
+      ...rectBounds,
+    };
+    const sequences = await fetch(
+      `/api/deployments/sequences?${new URLSearchParams(params).toString()}`,
+      { method: 'POST', body: JSON.stringify(deploymentNids) },
+    );
+
+    if (sequences.status === 200) {
+      const sequenceJson = await sequences.json();
+      setSequenceData(sequenceJson);
+    } else if (sequences.status !== 413) {
+      setModalError('There was a problem loading the sequence data. Please try again later.');
+    } else {
+      setModalError('Too many deployments selected. Please change the filters to choose fewer deployments.');
+    }
+  };
+
   return (
     <div className="h-screen flex flex-col">
       {mapReady && (
-        <div className="w-full flex flex-row my-2">
-          <div className="flex flex-row flex-grow">
-            <div className="w-1/2">
+        <div className="w-full flex flex-col my-2 xl:flex-row">
+          <div className="grow flex flex-col sm:flex-row">
+            <div className="p-2 sm:w-1/2">
               <DeploymentMultiselect
                 setFilter={setFilterSpecies}
                 optionUrl={speciesUrl}
@@ -94,7 +164,7 @@ export default function DeploymentFilter({
                 ))}
               />
             </div>
-            <div className="w-1/2">
+            <div className="p-2 sm:w-1/2">
               <DeploymentMultiselect
                 setFilter={setFilterProjects}
                 optionUrl={projectsUrl}
@@ -107,9 +177,9 @@ export default function DeploymentFilter({
               />
             </div>
           </div>
-          <div className="flex flex-row flex-shrink-0 justify-items-center">
+          <div className="flex flex-row flex-shrink-0 justify-end p-2">
             <Button type="button" onClick={handleSubmit} className="mx-2">Search</Button>
-            {(csvData || !apiPath) ? (
+            {(csvData || !markersEndpoint) ? (
               <>
                 {csvData && csvData.length > 0 && (
                   <CSVLink
@@ -127,6 +197,19 @@ export default function DeploymentFilter({
                 Download Deployment Data
               </Button>
             )}
+            {(markersEndpoint) && (
+              <Button
+                onClick={() => {
+                  setModalOpen(true);
+                  setSequenceData(null);
+                  setModalError(null);
+                  downloadSequenceData();
+                }}
+                className="mx-2"
+              >
+                Download Sequence Data
+              </Button>
+            )}
           </div>
         </div>
       )}
@@ -137,17 +220,44 @@ export default function DeploymentFilter({
         />
         <div className="h-full flex-grow">
           <GeoFilterMap
-            setFilter={setRectBounds}
-            apiPath={apiPath}
+            markers={markers}
+            loading={mapLoading}
             initialBounds={initialBounds}
-            setCsvData={setCsvData}
-            setReady={setMapReady}
+            onReady={() => setMapReady(true)}
             drawerOpen={drawerOpen}
             setDrawerOpen={setDrawerOpen}
+            setFilter={setRectBounds}
             setSelectedDeployment={setSelectedDeployment}
           />
         </div>
       </div>
+      <Modal
+        show={modalOpen}
+        size="lg"
+        onClose={() => {
+          setModalOpen(false);
+          setSequenceData(null);
+          setModalError(null);
+        }}
+      >
+        <Modal.Header>Download Sequence Data</Modal.Header>
+        <Modal.Body>
+          <SequenceDownload sequenceData={sequenceData} modalError={modalError} />
+        </Modal.Body>
+        <Modal.Footer className="flex flex-row">
+          {sequenceData && sequenceData.length > 0 ? (
+            <CSVLink
+              data={sequenceData}
+              filename={`sequence_data_${new Date().toISOString().replaceAll(/[^0-9]/g, '')}`}
+            >
+              <Button onClick={() => setModalOpen(false)} className="mr-2">Download</Button>
+            </CSVLink>
+          ) : (
+            <Button className="mr-2" disabled>Download</Button>
+          )}
+          <Button onClick={() => setModalOpen(false)} color="gray">Close</Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 }

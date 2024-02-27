@@ -1,13 +1,14 @@
+import Deployment from '@/common/types/deployment';
 import RectBounds from '@/modules/map/types/RectBounds';
 
 export default interface GeoFilterMapProps {
-  setFilter: React.Dispatch<React.SetStateAction<RectBounds | null>>,
-  apiPath: string | null,
+  markers: Deployment[] | null,
+  loading: boolean,
   initialBounds?: RectBounds | null,
-  setCsvData: React.Dispatch<React.SetStateAction<any[] | null>>,
-  setReady: React.Dispatch<React.SetStateAction<boolean>>,
+  onReady: Function,
   drawerOpen: boolean,
   setDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>,
+  setFilter: React.Dispatch<React.SetStateAction<RectBounds | null>>,
   setSelectedDeployment: React.Dispatch<React.SetStateAction<{
     nid: string,
     label: string,

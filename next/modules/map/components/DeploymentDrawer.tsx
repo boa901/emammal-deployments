@@ -33,7 +33,7 @@ export default function DeploymentDrawer({ isOpen, deployment }) {
   }, [deployment]);
 
   return (
-    <div className={`h-full transition-all duration-500 overflow-x-hidden ${isOpen ? 'w-1/5 mr-2' : 'w-0 pointer-events-none'}`}>
+    <div className={`h-full transition-all duration-500 overflow-x-hidden ${isOpen ? 'w-3/4 mr-2 sm:w-1/2 md:w-1/3 xl:w-1/5' : 'w-0 pointer-events-none'}`}>
       {deployment ? (
         <>
           {projectData ? (

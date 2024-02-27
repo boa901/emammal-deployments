@@ -7,7 +7,7 @@ const getAllSpecies = async (req, res) => {
       JOIN eda_deployments b ON a.pid = b.pid
       JOIN deployments c ON b.nid = c.nid
       JOIN sub_projects d ON c.sub_project = d.nid
-      JOIN projects e on d.project_nid = e.nid
+      JOIN projects e on d.project_nid = e.nid AND e.visible = TRUE
     WHERE 1 = 1`;
   const values = [];
   if (req.query.projects && JSON.parse(req.query.projects).length > 0) {
