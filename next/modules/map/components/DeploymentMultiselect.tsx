@@ -48,7 +48,9 @@ export default function DeploymentMultiselect(
           { value: node[optionValue], label: node[optionLabel] }
         ));
 
-        setSelectOptions(options);
+        const sortedOptions = options.sort((a, b) => (a.label > b.label));
+
+        setSelectOptions(sortedOptions);
         setLoading(false);
       };
 
