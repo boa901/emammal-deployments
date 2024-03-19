@@ -89,7 +89,7 @@ export default function Page({ params }: { params: { projectId: string } }) {
           </Table.HeadCell>
           <Table.HeadCell className="w-1/3 cursor-pointer" onClick={() => handleSortEvent('count')}>
             <div className="flex flex-row items-center">
-              <div>Count</div>
+              <div>Sightings</div>
               {sortedColumn.column === 'count' && (
                 <SortIcon ascending={sortedColumn.asc} />
               )}
