@@ -207,7 +207,7 @@ export default function DeploymentFilter({
                 }}
                 className="mx-2"
               >
-                Download Sequence Data
+                Data Export
               </Button>
             )}
           </div>
@@ -240,21 +240,15 @@ export default function DeploymentFilter({
           setModalError(null);
         }}
       >
-        <Modal.Header>Download Sequence Data</Modal.Header>
+        <Modal.Header>Data Export</Modal.Header>
         <Modal.Body>
-          <SequenceDownload sequenceData={sequenceData} modalError={modalError} />
+          <SequenceDownload
+            sequenceData={sequenceData}
+            modalError={modalError}
+            fileName={`sequence_data_${new Date().toISOString().replaceAll(/[^0-9]/g, '')}`}
+          />
         </Modal.Body>
-        <Modal.Footer className="flex flex-row">
-          {sequenceData && sequenceData.length > 0 ? (
-            <CSVLink
-              data={sequenceData}
-              filename={`sequence_data_${new Date().toISOString().replaceAll(/[^0-9]/g, '')}`}
-            >
-              <Button onClick={() => setModalOpen(false)} className="mr-2">Download</Button>
-            </CSVLink>
-          ) : (
-            <Button className="mr-2" disabled>Download</Button>
-          )}
+        <Modal.Footer>
           <Button onClick={() => setModalOpen(false)} color="gray">Close</Button>
         </Modal.Footer>
       </Modal>

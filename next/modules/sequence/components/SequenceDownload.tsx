@@ -1,19 +1,44 @@
 'use client';
 
-import { Spinner } from 'flowbite-react';
+import {
+  Spinner,
+  Tooltip,
+} from 'flowbite-react';
+import { CSVLink } from 'react-csv';
 
-export default function SequenceDownload({ sequenceData, modalError }): React.ReactNode {
+export default function SequenceDownload({ sequenceData, modalError, fileName }): React.ReactNode {
   return sequenceData ? (
-    <>
+    <div>
       {sequenceData.length > 0 ? (
-        <>{`You are about to download ${sequenceData.length} sequence data records. Are you sure you would like to proceed?`}</>
+        <CSVLink
+          data={sequenceData}
+          filename={fileName}
+        >
+          <button type="button" className="text-cyan-700 hover:underline">
+            {`${fileName}.csv`}
+          </button>
+        </CSVLink>
       ) : (
-        <>There are no sequences for this set of deployments, please adjust your selection.</>
+        <Tooltip content="No sequences for selected deployments.">
+          <button type="button" className="text-cyan-700 opacity-50 select-none">
+            {`${fileName}.csv`}
+          </button>
+        </Tooltip>
       )}
-    </>
+    </div>
   ) : (
-    <div className="flex w-full h-full content-center justify-center">
-      {modalError ? <>{modalError}</> : <Spinner />}
+    <div>
+      {modalError ? (
+        <Tooltip content={modalError}>
+          <button type="button" className="text-cyan-700 opacity-50 select-none">
+            {`${fileName}.csv`}
+          </button>
+        </Tooltip>
+      ) : (
+        <div className="flex w-full content-center justify-center">
+          <Spinner />
+        </div>
+      )}
     </div>
   );
 }
