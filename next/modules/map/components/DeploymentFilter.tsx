@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 
 import DeploymentMultiselect from '@/modules/map/components/DeploymentMultiselect';
 import DeploymentDrawer from '@/modules/map/components/DeploymentDrawer';
-import SequenceDownload from '@/modules/sequence/components/SequenceDownload';
+import SequenceDownload from '@/modules/export/components/SequenceDownload';
 
 import RectBounds from '@/modules/map/types/RectBounds';
 import Deployment from '@/common/types/deployment';
