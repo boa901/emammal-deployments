@@ -15,13 +15,13 @@ export default function DeploymentDownload({ deploymentData, fileName }): React.
           filename={fileName}
         >
           <button type="button" className="text-cyan-700 hover:underline">
-            {`${fileName}.csv`}
+            deployment_metadata.csv
           </button>
         </CSVLink>
       ) : (
         <Tooltip content="No deployment data available">
           <button type="button" className="text-cyan-700 opacity-50 select-none">
-            {`${fileName}.csv`}
+            deployment_metadata.csv
           </button>
         </Tooltip>
       )}

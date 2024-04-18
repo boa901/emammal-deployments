@@ -15,13 +15,13 @@ export default function SequenceDownload({ sequenceData, modalError, fileName })
           filename={fileName}
         >
           <button type="button" className="text-cyan-700 hover:underline">
-            {`${fileName}.csv`}
+            sequence_data.csv
           </button>
         </CSVLink>
       ) : (
         <Tooltip content="No sequences for selected deployments.">
           <button type="button" className="text-cyan-700 opacity-50 select-none">
-            {`${fileName}.csv`}
+            sequence_data.csv
           </button>
         </Tooltip>
       )}
@@ -31,7 +31,7 @@ export default function SequenceDownload({ sequenceData, modalError, fileName })
       {modalError ? (
         <Tooltip content={modalError}>
           <button type="button" className="text-cyan-700 opacity-50 select-none">
-            {`${fileName}.csv`}
+            sequence_data.csv
           </button>
         </Tooltip>
       ) : (
