@@ -1,13 +1,13 @@
 'use client';
 
 import { Button, Modal } from 'flowbite-react';
-import { CSVLink } from 'react-csv';
 import { useRouter } from 'next/navigation';
 import dynamic from 'next/dynamic';
 import { useEffect, useState } from 'react';
 
 import DeploymentMultiselect from '@/modules/map/components/DeploymentMultiselect';
 import DeploymentDrawer from '@/modules/map/components/DeploymentDrawer';
+import DeploymentDownload from '@/modules/export/components/DeploymentDownload';
 import SequenceDownload from '@/modules/export/components/SequenceDownload';
 
 import RectBounds from '@/modules/map/types/RectBounds';
@@ -80,7 +80,6 @@ export default function DeploymentFilter({
   useEffect(() => {
     const fetchPoints = async () => {
       if (markersEndpoint && markersEndpoint.length > 0) {
-        setCsvData(null);
         setMapLoading(true);
         const deployments: Deployment[] = await fetch(markersEndpoint, {
           method: 'GET',
@@ -125,6 +124,14 @@ export default function DeploymentFilter({
       setMapLoading(false);
     }
   }, [markers]);
+
+  const downloadDeploymentData = async () => {
+    const csvRows = await fetch('/api/deployments/csv', {
+      method: 'POST',
+      body: JSON.stringify(deploymentNids),
+    }).then((res) => res.json());
+    setCsvData(csvRows);
+  };
 
   const downloadSequenceData = async () => {
     const params = {
@@ -179,30 +186,14 @@ export default function DeploymentFilter({
           </div>
           <div className="flex flex-row flex-shrink-0 justify-end p-2">
             <Button type="button" onClick={handleSubmit} className="mx-2">Search</Button>
-            {(csvData || !markersEndpoint) ? (
-              <>
-                {csvData && csvData.length > 0 && (
-                  <CSVLink
-                    data={csvData}
-                    filename={`deployment_metadata_${new Date().toISOString().replaceAll(/[^0-9]/g, '')}`}
-                  >
-                    <Button className="mx-2">
-                      Download Deployment Data
-                    </Button>
-                  </CSVLink>
-                )}
-              </>
-            ) : (
-              <Button isProcessing className="mx-2">
-                Download Deployment Data
-              </Button>
-            )}
             {(markersEndpoint) && (
               <Button
                 onClick={() => {
                   setModalOpen(true);
+                  setCsvData(null);
                   setSequenceData(null);
                   setModalError(null);
+                  downloadDeploymentData();
                   downloadSequenceData();
                 }}
                 className="mx-2"
@@ -236,12 +227,17 @@ export default function DeploymentFilter({
         size="lg"
         onClose={() => {
           setModalOpen(false);
+          setCsvData(null);
           setSequenceData(null);
           setModalError(null);
         }}
       >
         <Modal.Header>Data Export</Modal.Header>
         <Modal.Body>
+          <DeploymentDownload
+            deploymentData={csvData}
+            fileName={`deployment_metadata_${new Date().toISOString().replaceAll(/[^0-9]/g, '')}`}
+          />
           <SequenceDownload
             sequenceData={sequenceData}
             modalError={modalError}
