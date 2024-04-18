@@ -244,7 +244,7 @@ export default function DeploymentFilter({
             fileName={`sequence_data_${new Date().toISOString().replaceAll(/[^0-9]/g, '')}`}
           />
         </Modal.Body>
-        <Modal.Footer>
+        <Modal.Footer className="flex justify-end">
           <Button onClick={() => setModalOpen(false)} color="gray">Close</Button>
         </Modal.Footer>
       </Modal>
