@@ -157,7 +157,7 @@ export default function DeploymentFilter({
   return (
     <div className="h-screen flex flex-col">
       {mapReady && (
-        <div className="w-full flex flex-col my-2 xl:flex-row">
+        <div className="w-full flex flex-col my-2 lg:flex-row">
           <div className="grow flex flex-col sm:flex-row">
             <div className="p-2 sm:w-1/2">
               <DeploymentMultiselect
