@@ -128,9 +128,9 @@ export default function DeploymentFilter({
 
   const downloadSequenceData = async () => {
     const params = {
-      species: JSON.stringify(filterSpecies),
-      projects: JSON.stringify(filterProjects),
-      ...rectBounds,
+      species: JSON.stringify(initialSpecies),
+      projects: JSON.stringify(initialProjects),
+      ...initialBounds,
     };
     const sequences = await fetch(
       `/api/deployments/sequences?${new URLSearchParams(params).toString()}`,
