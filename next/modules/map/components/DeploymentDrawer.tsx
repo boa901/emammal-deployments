@@ -61,7 +61,7 @@ export default function DeploymentDrawer({ isOpen, deployment }) {
                   <Table.HeadCell className="w-1/2">Species</Table.HeadCell>
                   <Table.HeadCell className="w-1/2">Sightings</Table.HeadCell>
                 </Table.Head>
-                <Table.Body className="overflow-y-scroll">
+                <Table.Body>
                   {speciesData ? (
                     <>
                       {speciesData.length > 0 ? (

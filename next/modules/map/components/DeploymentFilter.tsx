@@ -204,7 +204,7 @@ export default function DeploymentFilter({
           </div>
         </div>
       )}
-      <div className="flex-grow flex flex-row">
+      <div className="grow flex flex-row overflow-y-auto">
         <DeploymentDrawer
           isOpen={drawerOpen}
           deployment={selectedDeployment}
