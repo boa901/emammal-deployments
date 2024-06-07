@@ -4,6 +4,9 @@
   "version": "1.0.0",
   "description": "Use leaflet, react, and postgres to display information about deployments and documented species.",
   "main": "index.js",
+  "engines": {
+    "node": ">=18.17.0 <20"
+  },
   "scripts": {
     "next-build": "next build ./next",
     "start": "next start ./next",
