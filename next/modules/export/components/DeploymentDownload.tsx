@@ -27,7 +27,7 @@ export default function DeploymentDownload({ deploymentData, fileName }): React.
         </div>
       ) : (
         <div role="status" className="animate-pulse h-full w-full">
-          <div className="h-full bg-gray-200 rounded-full dark:bg-gray-700 w-full" />
+          <div className="h-full bg-gray-200 rounded-full w-full" />
         </div>
       )}
     </div>
