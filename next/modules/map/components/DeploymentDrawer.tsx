@@ -33,7 +33,7 @@ export default function DeploymentDrawer({ isOpen, deployment }) {
   }, [deployment]);
 
   return (
-    <div className={`h-full transition-all duration-500 overflow-x-hidden ${isOpen ? 'w-3/4 mr-2 sm:w-1/2 md:w-1/3 xl:w-1/5' : 'w-0 pointer-events-none'}`}>
+    <div className={`w-full md:h-full transition-all duration-500 overflow-x-hidden ${isOpen ? 'md:mr-2 md:w-1/3 xl:w-1/5' : 'md:w-0 pointer-events-none'}`}>
       {deployment ? (
         <>
           {projectData ? (
@@ -94,13 +94,13 @@ export default function DeploymentDrawer({ isOpen, deployment }) {
               </Table>
             </div>
           ) : (
-            <div className="h-full grid justify-items-center items-center">
+            <div className="py-4 md:h-full grid justify-items-center items-center">
               <Spinner size="xl" />
             </div>
           )}
         </>
       ) : (
-        <div className="h-full grid justify-items-center items-center">
+        <div className="py-4 md:h-full grid justify-items-center items-center">
           <div>No deployment selected</div>
         </div>
       )}

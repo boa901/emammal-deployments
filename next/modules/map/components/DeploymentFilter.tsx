@@ -155,7 +155,7 @@ export default function DeploymentFilter({
   };
 
   return (
-    <div className="h-screen flex flex-col">
+    <div className="md:h-screen flex flex-col">
       {mapReady && (
         <div className="w-full flex flex-col my-2 lg:flex-row">
           <div className="grow flex flex-col sm:flex-row">
@@ -204,12 +204,12 @@ export default function DeploymentFilter({
           </div>
         </div>
       )}
-      <div className="grow flex flex-row overflow-y-auto">
+      <div className="grow flex flex-col md:flex-row md:overflow-y-auto">
         <DeploymentDrawer
           isOpen={drawerOpen}
           deployment={selectedDeployment}
         />
-        <div className="h-full flex-grow">
+        <div className="h-[24rem] md:h-full mobile-sm:h-[28rem] mobile-md:h-[34rem] flex-grow order-first md:order-last">
           <GeoFilterMap
             markers={markers}
             loading={mapLoading}
