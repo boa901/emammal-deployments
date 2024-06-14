@@ -12,7 +12,12 @@ export default {
     flowbite.content(),
   ],
   theme: {
-    extend: {},
+    extend: {
+      screens: {
+        'mobile-sm': { raw: '(min-height: 700px) and (max-width: 767px)' },
+        'mobile-md': { raw: '(min-height: 850px) and (max-width: 767px)' },
+      },
+    },
   },
   plugins: [
     flowbite.plugin(),
