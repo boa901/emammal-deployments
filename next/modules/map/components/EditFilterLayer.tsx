@@ -9,7 +9,7 @@ import { EditControl } from 'react-leaflet-draw';
 
 import 'leaflet-easybutton/src/easy-button';
 
-import getLatLngs from '@/modules/map/utils/getLatLngs';
+import getBounds from '@/modules/map/utils/getBounds';
 
 export default function EditFilterLayer({
   setFilter,
@@ -83,10 +83,10 @@ export default function EditFilterLayer({
           map.removeLayer(layer.current);
         }
         setLayer(e.layer);
-        setFilter(getLatLngs(e.layer._bounds));
+        setFilter(getBounds(e.layer.getLatLngs()[0]));
       }}
       onEdited={() => {
-        setFilter(getLatLngs(layer.current?._bounds));
+        setFilter(getBounds(layer.current?.getLatLngs()[0]));
       }}
       onDeleted={() => {
         setFilter(null);
