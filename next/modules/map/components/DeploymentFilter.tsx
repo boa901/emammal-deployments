@@ -108,7 +108,7 @@ export default function DeploymentFilter({
     const params = {
       species: JSON.stringify(filterSpecies),
       projects: JSON.stringify(filterProjects),
-      ...rectBounds,
+      bounds: JSON.stringify(rectBounds),
     };
     router.push(`/deployments?${new URLSearchParams(params).toString()}`);
   };

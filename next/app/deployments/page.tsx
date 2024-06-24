@@ -2,10 +2,7 @@ import DeploymentFilter from '@/modules/map/components/DeploymentFilter';
 
 export default async function Page({ searchParams }: { searchParams }) {
   const {
-    maxLat,
-    minLat,
-    maxLng,
-    minLng,
+    bounds,
     projects,
     species,
   } = searchParams;
@@ -19,39 +16,22 @@ export default async function Page({ searchParams }: { searchParams }) {
   }).then((res) => res.json());
 
   const filtersApplied = (filterParams: {
-    maxLat: number | null,
-    minLat: number | null,
-    maxLng: number | null,
-    minLng: number | null,
-    projects: any[] | null,
-    species: any[] | null,
+    bounds: string,
+    projects: string,
+    species: string,
   }) => {
     if (Object.keys(filterParams).length === 0) {
       return false;
     }
     const projectsSet = (projects && JSON.parse(projects).length > 0);
     const speciesSet = (species && JSON.parse(species).length > 0);
-    if (projectsSet
-      || speciesSet
-      || (maxLat
-      && minLat
-      && maxLng
-      && minLng
-      )) {
-      return true;
-    }
-    return false;
+    return (projectsSet || speciesSet || (bounds && JSON.parse(bounds)));
   };
 
   return filtersApplied(searchParams) ? (
     <DeploymentFilter
       searchParams={searchParams}
-      initialBounds={{
-        maxLat,
-        minLat,
-        maxLng,
-        minLng,
-      }}
+      initialBounds={JSON.parse(bounds)}
       initialSpecies={JSON.parse(species)}
       initialProjects={JSON.parse(projects)}
       projectOptions={projectOptions.map((projectObj) => ({
