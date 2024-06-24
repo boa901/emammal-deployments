@@ -1,5 +1,7 @@
 import DeploymentFilter from '@/modules/map/components/DeploymentFilter';
 
+import getMapFilters from '@/modules/map/utils/getMapFilters';
+
 export default async function Page({ searchParams }: { searchParams }) {
   const projectOptions = await fetch(`${process.env.API_DOMAIN}/projects`, {
     method: 'GET',
@@ -10,9 +12,7 @@ export default async function Page({ searchParams }: { searchParams }) {
   }).then((res) => res.json());
 
   const filtersApplied = (filterParams: { bounds: string, species: string, projects: string }) => {
-    const bounds = (filterParams && 'bounds' in filterParams ? JSON.parse(filterParams.bounds) : null);
-    const species = (filterParams && 'species' in filterParams ? JSON.parse(filterParams.species) : null);
-    const projects = (filterParams && 'projects' in filterParams ? JSON.parse(filterParams.projects) : null);
+    const { bounds, species, projects } = getMapFilters(filterParams);
 
     return bounds || (species && species.length > 0) || (projects && projects.length > 0);
   };

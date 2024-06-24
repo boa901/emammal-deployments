@@ -10,6 +10,8 @@ import DeploymentDrawer from '@/modules/map/components/DeploymentDrawer';
 import DeploymentDownload from '@/modules/export/components/DeploymentDownload';
 import SequenceDownload from '@/modules/export/components/SequenceDownload';
 
+import getMapFilters from '@/modules/map/utils/getMapFilters';
+
 import RectBounds from '@/modules/map/types/RectBounds';
 import Deployment from '@/common/types/deployment';
 
@@ -24,15 +26,13 @@ export default function DeploymentFilter({
   projectOptions: { value: number, label: string }[],
   speciesOptions: { value: string, label: string }[],
 }) {
-  const bounds = (searchParams && 'bounds' in searchParams ? JSON.parse(searchParams.bounds) : null);
-  const species = (searchParams && 'species' in searchParams ? JSON.parse(searchParams.species) : null);
-  const projects = (searchParams && 'projects' in searchParams ? JSON.parse(searchParams.projects) : null);
+  const { bounds, species, projects } = getMapFilters(searchParams);
 
   const router = useRouter();
 
-  const [rectBounds, setRectBounds] = useState<RectBounds>(bounds);
-  const [filterSpecies, setFilterSpecies] = useState<string[]>(species);
-  const [filterProjects, setFilterProjects] = useState<number[]>(projects);
+  const [rectBounds, setRectBounds] = useState<RectBounds | null>(bounds);
+  const [filterSpecies, setFilterSpecies] = useState<string[] | null>(species);
+  const [filterProjects, setFilterProjects] = useState<number[] | null>(projects);
   const [markersEndpoint, setMarkersEndpoint] = useState<string | null>(null);
   const [markers, setMarkers] = useState<Deployment[] | null>(null);
   const [mapReady, setMapReady] = useState<boolean>(false);
