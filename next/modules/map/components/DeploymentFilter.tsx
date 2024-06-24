@@ -16,36 +16,34 @@ import Deployment from '@/common/types/deployment';
 const GeoFilterMap = dynamic(() => import('@/modules/map/components/GeoFilterMap'), { ssr: false });
 
 export default function DeploymentFilter({
-  searchParams = null,
-  initialBounds = null,
-  initialSpecies = [],
-  initialProjects = [],
+  searchParams,
   projectOptions,
   speciesOptions,
 }: {
-  searchParams?: URLSearchParams | null,
-  initialBounds?: RectBounds | null,
-  initialSpecies?: string[],
-  initialProjects?: number[],
+  searchParams?: { bounds: string, species: string, projects: string },
   projectOptions: { value: number, label: string }[],
   speciesOptions: { value: string, label: string }[],
 }) {
+  const bounds = (searchParams && 'bounds' in searchParams ? JSON.parse(searchParams.bounds) : null);
+  const species = (searchParams && 'species' in searchParams ? JSON.parse(searchParams.species) : null);
+  const projects = (searchParams && 'projects' in searchParams ? JSON.parse(searchParams.projects) : null);
+
   const router = useRouter();
 
-  const [rectBounds, setRectBounds] = useState<RectBounds | null>(initialBounds);
-  const [filterSpecies, setFilterSpecies] = useState<string[]>(initialSpecies);
-  const [filterProjects, setFilterProjects] = useState<number[]>(initialProjects);
+  const [rectBounds, setRectBounds] = useState<RectBounds>(bounds);
+  const [filterSpecies, setFilterSpecies] = useState<string[]>(species);
+  const [filterProjects, setFilterProjects] = useState<number[]>(projects);
   const [markersEndpoint, setMarkersEndpoint] = useState<string | null>(null);
   const [markers, setMarkers] = useState<Deployment[] | null>(null);
   const [mapReady, setMapReady] = useState<boolean>(false);
   const [mapLoading, setMapLoading] = useState<boolean>(false);
   const [speciesUrl, setSpeciesUrl] = useState<string>(`/api/species?${new URLSearchParams({
-    projects: JSON.stringify(initialProjects),
-    ...initialBounds,
+    projects: JSON.stringify(projects),
+    ...bounds,
   }).toString()}`);
   const [projectsUrl, setProjectsUrl] = useState<string>(`/api/projects?${new URLSearchParams({
-    species: JSON.stringify(initialSpecies),
-    ...initialBounds,
+    species: JSON.stringify(species),
+    ...bounds,
   }).toString()}`);
   const [deploymentNids, setDeploymentNids] = useState<bigint[] | null>(null);
   const [csvData, setCsvData] = useState<any[] | null>(null);
@@ -135,9 +133,9 @@ export default function DeploymentFilter({
 
   const downloadSequenceData = async () => {
     const params = {
-      species: JSON.stringify(initialSpecies),
-      projects: JSON.stringify(initialProjects),
-      ...initialBounds,
+      species: JSON.stringify(species),
+      projects: JSON.stringify(projects),
+      ...bounds,
     };
     const sequences = await fetch(
       `/api/deployments/sequences?${new URLSearchParams(params).toString()}`,
@@ -167,7 +165,7 @@ export default function DeploymentFilter({
                 optionLabel="name"
                 fieldLabel="Species"
                 defaultValues={speciesOptions.filter((speciesOption) => (
-                  initialSpecies.includes(speciesOption.value)
+                  species?.includes(speciesOption.value)
                 ))}
               />
             </div>
@@ -179,7 +177,7 @@ export default function DeploymentFilter({
                 optionLabel="name"
                 fieldLabel="Projects"
                 defaultValues={projectOptions.filter((projectOption) => (
-                  initialProjects.includes(projectOption.value)
+                  projects?.includes(projectOption.value)
                 ))}
               />
             </div>
@@ -213,7 +211,7 @@ export default function DeploymentFilter({
           <GeoFilterMap
             markers={markers}
             loading={mapLoading}
-            initialBounds={initialBounds}
+            initialBounds={bounds}
             onReady={() => setMapReady(true)}
             drawerOpen={drawerOpen}
             setDrawerOpen={setDrawerOpen}

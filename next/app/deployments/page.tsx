@@ -1,12 +1,6 @@
 import DeploymentFilter from '@/modules/map/components/DeploymentFilter';
 
 export default async function Page({ searchParams }: { searchParams }) {
-  const {
-    bounds,
-    projects,
-    species,
-  } = searchParams;
-
   const projectOptions = await fetch(`${process.env.API_DOMAIN}/projects`, {
     method: 'GET',
   }).then((res) => res.json());
@@ -15,25 +9,17 @@ export default async function Page({ searchParams }: { searchParams }) {
     method: 'GET',
   }).then((res) => res.json());
 
-  const filtersApplied = (filterParams: {
-    bounds: string,
-    projects: string,
-    species: string,
-  }) => {
-    if (Object.keys(filterParams).length === 0) {
-      return false;
-    }
-    const projectsSet = (projects && JSON.parse(projects).length > 0);
-    const speciesSet = (species && JSON.parse(species).length > 0);
-    return (projectsSet || speciesSet || (bounds && JSON.parse(bounds)));
+  const filtersApplied = (filterParams: { bounds: string, species: string, projects: string }) => {
+    const bounds = (filterParams && 'bounds' in filterParams ? JSON.parse(filterParams.bounds) : null);
+    const species = (filterParams && 'species' in filterParams ? JSON.parse(filterParams.species) : null);
+    const projects = (filterParams && 'projects' in filterParams ? JSON.parse(filterParams.projects) : null);
+
+    return bounds || (species && species.length > 0) || (projects && projects.length > 0);
   };
 
   return filtersApplied(searchParams) ? (
     <DeploymentFilter
       searchParams={searchParams}
-      initialBounds={JSON.parse(bounds)}
-      initialSpecies={JSON.parse(species)}
-      initialProjects={JSON.parse(projects)}
       projectOptions={projectOptions.map((projectObj) => ({
         value: projectObj.nid,
         label: projectObj.name,
